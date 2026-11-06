@@ -1,0 +1,11 @@
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+pydantic>=2.6
+pydantic-settings>=2.2
+pyyaml>=6.0
+pytest>=8.0
+# Excel MIS / answer reports (runtime) and the warehouse build
+openpyxl>=3.1
+# warehouse build only
+pandas>=2.2

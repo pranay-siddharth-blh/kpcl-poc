@@ -1,0 +1,854 @@
+{
+ "_purpose": "Documentation of every mart_* table and column (replaces PostgreSQL COMMENT ON). Loaded into semantic_table_doc / semantic_column_doc by build_warehouse.py; every mart column must be documented here or the build fails.",
+ "unit_suffixes": {
+  "_x_coal_mt": [
+   "kcal/kg x tonnes (weighting helper)",
+   1
+  ],
+  "_x_gen_mu": [
+   "kcal/kWh x MU (weighting helper)",
+   1
+  ],
+  "_x_quantity_mt": [
+   "kcal/kg x tonnes (weighting helper)",
+   1
+  ],
+  "_mt_with_gcv": [
+   "tonnes",
+   1
+  ],
+  "_mu_with_heat_rate": [
+   "MU",
+   1
+  ],
+  "_kcal_kwh": [
+   "kcal/kWh",
+   0
+  ],
+  "_kcal_kg": [
+   "kcal/kg",
+   0
+  ],
+  "_kcal_l": [
+   "kcal/litre",
+   0
+  ],
+  "_kg_kwh": [
+   "kg/kWh",
+   0
+  ],
+  "_ml_kwh": [
+   "ml/kWh",
+   0
+  ],
+  "_pct": [
+   "%",
+   0
+  ],
+  "_mu": [
+   "MU",
+   1
+  ],
+  "_mw": [
+   "MW",
+   0
+  ],
+  "_hrs": [
+   "hours",
+   1
+  ],
+  "_mt": [
+   "tonnes",
+   1
+  ],
+  "_kl": [
+   "kL",
+   1
+  ],
+  "_mmscm": [
+   "MMSCM",
+   1
+  ],
+  "_cum": [
+   "cubic metres",
+   1
+  ],
+  "_nos": [
+   "count",
+   1
+  ],
+  "_mcft": [
+   "MCFT",
+   1
+  ],
+  "_mm": [
+   "mm",
+   1
+  ],
+  "_hz": [
+   "Hz",
+   0
+  ]
+ },
+ "common_columns": {
+  "date_key": "Calendar date 'YYYY-MM-DD' of the row.",
+  "fy": "Financial year Apr-Mar as text, e.g. '2024-25'. FY 2025-26 holds only 1-30 Apr 2025 (data ends 30-Apr-2025).",
+  "fy_start_date": "First day (1 April) of the financial year.",
+  "fy_month_no": "Month number within the FY: April = 1 ... March = 12.",
+  "water_year": "Hydro water year Jun-May as text, e.g. '2024-25'.",
+  "wy_month_no": "Month number within the water year: June = 1 ... May = 12.",
+  "month_start": "First day of the month 'YYYY-MM-01'.",
+  "year_month": "Calendar month 'YYYY-MM'.",
+  "month_label": "K-eRP month label in upper case, e.g. 'MAR-2025'.",
+  "fy_quarter": "Quarter of the financial year: 'Q1' = Apr-Jun, 'Q2' = Jul-Sep, 'Q3' = Oct-Dec, 'Q4' = Jan-Mar. Always pair with fy.",
+  "week_start": "Monday of the week.",
+  "day_name": "Weekday name, e.g. 'Sunday'.",
+  "is_weekend": "1 on Saturday and Sunday, else 0.",
+  "season": "SUMMER (Mar-May), MONSOON (Jun-Sep), POST_MONSOON (Oct-Nov), WINTER (Dec-Feb).",
+  "days_in_month": "Number of days in the calendar month.",
+  "station_key": "Station code, e.g. 'RTPS', 'SGS', 'KG-WEF' (the 'project' in K-eRP reports). Join mart_dim_station for the name.",
+  "unit_key": "Unit code '<station>-U<n>', e.g. 'RTPS-U8'.",
+  "plant_category_label": "HO dashboard category: THERMAL-COAL, MAJOR HYDRO, MINOR HYDRO, GAS, RES (waste to energy), SOLAR, WIND.",
+  "plant_type_code": "Coarse plant type: THERMAL, HYDRO, GAS, WTE, SOLAR, WIND.",
+  "capacity_mw": "Unit installed capacity in MW.",
+  "capacity_mu": "Energy the unit(s) could produce in the period at full capacity: capacity_mw x 24 / 1000 per unit-day, summed. Denominator of PLF and PAF.",
+  "gross_gen_mu": "Gross generation in MU (million kWh). Additive.",
+  "aux_consumption_mu": "Auxiliary consumption in MU. At station level includes common auxiliary (always 0 in this data).",
+  "unit_aux_mu": "Unit auxiliary consumption summed over the station's units, MU.",
+  "common_aux_mu": "Station common auxiliary consumption, MU. Not loaded in this data, so always 0.",
+  "net_export_mu": "Net export = gross generation - auxiliary consumption, MU.",
+  "deemed_gen_mu": "NLD: deemed generation lost to no-load-demand back-down, MU. Used for 'PLF with NLD'.",
+  "declared_capacity_mu": "Declared capacity (availability) in MU. PAF = declared_capacity_mu / capacity_mu x 100.",
+  "peak_hour_gen_mu": "Generation during peak hours, MU.",
+  "peak_load_mw": "Highest load of the day (unit), MW. At month grain: the highest daily peak. Never sum.",
+  "running_hrs": "Running (service) hours. Above unit grain this is unit-hours summed over units, not clock hours.",
+  "forced_outage_hrs": "Forced outage hours (unit-hours when summed over units).",
+  "planned_outage_hrs": "Planned outage / maintenance hours (unit-hours when summed over units).",
+  "rsd_hrs": "Reserve shut-down hours: unit available but not required (for hydro, idle hours). Unit-hours when summed.",
+  "trips": "Number of unit trips.",
+  "coal_consumed_mt": "Coal consumed, tonnes (thermal only; NULL for other plants).",
+  "hfo_consumed_kl": "Heavy fuel oil consumed, kL (thermal only).",
+  "ldo_consumed_kl": "Light diesel oil consumed, kL (thermal only).",
+  "gas_consumed_mmscm": "Natural gas consumed, million standard cubic metres (YCCPP only).",
+  "msw_consumed_mt": "Municipal solid waste consumed, tonnes (BWTEP only).",
+  "gcv_coal_kcal_kg": "Gross calorific value of coal fired that day, kcal/kg. Never AVG across rows: weight by coal_consumed_mt.",
+  "gcv_oil_kcal_l": "Gross calorific value of oil, kcal/litre.",
+  "gross_heat_rate_kcal_kwh": "Gross heat rate that day, kcal/kWh. Never AVG across rows: weight by gross_gen_mu. Meaningless on near-zero generation days (see is_ratio_outlier).",
+  "dm_water_cum": "Demineralised water used, cubic metres.",
+  "h2_cylinders_nos": "Hydrogen cylinders used, count.",
+  "water_used_mcft": "Hydro: water let out for generation, million cubic feet.",
+  "is_ratio_outlier": "1 when generation was near zero but fuel was burnt, so heat rate / specific oil for that day are extreme (e.g. 263,995 kcal/kWh). Exclude (= 0) when ranking daily heat rate or specific oil.",
+  "anchor_scope": "Whether the row's total is pinned to the K-eRP document: 'document_day' (RTPS/SGS 06-Apr-2025), 'document_month_total' (RTPS/SGS Mar-2025), 'document_fy_total' (RTPS FY 2024-25), 'workbook_fy_estimate' (other stations, FY 2024-25 estimated from the HO report); NULL = synthetic.",
+  "days_covered": "Number of days with data in the row's period (smaller for units commissioned or data ending mid-period).",
+  "units_reporting": "Number of units that contributed to the station row.",
+  "months_covered": "Number of months with data in the FY row.",
+  "is_partial_period": "1 when the FY row does not cover the full year (FY 2025-26 = April 2025 only; commissioning years).",
+  "max_day_gen_mu": "Highest single-day generation in the period, MU (station: station-day total).",
+  "max_day_gen_date": "Date of max_day_gen_mu (NULL when nothing was generated).",
+  "gcv_coal_x_coal_mt": "Weighting helper: SUM(gcv_coal_kcal_kg x coal_consumed_mt). Weighted GCV = SUM(gcv_coal_x_coal_mt) / SUM(coal_mt_with_gcv).",
+  "coal_mt_with_gcv": "Weighting helper: coal tonnes on days that have a GCV value.",
+  "heat_rate_x_gen_mu": "Weighting helper: SUM(gross_heat_rate_kcal_kwh x gross_gen_mu). Weighted heat rate = SUM(heat_rate_x_gen_mu) / SUM(gen_mu_with_heat_rate).",
+  "gen_mu_with_heat_rate": "Weighting helper: gross MU on days that have a heat-rate value.",
+  "cea_target_mu": "CEA (Central Electricity Authority) monthly generation target, MU.",
+  "internal_target_mu": "KPCL internal generation target, MU.",
+  "plf_pct": "Plant Load Factor % for this row = gross_gen_mu / capacity_mu x 100. Never AVG or SUM across rows: recompute SUM(gross_gen_mu)/SUM(capacity_mu)*100.",
+  "paf_pct": "Plant Availability Factor % for this row = declared_capacity_mu / capacity_mu x 100. Never AVG or SUM across rows.",
+  "plf_with_nld_pct": "PLF including deemed generation % = (gross + deemed) / capacity x 100. Never AVG across rows.",
+  "aux_pct": "Auxiliary consumption % = aux / gross x 100. Never AVG across rows.",
+  "sp_coal_kg_kwh": "Specific coal consumption kg/kWh = coal tonnes / 1000 / gross MU. Never AVG across rows.",
+  "sp_oil_ml_kwh": "Specific oil consumption ml/kWh = (HFO + LDO kL) / gross MU. Never AVG across rows.",
+  "wa_gcv_coal_kcal_kg": "Coal-weighted average GCV for this row, kcal/kg. Never AVG across rows.",
+  "wa_gross_heat_rate_kcal_kwh": "Generation-weighted average gross heat rate for this row, kcal/kWh. Never AVG across rows.",
+  "cea_target_achievement_pct": "Gross generation as % of the CEA target for this row. Never AVG across rows.",
+  "reason_code": "Reason code (outage reasons and back-down reasons are different lists).",
+  "reason_description": "Readable reason.",
+  "description": "Readable description of the code.",
+  "supplier_code": "Coal supplier: MCL, SCCL, WCL (domestic) or IMPORTED.",
+  "supplier_name": "Coal supplier name.",
+  "is_imported": "1 for imported coal.",
+  "reservoir_key": "Reservoir id (1 LINGANAMAKKI, 2 TALAKALALE, 3 SUPA, 4 MANI, 5 GERUSOPPA, 6 ALAMATTI).",
+  "reservoir_name": "Reservoir / dam name in upper case.",
+  "level_unit": "Unit of water_level for this reservoir: 'FT' (feet) or 'M' (metres).",
+  "full_reservoir_level": "FRL, in the reservoir's level_unit.",
+  "min_draw_down_level": "MDDL, in the reservoir's level_unit.",
+  "feeds_stations": "Hydro stations this reservoir feeds, comma separated station keys.",
+  "energy_at_frl_mu": "Energy potential when full, MU (NULL where not known)."
+ },
+ "tables": {
+  "mart_dim_date": {
+   "group": "dimension",
+   "grain": "one row per calendar day, 01-Apr-2015 to 30-Apr-2025",
+   "date_column": "date_key",
+   "doc": "Calendar. Facts already carry fy / month_label / water_year / season, so join this only for week or day-name questions."
+  },
+  "mart_dim_station": {
+   "group": "dimension",
+   "grain": "one row per power station (33)",
+   "doc": "Stations with name, company, category and capacity. station_key is the code used in every fact.",
+   "columns": {
+    "station_name": "Full station name, e.g. 'Raichur Thermal Power Station'.",
+    "company_code": "Owning company: KPCL, RPCL (Raichur Power Corporation, owns YTPS) or KPCGPCL (KPCL Gas Power Corporation, owns YCCPP).",
+    "company_name": "Owning company name.",
+    "plant_category_code": "Category code (WTE is shown as RES on the dashboard).",
+    "category_order": "Display order of the category on the HO dashboard.",
+    "plant_type_label": "Plant type description.",
+    "installed_capacity_mw": "Station installed capacity, MW.",
+    "commissioning_date": "Station commissioning date (approximate for many hydro stations).",
+    "report_order": "Row order of the station on the HO Daily Generation Report.",
+    "unit_count": "Number of units at the station.",
+    "fed_by_reservoirs": "Reservoirs feeding this station, comma separated."
+   }
+  },
+  "mart_dim_unit": {
+   "group": "dimension",
+   "grain": "one row per generating unit (103)",
+   "doc": "Units with capacity, fuel, technology, commissioning and life-to-date opening balances (RTPS only).",
+   "columns": {
+    "station_name": "Station name.",
+    "unit_no": "Unit number within the station.",
+    "fuel_code": "COAL, GAS, MSW, WATER, WIND or SUN.",
+    "fuel_label": "Fuel description.",
+    "technology": "SUBCRITICAL, SUPERCRITICAL, CCGT, WTE, FRANCIS, WTG or PV.",
+    "commissioning_date": "First synchronisation date.",
+    "decommissioning_date": "Decommissioning date (none in this data).",
+    "design_heat_rate_kcal_kwh": "Design gross heat rate, kcal/kWh (thermal only).",
+    "opening_balance_date": "Date the opening cumulative figures are 'as on' (31-Mar-2015, RTPS units only).",
+    "opening_cum_gen_mu": "Cumulative generation since first synchronisation up to opening_balance_date, MU (RTPS only).",
+    "opening_cum_running_hrs": "Cumulative running hours up to opening_balance_date (RTPS only).",
+    "opening_cum_trips": "Cumulative trips up to opening_balance_date (RTPS only)."
+   }
+  },
+  "mart_dim_reservoir": {
+   "group": "dimension",
+   "grain": "one row per reservoir / dam (6)",
+   "doc": "Reservoirs with FRL, MDDL, level unit and the stations they feed."
+  },
+  "mart_dim_outage_reason": {
+   "group": "dimension",
+   "grain": "one row per reason code (14 outage + 9 back-down)",
+   "doc": "Lookup of reason codes. reason_class = 'OUTAGE' (used by mart_fact_unit_outage) or 'BACKDOWN' (used by mart_fact_generation_loss_daily). The facts already carry reason_description, so this is rarely needed; if you join it, filter reason_class.",
+   "columns": {
+    "plant_type_code": "Plant type the outage reason applies to (NULL = all types).",
+    "reason_class": "'OUTAGE' or 'BACKDOWN'."
+   }
+  },
+  "mart_dim_btf_type": {
+   "group": "dimension",
+   "grain": "one row per boiler-tube-failure type (5)",
+   "doc": "Boiler tube failure root causes, e.g. EROSION_SOOT_BLOWER, WELD_DEFECT.",
+   "columns": {
+    "btf_type_code": "Failure type code."
+   }
+  },
+  "mart_dim_btf_location": {
+   "group": "dimension",
+   "grain": "one row per boiler-tube-failure location (5)",
+   "doc": "Boiler tube failure locations, e.g. WATER_WALL, RE_HEATER, SUPER_HEATER.",
+   "columns": {
+    "btf_location_code": "Location code."
+   }
+  },
+  "mart_dim_coal_supplier": {
+   "group": "dimension",
+   "grain": "one row per coal supplier (4)",
+   "doc": "Coal suppliers."
+  },
+  "mart_fact_unit_generation_daily": {
+   "group": "generation",
+   "grain": "one row per unit per day (365,132 rows)",
+   "date_column": "date_key",
+   "doc": "Base generation fact: every parameter of the station Daily Generation Report per unit. Use for single-day questions, unit-level detail, water-year and season totals. Ratios are NOT stored here: compute SUM(gross_gen_mu)/SUM(capacity_mu)*100 for PLF etc. For a station total filter station_key and SUM over its units."
+  },
+  "mart_fact_unit_generation_monthly": {
+   "group": "generation",
+   "grain": "one row per unit per month",
+   "date_column": "date_key",
+   "doc": "Unit Monthly Performance Report (MPR): monthly totals, targets and ratios pre-computed for that unit-month. Use for unit-month and unit-FY questions (SUM months with a fy filter).",
+   "columns": {
+    "date_key": "First day of the month 'YYYY-MM-01'.",
+    "capacity_mw": "Unit installed capacity, MW.",
+    "peak_load_mw": "Highest daily peak load of the unit in the month, MW."
+   }
+  },
+  "mart_fact_station_generation_daily": {
+   "group": "generation",
+   "grain": "one row per station per day",
+   "date_column": "date_key",
+   "doc": "HO Daily Generation Report at station level: units summed per day, with that day's PLF / PAF / aux %. Use for station-day questions, highest-day questions and KPCL daily totals (SUM over stations)."
+  },
+  "mart_fact_station_generation_monthly": {
+   "group": "generation",
+   "grain": "one row per station per month",
+   "date_column": "date_key",
+   "doc": "Station Monthly Performance Report with CEA and internal targets and ratios pre-computed for that station-month. Use for station-month, quarter (SUM months of one fy_quarter) and category/KPCL monthly totals.",
+   "columns": {
+    "date_key": "First day of the month 'YYYY-MM-01'."
+   }
+  },
+  "mart_fact_station_generation_fy": {
+   "group": "generation",
+   "grain": "one row per station per financial year",
+   "date_column": null,
+   "doc": "Station totals per financial year with ratios pre-computed for that station-FY. Use for 'FY', 'this FY vs last FY', year-on-year and 'top stations by annual generation' questions. FY 2025-26 covers April 2025 only (is_partial_period = 1)."
+  },
+  "mart_fact_unit_outage": {
+   "group": "outage",
+   "grain": "one row per trip / shutdown event (5,877 rows)",
+   "date_column": "date_key",
+   "doc": "Every forced, planned or reserve-shutdown outage of a unit, with reason and boiler-tube-failure details. The event is dated by its trip day (date_key, fy, month_label); its hours are not split across months. Count events with COUNT(*); total hours with SUM(outage_hrs).",
+   "columns": {
+    "outage_key": "Outage event id.",
+    "date_key": "Date the unit tripped / was taken out.",
+    "outage_type": "'FORCED', 'PLANNED' or 'RSD' (reserve shut-down). 'Trips' usually means FORCED outages.",
+    "trip_at": "Timestamp the unit tripped / was taken out.",
+    "sync_at": "Timestamp the unit was re-synchronised; NULL = still out at the end of the data.",
+    "is_open": "1 when the unit was still out at the end of the data (30-Apr-2025).",
+    "outage_hrs": "Duration in hours; for open outages, hours from trip to the end of the data (30-Apr-2025 24:00).",
+    "reason_detail": "Free-text reason as recorded.",
+    "gen_loss_mu": "Generation lost during the outage, MU.",
+    "is_structural": "1 for long-term shutdowns (RTPS-U1 since 10-Aug-2022, RTPS-U4 since 09-Nov-2024, SIRWAR-U1 since 01-Jun-2023).",
+    "is_btf": "1 for a boiler tube failure / leak (BTF / BTL).",
+    "btf_type_code": "Boiler tube failure type code (BTF only).",
+    "btf_type": "Boiler tube failure type (BTF only).",
+    "btf_location_code": "Boiler tube failure location code (BTF only).",
+    "btf_location": "Boiler tube failure location (BTF only)."
+   }
+  },
+  "mart_fact_generation_loss_daily": {
+   "group": "backdown",
+   "grain": "one row per unit per day per back-down reason (185,988 rows)",
+   "date_column": "date_key",
+   "doc": "'Reasons for back-down generation': MU of generation foregone while running, by reason. Thermal and gas stations only (RTPS, BTPS, YTPS, YCCPP). NO_LOAD_DEMAND rows are also the source of deemed_gen_mu (NLD).",
+   "columns": {
+    "loss_mu": "Generation lost to this reason that day, MU."
+   }
+  },
+  "mart_fact_generation_target_monthly": {
+   "group": "target",
+   "grain": "one row per unit per month",
+   "date_column": "date_key",
+   "doc": "Monthly generation targets per unit. KERC-approved targets are not in the data. The station monthly and FY facts already carry these targets summed.",
+   "columns": {
+    "date_key": "First day of the target month."
+   }
+  },
+  "mart_fact_coal_stock_daily": {
+   "group": "coal",
+   "grain": "one row per coal station per day (RTPS, BTPS, YTPS)",
+   "date_column": "date_key",
+   "doc": "Daily coal stock balance: closing = opening + receipt - consumed. 'Below norm' = days_of_stock < normative_days.",
+   "columns": {
+    "opening_stock_mt": "Opening stock, tonnes.",
+    "receipt_mt": "Coal received that day (all suppliers), tonnes. For receipts by supplier or imported vs domestic use mart_fact_coal_receipt.",
+    "indigenous_consumed_mt": "Domestic coal consumed (burnt) that day, tonnes. Not receipts: coal received is mart_fact_coal_receipt.",
+    "imported_consumed_mt": "Imported coal consumed (burnt) that day, tonnes. Not receipts: imported coal received is mart_fact_coal_receipt WHERE is_imported = 1.",
+    "total_consumed_mt": "Total coal consumed, tonnes.",
+    "closing_stock_mt": "Closing stock, tonnes (a balance: never sum across days).",
+    "days_of_stock": "Days of consumption the closing stock covers (a level: never sum across days).",
+    "normative_days": "Normative days of stock the station should hold (20).",
+    "is_below_norm": "1 when days_of_stock < normative_days."
+   }
+  },
+  "mart_fact_coal_receipt": {
+   "group": "coal",
+   "grain": "one row per rake delivery (22,300 rows)",
+   "date_column": "date_key",
+   "doc": "Coal received per station per day by supplier. Weighted GCV = SUM(gcv_x_quantity_mt) / SUM(quantity_mt); never AVG(gcv_received_kcal_kg).",
+   "columns": {
+    "receipt_key": "Receipt id.",
+    "no_of_rakes": "Number of rakes.",
+    "quantity_mt": "Quantity received, tonnes.",
+    "gcv_received_kcal_kg": "GCV as received, kcal/kg.",
+    "gcv_x_quantity_mt": "Weighting helper: gcv_received_kcal_kg x quantity_mt."
+   }
+  },
+  "mart_fact_reservoir_daily": {
+   "group": "reservoir",
+   "grain": "one row per reservoir per day",
+   "date_column": "date_key",
+   "doc": "Daily dam level, storage %, inflow, discharge, spill, rainfall and energy potential. water_level is in the row's level_unit (FT or M); never compare levels across reservoirs. Levels and storage % are balances: never sum across days.",
+   "columns": {
+    "water_level": "Water level, in level_unit.",
+    "level_above_mddl": "Water level minus MDDL, in level_unit.",
+    "capacity_pct": "Storage as % of capacity.",
+    "inflow_mcft": "Inflow, million cubic feet.",
+    "discharge_power_mcft": "Water discharged for power generation, million cubic feet.",
+    "spill_sluice_mcft": "Water spilled / sluiced, million cubic feet.",
+    "rainfall_mm": "Rainfall, mm.",
+    "energy_potential_mu": "Energy the stored water can generate, MU (NULL for TALAKALALE, GERUSOPPA, ALAMATTI)."
+   }
+  },
+  "mart_fact_grid_daily": {
+   "group": "grid",
+   "grain": "one row per day (Karnataka state grid)",
+   "date_column": "date_key",
+   "doc": "State grid figures entered at Head Office, with KPCL's own gross generation for the day alongside. KPCL share over a period = SUM(kpcl_gross_gen_mu) / SUM(state_consumption_mu) x 100.",
+   "columns": {
+    "state_consumption_mu": "Karnataka state consumption, MU.",
+    "state_generation_mu": "State generation, MU.",
+    "state_import_mu": "State import, MU.",
+    "system_peak_mw": "State system peak demand, MW.",
+    "freq_max_hz": "Maximum grid frequency, Hz.",
+    "freq_min_hz": "Minimum grid frequency, Hz.",
+    "tb_share_mu": "Tungabhadra share, MU.",
+    "jurala_share_mu": "Jurala share, MU.",
+    "kpcl_gross_gen_mu": "KPCL gross generation that day (all stations), MU.",
+    "kpcl_share_of_consumption_pct": "KPCL gross generation as % of state consumption that day. Never AVG across days."
+   }
+  },
+  "mart_fact_unit_current_status": {
+   "group": "status",
+   "grain": "one row per unit, as of the end of the data (30-Apr-2025)",
+   "date_column": null,
+   "doc": "Unit status at the end of the data: RUNNING, FORCED_OUTAGE, PLANNED_OUTAGE, RSD_OUTAGE or DECOMMISSIONED, and since when. 'Now' / 'currently' means 30-Apr-2025. Not history: has no fy or month columns.",
+   "columns": {
+    "as_of_date": "The date the status describes (30-Apr-2025).",
+    "status": "RUNNING, FORCED_OUTAGE, PLANNED_OUTAGE, RSD_OUTAGE or DECOMMISSIONED.",
+    "status_since": "When the current status began (trip time, last re-synchronisation, or commissioning).",
+    "days_in_status": "Days out of service up to the end of the data (NULL when running).",
+    "reason_detail": "Recorded reason of the current outage.",
+    "is_structural": "1 for a long-term shutdown."
+   }
+  },
+  "mart_fact_unit_cumulative": {
+   "group": "status",
+   "grain": "one row per unit",
+   "date_column": null,
+   "doc": "Life-to-date generation, running hours and trips since first synchronisation = opening balance (31-Mar-2015) + all later daily data. Only RTPS units have an opening balance; other units are NULL.",
+   "columns": {
+    "opening_balance_date": "Date of the opening balance (RTPS only).",
+    "cum_gen_mu": "Cumulative generation since first synchronisation, MU.",
+    "cum_running_hrs": "Cumulative running hours.",
+    "cum_trips": "Cumulative trips.",
+    "as_on_date": "Last date included."
+   }
+  }
+ },
+ "station_aliases": {
+  "RTPS": [
+   "raichur",
+   "raichur thermal",
+   "rtps"
+  ],
+  "BTPS": [
+   "bellary",
+   "ballari",
+   "btps",
+   "kudatini"
+  ],
+  "YTPS": [
+   "yeramarus",
+   "yermarus",
+   "ytps"
+  ],
+  "YCCPP": [
+   "yelahanka",
+   "yccpp",
+   "combined cycle"
+  ],
+  "BWTEP": [
+   "bidadi",
+   "bwtep",
+   "waste to energy plant"
+  ],
+  "SGS": [
+   "sharavathy",
+   "sharavathi",
+   "sgs"
+  ],
+  "NPH": [
+   "nagjhari",
+   "nph"
+  ],
+  "VUGPH": [
+   "varahi",
+   "vugph"
+  ],
+  "MGHE": [
+   "jog",
+   "mahatma gandhi",
+   "mghe",
+   "jogfalls"
+  ],
+  "LPH": [
+   "linganamakki power house",
+   "linganamakki dam power house",
+   "lph"
+  ],
+  "GERUSOPPA": [
+   "gerusoppa power house",
+   "gerusoppa ph",
+   "gerusoppa station"
+  ],
+  "SUPA": [
+   "supa power house",
+   "supa dam power house",
+   "supa station"
+  ],
+  "KODASALLI": [
+   "kodasalli",
+   "kodsalli"
+  ],
+  "KADRA": [
+   "kadra"
+  ],
+  "MANI": [
+   "mani power house",
+   "mani dam power house",
+   "mani station"
+  ],
+  "ALAMATTI": [
+   "alamatti power house",
+   "almatti power house",
+   "almatti dph",
+   "alamatti station"
+  ],
+  "GHATPRABHA": [
+   "ghatprabha",
+   "ghataprabha"
+  ],
+  "BHADRA": [
+   "bhadra"
+  ],
+  "MUNIRABAD": [
+   "munirabad"
+  ],
+  "SHIVA": [
+   "shivasamudram hydro",
+   "shiva hydro",
+   "shivanasamudra hydro",
+   "shiva station"
+  ],
+  "SHIMSHA": [
+   "shimsha",
+   "shimshapura"
+  ],
+  "MALLAPUR": [
+   "mallapur"
+  ],
+  "SIRWAR": [
+   "sirwar"
+  ],
+  "KALMALA": [
+   "kalmala"
+  ],
+  "GANEKAL": [
+   "ganekal"
+  ],
+  "MALAPRABHA": [
+   "malaprabha",
+   "malprabha"
+  ],
+  "KG-WEF": [
+   "kappatagudda",
+   "kg-wef",
+   "kgwef",
+   "wind farm"
+  ],
+  "YAL-SOLAR-3": [
+   "yalesandra"
+  ],
+  "ITN-SOLAR-3": [
+   "itnal"
+  ],
+  "YAP-SOLAR-3": [
+   "yapaldinni",
+   "yapaladinni"
+  ],
+  "SH-SOLAR-5": [
+   "shivasamudra solar 5",
+   "sh-solar-5",
+   "shivasamudra 5 mw",
+   "5 mw shivasamudra",
+   "5mw shivasamudra",
+   "5 mw shivasamudra solar",
+   "shivasamudra 5mw",
+   "shivasamudra 5 mw solar",
+   "shivasamudram 5 mw",
+   "5 mw shivasamudram"
+  ],
+  "SH-SOLAR-10": [
+   "shivasamudra solar 10",
+   "sh-solar-10",
+   "shivasamudra 10 mw",
+   "10 mw shivasamudra",
+   "10mw shivasamudra",
+   "10 mw shivasamudra solar",
+   "shivasamudra 10mw",
+   "shivasamudra 10 mw solar",
+   "shivasamudram 10 mw",
+   "10 mw shivasamudram"
+  ],
+  "CHANDAPUR": [
+   "chandapur"
+  ]
+ },
+ "reservoir_aliases": {
+  "1": [
+   "linganamakki",
+   "linganmakki"
+  ],
+  "2": [
+   "talakalale",
+   "talkalale"
+  ],
+  "3": [
+   "supa"
+  ],
+  "4": [
+   "mani"
+  ],
+  "5": [
+   "gerusoppa"
+  ],
+  "6": [
+   "alamatti",
+   "almatti"
+  ]
+ },
+ "category_aliases": {
+  "THERMAL-COAL": [
+   "thermal",
+   "thermal-coal",
+   "coal-fired",
+   "thermal stations",
+   "thermal plants"
+  ],
+  "MAJOR HYDRO": [
+   "major hydro"
+  ],
+  "MINOR HYDRO": [
+   "minor hydro",
+   "mini hydel",
+   "mini hydro"
+  ],
+  "GAS": [
+   "gas",
+   "combined cycle"
+  ],
+  "RES": [
+   "waste to energy",
+   "wte",
+   "res"
+  ],
+  "SOLAR": [
+   "solar"
+  ],
+  "WIND": [
+   "wind"
+  ]
+ },
+ "glossary": {
+  "PLF": {
+   "aliases": [
+    "plf",
+    "plant load factor",
+    "load factor"
+   ],
+   "plain": "Plant Load Factor: the energy a plant actually generated as a percentage of what it could have generated running at full capacity all the time."
+  },
+  "PAF": {
+   "aliases": [
+    "paf",
+    "plant availability factor",
+    "availability factor",
+    "availability"
+   ],
+   "plain": "Plant Availability Factor: the capacity the plant declared available as a percentage of its full capacity over the period."
+  },
+  "NLD": {
+   "aliases": [
+    "nld",
+    "no load demand",
+    "deemed generation"
+   ],
+   "plain": "No-load demand: generation a thermal unit could have produced but was asked to back down because the grid did not need it. It is counted as 'deemed generation' in 'PLF with NLD'."
+  },
+  "MU": {
+   "aliases": [
+    "mu",
+    "million units"
+   ],
+   "plain": "Million units: one million kilowatt-hours (kWh) of energy. Generation figures are in MU."
+  },
+  "Auxiliary consumption": {
+   "aliases": [
+    "aux",
+    "auxiliary consumption",
+    "aux consumption",
+    "auxiliary power"
+   ],
+   "plain": "Electricity a station uses itself to run its equipment (pumps, fans, mills). Net export = gross generation minus auxiliary consumption."
+  },
+  "Net export": {
+   "aliases": [
+    "net export",
+    "net generation",
+    "net energy"
+   ],
+   "plain": "Energy actually sent out to the grid: gross generation minus the station's own auxiliary consumption."
+  },
+  "Specific coal consumption": {
+   "aliases": [
+    "specific coal",
+    "specific coal consumption",
+    "scc"
+   ],
+   "plain": "Kilograms of coal burnt for each kWh generated."
+  },
+  "Specific oil consumption": {
+   "aliases": [
+    "specific oil",
+    "specific oil consumption",
+    "sfoc"
+   ],
+   "plain": "Millilitres of fuel oil (HFO + LDO) used for each kWh generated, mostly for start-ups and flame support."
+  },
+  "Heat rate": {
+   "aliases": [
+    "heat rate",
+    "gross heat rate",
+    "ghr"
+   ],
+   "plain": "Heat energy (kcal) needed to generate one kWh. Lower is more efficient."
+  },
+  "GCV": {
+   "aliases": [
+    "gcv",
+    "gross calorific value",
+    "calorific value"
+   ],
+   "plain": "Gross calorific value: the heat energy in a kilogram of coal (kcal/kg)."
+  },
+  "RSD": {
+   "aliases": [
+    "rsd",
+    "reserve shutdown",
+    "reserve shut down"
+   ],
+   "plain": "Reserve shut-down: the unit is available but switched off because it is not needed."
+  },
+  "Forced outage": {
+   "aliases": [
+    "forced outage",
+    "trip",
+    "tripping"
+   ],
+   "plain": "An unplanned shutdown of a unit because of a fault (a 'trip')."
+  },
+  "Planned outage": {
+   "aliases": [
+    "planned outage",
+    "annual overhaul",
+    "maintenance outage"
+   ],
+   "plain": "A scheduled shutdown for maintenance or overhaul."
+  },
+  "BTF": {
+   "aliases": [
+    "btf",
+    "btl",
+    "boiler tube failure",
+    "boiler tube leak",
+    "boiler tube leakage"
+   ],
+   "plain": "Boiler tube failure (or leak): a burst or leaking boiler tube that forces a thermal unit out of service."
+  },
+  "Back-down": {
+   "aliases": [
+    "back down",
+    "backdown",
+    "back-down"
+   ],
+   "plain": "Running a unit below its capability because of coal quality, equipment limits, low demand or similar reasons; the generation foregone is recorded by reason."
+  },
+  "CEA target": {
+   "aliases": [
+    "cea target",
+    "cea",
+    "central electricity authority"
+   ],
+   "plain": "The monthly generation target set for each unit by the Central Electricity Authority."
+  },
+  "Water year": {
+   "aliases": [
+    "water year",
+    "wy"
+   ],
+   "plain": "The hydro accounting year from June to May."
+  },
+  "Financial year": {
+   "aliases": [
+    "financial year",
+    "fy",
+    "fiscal year"
+   ],
+   "plain": "The accounting year from April to March, written like 2024-25."
+  },
+  "MPR": {
+   "aliases": [
+    "mpr",
+    "monthly performance report"
+   ],
+   "plain": "Monthly Performance Report: a station's monthly generation, availability, fuel and efficiency figures."
+  },
+  "JMR": {
+   "aliases": [
+    "jmr",
+    "joint meter reading",
+    "joint energy meter"
+   ],
+   "plain": "Joint Meter Reading: the monthly meter statement signed by KPTCL, the ESCOM and KPCL for billing. It is not loaded in this data."
+  },
+  "MDDL": {
+   "aliases": [
+    "mddl",
+    "minimum draw down level"
+   ],
+   "plain": "Minimum draw-down level: the lowest level a reservoir may be drawn down to."
+  },
+  "FRL": {
+   "aliases": [
+    "frl",
+    "full reservoir level"
+   ],
+   "plain": "Full reservoir level: the level of a full dam."
+  },
+  "ESCOM": {
+   "aliases": [
+    "escom",
+    "escoms"
+   ],
+   "plain": "Electricity supply companies that buy KPCL's power: BESCOM, MESCOM, CESC, HESCOM and GESCOM. Billing data is not loaded in this data."
+  },
+  "RES": {
+   "aliases": [
+    "res category"
+   ],
+   "plain": "On the HO dashboard, RES is the waste-to-energy plant (Bidadi, BWTEP)."
+  }
+ },
+ "rules": [
+  "Query only mart_* tables. They are SQLite tables; dates are text 'YYYY-MM-DD', fy is text like '2024-25', month_label is text like 'MAR-2025' (upper case).",
+  "Ratios (PLF, PAF, aux %, specific coal/oil, weighted GCV, heat rate, target achievement, KPCL share) must be computed as SUM(numerator)/SUM(denominator) over the rows in scope. Never AVG or SUM a *_pct, sp_*, wa_*, gcv_* or heat-rate column across rows. A pre-computed ratio column may be read as-is only for a single row of its own grain.",
+  "PLF = SUM(gross_gen_mu)/SUM(capacity_mu)*100. PAF = SUM(declared_capacity_mu)/SUM(capacity_mu)*100. PLF with NLD = SUM(gross_gen_mu+deemed_gen_mu)/SUM(capacity_mu)*100. Aux % = SUM(aux_consumption_mu)/SUM(gross_gen_mu)*100. Specific coal = SUM(coal_consumed_mt)/1000.0/SUM(gross_gen_mu). Specific oil = SUM(COALESCE(hfo_consumed_kl,0)+COALESCE(ldo_consumed_kl,0))/SUM(gross_gen_mu).",
+  "Choose the fact at the grain of the question: a day -> *_daily; a month or quarter -> *_monthly (fy_quarter needs a fy filter); a financial year -> mart_fact_station_generation_fy (station) or unit monthly summed over the fy; a water year or season -> *_daily with water_year / season. Never join two different generation facts in one aggregate (they would double count); use UNION ALL for side-by-side comparisons.",
+  "Station, category and KPCL totals: filter station_key, plant_category_label, or nothing (all 33 stations). A station total is the SUM over its units; never add a station row to its unit rows.",
+  "The data runs from 01-Apr-2015 to 30-Apr-2025. 'Today', 'now', 'currently', 'latest' mean 30-Apr-2025; 'this FY' = 2025-26 (April 2025 only, partial); 'last FY' = 2024-25 (the latest complete FY); 'this month' = APR-2025; 'last month' = MAR-2025.",
+  "Balances and levels (closing_stock_mt, days_of_stock, water_level, capacity_pct, level_above_mddl) must never be summed across days; take the value on a date, or MIN/MAX/AVG over a period.",
+  "Rankings: exclude NULL values (WHERE x IS NOT NULL) and use ORDER BY ... LIMIT. Units RTPS-U1, RTPS-U4 and SIRWAR-U1 are in long-term shutdown and generate nothing; say so if they come out lowest.",
+  "SQLite integer division truncates: multiply by 1.0 (or use a REAL column) before dividing. There is no FROM dual. Use strftime / date() for date maths.",
+  "Give every selected column an alias with AS. Never select more than one row per entity unless the question asks for a breakdown or trend.",
+  "Water levels are in each reservoir's own unit (FT or M); do not compare levels across reservoirs, compare capacity_pct instead.",
+  "Coal RECEIVED / delivered / arrived / rakes / supplier questions use mart_fact_coal_receipt (is_imported = 1 for imported coal). Coal CONSUMED / burnt / used questions use coal_consumed_mt in the generation facts or *_consumed_mt in mart_fact_coal_stock_daily.",
+  "Conditions on aggregates (SUM, COUNT, AVG ...) go in HAVING, never in WHERE. To leave out units that generated nothing in a period, GROUP BY the unit and add HAVING SUM(gross_gen_mu) > 0.",
+  "Name stations by station_key (e.g. 'SGS'); join mart_dim_station only when the full name is asked for.",
+  "'KPCL', 'KPCL total', 'the company' and 'all stations' mean ALL 33 stations in this data, including YTPS (company_code RPCL, a KPCL subsidiary) and YCCPP (company_code KPCGPCL, a KPCL subsidiary). Never filter on company_code unless the question names RPCL, KPCGPCL or a subsidiary.",
+  "Coverage: every table except the as-on snapshots has data for EVERY financial year FY 2015-16 to FY 2024-25 in full, plus April 2025 (FY 2025-26). A date between 01-Apr-2015 and 30-Apr-2025 or a year between 2015-16 and 2024-25 is always inside the data: write the SQL, never say it is outside the range.",
+  "A month, quarter, FY or water year asked for as one figure ('state consumption in March 2025', 'generation in FY 2023-24') is ONE total over that period (SUM for flows; MAX, MIN, AVG or the last day's value for levels), not one row per day, unless the question says daily, each day or day by day.",
+  "Coal suppliers: MCL = Mahanadi Coalfields Ltd, SCCL = Singareni Collieries Company Ltd, WCL = Western Coalfields Ltd, IMPORTED = imported coal. Filter mart_fact_coal_receipt on supplier_code with these codes.",
+  "Reservoir levels are in each reservoir's own unit (level_unit 'FT' feet or 'M' metres); always state that unit and never assume metres. Name alias columns after the measure (water_level), never after a unit (water_level_m).",
+  "Unit counts and installed capacity come from mart_dim_unit / mart_dim_station with no company filter: KPCL has 103 units and 33 stations.",
+  "SELECT only the columns the question needs (usually 2 to 6), each aliased once. Never list every column of a table."
+ ]
+}

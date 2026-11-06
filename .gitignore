@@ -1,0 +1,16 @@
+# secrets
+.env
+**/.env
+# large database: published as a release asset (see README)
+warehouse/kpcl_gms.db
+*.db-wal
+*.db-shm
+*.db-journal
+# python / logs / backups
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.log
+*.log.err
+webapp/_backup_*/

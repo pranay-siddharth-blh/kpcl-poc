@@ -1,0 +1,2069 @@
+{
+  "schema": "gms_mart",
+  "description": "Star-schema NL2SQL layer for KPCL Generation Management System (GMS). Query gms_mart.* only; it is a thin view layer over the normalized gms schema. Every fact table states its grain in its comment -- read that before writing GROUP BY.",
+  "units_glossary": {
+    "_mu": "million kWh",
+    "_kwh": "kWh",
+    "_mw": "megawatt",
+    "_hrs": "hours",
+    "_mt": "tonnes",
+    "_kl": "kilolitres",
+    "_rs": "Indian rupees",
+    "_pct": "percent, 0-100 scale",
+    "_mcft": "million cubic feet",
+    "_cum": "cubic metres",
+    "_kcal_kg": "kcal per kg (coal GCV)",
+    "_kcal_l": "kcal per litre (oil GCV)",
+    "_kcal_kwh": "kcal per kWh (heat rate)"
+  },
+  "tables": {
+    "dim_billing_group": {
+      "kind": "view",
+      "comment": "One row per line item on the ESCOM energy bill, e.g. \"Sharavathy Valley Project (SVP)\", \"RTPS Unit 1 & 2\". bill_section is HYDEL_RES or THERMAL, matching the two halves of the bill.",
+      "columns": [
+        {
+          "name": "billing_group_key",
+          "type": "integer",
+          "comment": null
+        },
+        {
+          "name": "billing_group_id",
+          "type": "integer",
+          "comment": null
+        },
+        {
+          "name": "billing_group_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "bill_section",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "pool_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "display_order",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "stations",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "units",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_btf_location": {
+      "kind": "view",
+      "comment": "Boiler tube failure location, e.g. WATER_WALL, RE_HEATER, SUPER_HEATER.",
+      "columns": [
+        {
+          "name": "btf_location_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "location_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_btf_type": {
+      "kind": "view",
+      "comment": "Boiler tube failure root cause, e.g. EROSION_SOOT_BLOWER, WELD_DEFECT.",
+      "columns": [
+        {
+          "name": "btf_type_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "failure_type_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_coal_supplier": {
+      "kind": "view",
+      "comment": "Coal supplier: MCL, SCCL, WCL (all domestic) or IMPORTED.",
+      "columns": [
+        {
+          "name": "supplier_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "supplier_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "supplier_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "is_imported",
+          "type": "boolean",
+          "comment": null
+        }
+      ]
+    },
+    "dim_counterparty": {
+      "kind": "view",
+      "comment": "ESCOMs and other billing counterparties: BESCOM, MESCOM, CESCOM, HESCOM, GESCOM, KPTCL, NTPC, SECI, GoK.",
+      "columns": [
+        {
+          "name": "counterparty_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "counterparty_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "counterparty_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "counterparty_type",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gstin",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "pan",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_date": {
+      "kind": "view",
+      "comment": "One row per calendar day, 01-Apr-2015 onward. Join any fact's date_key here for fy (Apr-Mar financial year, \"2024-25\"), water_year (Jun-May hydro year), month_label (\"MAR-2025\"), fy_quarter (Q1-Q4) and season (SUMMER/MONSOON/POST_MONSOON/WINTER). Always group by fy or month_label here rather than by extract(year from date).",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "cal_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "fy",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "fy_start_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "fy_month_no",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "water_year",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "wy_month_no",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "month_start",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "year_month",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "month_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "fy_quarter",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "week_start",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "day_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "is_weekend",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "is_holiday",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "holiday_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "season",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_division": {
+      "kind": "view",
+      "comment": null,
+      "columns": [
+        {
+          "name": "division_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "division_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "division_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_code",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_employee": {
+      "kind": "view",
+      "comment": null,
+      "columns": [
+        {
+          "name": "employee_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "employee_no",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "designation",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "division_code",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_outage_reason": {
+      "kind": "view",
+      "comment": "Two families of reason code sharing one lookup: reason_class = OUTAGE (why a unit tripped/was shut down; used by fact_unit_outage) or BACKDOWN (why running generation was curtailed; used by fact_generation_loss_daily). Do not mix the two families in one WHERE reason_code = ... across both facts.",
+      "columns": [
+        {
+          "name": "reason_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_type_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_class",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_reservoir": {
+      "kind": "view",
+      "comment": "One row per dam/reservoir (6 rows). feeds_stations lists the hydro stations it supplies, comma separated.",
+      "columns": [
+        {
+          "name": "reservoir_key",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "reservoir_id",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "reservoir_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "level_unit",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "full_reservoir_level",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "min_draw_down_level",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gross_storage_frl_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "energy_at_frl_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "feeds_stations",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_station": {
+      "kind": "view",
+      "comment": "One row per power station (33 rows). plant_category_label matches the HO dashboard groups exactly: THERMAL-COAL, MAJOR HYDRO, MINOR HYDRO, GAS, RES (waste-to-energy), SOLAR, WIND. Use plant_category_label for \"by category\" questions, plant_type_label for the coarser THERMAL/HYDRO/GAS/WTE/SOLAR/WIND split.",
+      "columns": [
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "company_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "company_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_category_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_category_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_type_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_type_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "installed_capacity_mw",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "commissioning_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "report_order",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "unit_count",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "fed_by_reservoirs",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "dim_unit": {
+      "kind": "view",
+      "comment": "One row per generating unit (103 rows), pre-joined to its station's name, company, category and type. unit_id is the natural key used everywhere else, e.g. RTPS-U8. Prefer this over joining unit->station yourself.",
+      "columns": [
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "unit_id",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "unit_no",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "station_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_name",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "company_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_category_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_category_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_type_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "plant_type_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "capacity_mw",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "fuel_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "fuel_label",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "technology",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "commissioning_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "decommissioning_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "is_decommissioned",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "design_heat_rate_kcal_kwh",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "opening_balance_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "opening_cum_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "opening_cum_running_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "opening_cum_trips",
+          "type": "integer",
+          "comment": null
+        }
+      ]
+    },
+    "fact_coal_receipt": {
+      "kind": "view",
+      "comment": "GRAIN: one row per rake delivery (22,300 rows). For a weighted-average GCV over many receipts use SUM(gcv_received_kcal_kg*quantity_mt)/SUM(quantity_mt), never AVG(gcv_received_kcal_kg).",
+      "columns": [
+        {
+          "name": "receipt_key",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "supplier_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "no_of_rakes",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "quantity_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gcv_received_kcal_kg",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_coal_stock_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per coal station per day (RTPS, BTPS, YTPS). closing_stock_mt = opening + receipt - consumed. \"Below norm\" = days_of_stock < normative_days.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "opening_stock_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "receipt_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "indigenous_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "imported_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "total_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "closing_stock_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "days_of_stock",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "normative_days",
+          "type": "smallint",
+          "comment": null
+        }
+      ]
+    },
+    "fact_commercial_transaction": {
+      "kind": "view",
+      "comment": "GRAIN: one row per transaction. txn_type_code: ESCOM_BILL_CLAIM, ESCOM_BILL_WITHDRAWAL, RECEIPT, RE_SUBSIDY_GOK, SECI_RECEIPT.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "counterparty_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "txn_type_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "receipt_sub_type",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "amount_rs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "tds_rs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "rebate_rs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "writeoff_rs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "bill_id",
+          "type": "integer",
+          "comment": null
+        }
+      ]
+    },
+    "fact_defect": {
+      "kind": "view",
+      "comment": "GRAIN: one row per logged defect (DMS). age_or_open_hrs is hours-to-close, or hours-still-open if not yet closed.",
+      "columns": [
+        {
+          "name": "defect_key",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "priority",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "defect_type",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "raised_by_division",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "attending_division",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "logged_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "acknowledged_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "closed_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "ptw_required",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "age_or_open_hrs",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_energy_bill_escom": {
+      "kind": "view",
+      "comment": "GRAIN: one row per ESCOM per billing-group line per bill (\"Bill for Sale of Energy to ESCOMs\"). amount_rs is that ESCOM's share of that line; SUM(amount_rs) grouped by counterparty_key gives the per-ESCOM total on the bill. line_total_amount_rs repeats the line's grand total (do not SUM it across ESCOM rows).",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "billing_group_key",
+          "type": "integer",
+          "comment": null
+        },
+        {
+          "name": "counterparty_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "bill_id",
+          "type": "integer",
+          "comment": null
+        },
+        {
+          "name": "bill_no",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "bill_type",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "transmitted_kwh",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "share_pct",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "amount_rs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "line_total_transmitted_kwh",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "line_total_amount_rs",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_generation_loss_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per unit per day per back-down reason (185,988 rows). \"Reasons for back-down generation\" from the daily report \u2014 MU of generation foregone, only for thermal/gas stations (RTPS, BTPS, YTPS, YCCPP). reason_code joins dim_outage_reason WHERE reason_class = 'BACKDOWN'. NO_LOAD_DEMAND rows are also the source of deemed_gen_mu (NLD) in fact_unit_generation_daily.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "loss_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_generation_target_monthly": {
+      "kind": "view",
+      "comment": "GRAIN: one row per unit per month (date_key = first day of month). Join dim_date on date_key for fy/month_label. kerc_approved_mu is NULL in almost every row (not yet approved) \u2014 do not filter on it being non-null unless asked.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "cea_target_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "kerc_approved_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "internal_target_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_grid_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per day, Karnataka state grid totals entered at Head Office. KPCL share of state demand = SUM(fact_unit_generation_daily.gross_gen_mu) / SUM(state_consumption_mu) for the same dates.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "state_consumption_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "state_generation_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "state_import_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "system_peak_mw",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "system_peak_time",
+          "type": "time without time zone",
+          "comment": null
+        },
+        {
+          "name": "freq_max_hz",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "freq_min_hz",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "tb_share_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "jurala_share_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "cgs_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "upcl_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "jsw_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "others_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_jmr_meter_monthly": {
+      "kind": "view",
+      "comment": "GRAIN: one row per meter per station per month (the signed Joint Meter Reading / Annexure-I). meter_role is UNIT_GEN, UNIT_AUX, COMMON_AUX or STATION_EXPORT. station_net_export_jmr_mu repeats the one billing figure for the whole statement (safe to SUM DISTINCT per station-month, not per row). Compare against fact_unit_generation_daily summed over the month to reconcile billing vs operational energy.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "meter_id",
+          "type": "integer",
+          "comment": null
+        },
+        {
+          "name": "meter_role",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "initial_reading",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "final_reading",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "meter_constant",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "computed_gen",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "difference",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "energy_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "reading_upto_date",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_net_export_jmr_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_reservoir_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per dam per day. water_level is in dim_reservoir.level_unit (FT or M) for that reservoir.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "reservoir_key",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "water_level",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "capacity_pct",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "inflow_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "discharge_power_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "spill_sluice_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "rainfall_mm",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "energy_potential_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_station_common_consumption_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per station per day. Station-level (not unit-level) auxiliary/colony/feeder consumption. True station net export = SUM(unit net_export_mu from fact_unit_generation_daily) - common_aux_mu. Most stations have no row here on most days (common_aux defaults to 0) \u2014 LEFT JOIN and COALESCE to 0.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "common_aux_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "local_feeder_kwh",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "colony_consumption_kwh",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_station_generation_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per station per day \u2014 pre-summed from fact_unit_generation_daily so station-level questions need no GROUP BY unit. PLF% = gross_gen_mu/capacity_mu*100; PAF% = declared_capacity_mu/capacity_mu*100.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gross_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "unit_aux_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "common_aux_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "net_export_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "deemed_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_hour_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_load_mw",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "running_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "forced_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "planned_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "rsd_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "trips",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "coal_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "hfo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "ldo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "water_used_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "declared_capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "capacity_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_station_generation_fy": {
+      "kind": "view",
+      "comment": "GRAIN: one row per station per financial year (Apr-Mar). PLF% = gross_gen_mu/capacity_mu*100. Use for \"this FY vs last FY\" and \"top N stations by annual generation\" questions.",
+      "columns": [
+        {
+          "name": "fy",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gross_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "aux_consumption_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "net_export_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "deemed_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "max_day_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "forced_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "planned_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "trips",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "coal_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "hfo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "declared_capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "cea_target_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "internal_target_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_station_generation_monthly": {
+      "kind": "view",
+      "comment": "GRAIN: one row per station per month (the Monthly Performance Report, station columns). date_key = first of month.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gross_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "aux_consumption_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "net_export_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "deemed_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "max_day_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "forced_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "planned_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "running_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "trips",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "coal_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "hfo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "ldo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "water_used_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "declared_capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "cea_target_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "internal_target_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_unit_cumulative": {
+      "kind": "view",
+      "comment": "GRAIN: one row per unit, cumulative generation/hours/trips since first synchronisation (opening balance + everything in fact_unit_generation_daily since). \"Life-to-date\" questions.",
+      "columns": [
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "cum_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "cum_running_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "cum_trips",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "as_on_date",
+          "type": "date",
+          "comment": null
+        }
+      ]
+    },
+    "fact_unit_current_status": {
+      "kind": "view",
+      "comment": "GRAIN: one row per unit, always \"right now\" (no date_key \u2014 this is not history). status is RUNNING, FORCED_OUTAGE, PLANNED_OUTAGE, RSD_OUTAGE or DECOMMISSIONED. Use for \"which units are down right now\" questions.",
+      "columns": [
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "status_since",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "reason_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_detail",
+          "type": "text",
+          "comment": null
+        }
+      ]
+    },
+    "fact_unit_generation_daily": {
+      "kind": "view",
+      "comment": "GRAIN: one row per unit per calendar day (365,132 rows). The base fact for every generation/PLF/fuel question. Join dim_date on date_key and dim_unit on unit_key to slice by fy/month/season/station/category. Ratios are NOT stored here: compute PLF as SUM(gross_gen_mu)/SUM(capacity_mu)*100, aux% as SUM(aux_consumption_mu)/SUM(gross_gen_mu)*100, specific coal as SUM(coal_consumed_mt)/1000/SUM(gross_gen_mu) -- always SUM/SUM over the rows in scope, never AVG a per-row ratio. For a station total, SUM over its units; station net export additionally subtracts common-aux \u2014 see fact_station_common_consumption_daily.",
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gross_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "aux_consumption_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "net_export_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "deemed_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_hour_gen_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_hour_gen_morning_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_hour_gen_evening_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_load_mw",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "peak_load_time",
+          "type": "time without time zone",
+          "comment": null
+        },
+        {
+          "name": "running_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "forced_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "planned_outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "rsd_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "trips",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "declared_capacity_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "coal_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "hfo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "ldo_consumed_kl",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gas_consumed_mmscm",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "msw_consumed_mt",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gcv_coal_kcal_kg",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gcv_oil_kcal_l",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "gross_heat_rate_kcal_kwh",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "dm_water_cum",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "h2_cylinders_nos",
+          "type": "smallint",
+          "comment": null
+        },
+        {
+          "name": "water_used_mcft",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "capacity_mu",
+          "type": "numeric",
+          "comment": null
+        }
+      ]
+    },
+    "fact_unit_outage": {
+      "kind": "view",
+      "comment": "GRAIN: one row per trip/shutdown event (5,877 rows). outage_type is FORCED, PLANNED or RSD. is_open = true means the unit is still out (sync_at is NULL); outage_hrs is then computed live to now. is_btf = true for boiler tube failures, with btf_type_key/btf_location_key filled from the DMS register. For \"currently down\" questions, filter is_open = true directly rather than re-deriving status per unit.",
+      "columns": [
+        {
+          "name": "outage_key",
+          "type": "bigint",
+          "comment": null
+        },
+        {
+          "name": "unit_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "station_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "date_key",
+          "type": "date",
+          "comment": null
+        },
+        {
+          "name": "trip_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "sync_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        },
+        {
+          "name": "is_open",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "outage_hrs",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "outage_type",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_code",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "reason_detail",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "gen_loss_mu",
+          "type": "numeric",
+          "comment": null
+        },
+        {
+          "name": "is_structural",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "is_btf",
+          "type": "boolean",
+          "comment": null
+        },
+        {
+          "name": "btf_type_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "btf_location_key",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "work_details",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "inspection_details",
+          "type": "text",
+          "comment": null
+        },
+        {
+          "name": "closure_at",
+          "type": "timestamp without time zone",
+          "comment": null
+        }
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "name": "PLF",
+      "label": "Plant Load Factor %",
+      "formula": "SUM(gross_gen_mu) / SUM(capacity_mu) * 100",
+      "tables": [
+        "fact_unit_generation_daily",
+        "fact_station_generation_daily",
+        "fact_station_generation_monthly",
+        "fact_station_generation_fy"
+      ],
+      "notes": "capacity_mu = capacity_mw * hours_in_period / 1000. Never AVG a per-row percentage."
+    },
+    {
+      "name": "PAF",
+      "label": "Plant Availability Factor %",
+      "formula": "SUM(declared_capacity_mu) / SUM(capacity_mu) * 100",
+      "tables": [
+        "fact_unit_generation_daily",
+        "fact_station_generation_daily",
+        "fact_station_generation_monthly",
+        "fact_station_generation_fy"
+      ]
+    },
+    {
+      "name": "PLF_with_NLD",
+      "label": "PLF including deemed generation %",
+      "formula": "SUM(gross_gen_mu + deemed_gen_mu) / SUM(capacity_mu) * 100",
+      "tables": [
+        "fact_unit_generation_daily",
+        "fact_station_generation_daily"
+      ]
+    },
+    {
+      "name": "aux_pct",
+      "label": "Auxiliary consumption %",
+      "formula": "SUM(aux_consumption_mu) / SUM(gross_gen_mu) * 100",
+      "tables": [
+        "fact_unit_generation_daily"
+      ],
+      "notes": "For station-level aux %, add common_aux_mu from fact_station_common_consumption_daily to the numerator."
+    },
+    {
+      "name": "specific_coal",
+      "label": "Specific coal consumption, kg/kWh",
+      "formula": "SUM(coal_consumed_mt) / 1000 / SUM(gross_gen_mu)",
+      "tables": [
+        "fact_unit_generation_daily"
+      ]
+    },
+    {
+      "name": "specific_oil",
+      "label": "Specific oil consumption, ml/kWh",
+      "formula": "SUM(hfo_consumed_kl + ldo_consumed_kl) / SUM(gross_gen_mu)",
+      "tables": [
+        "fact_unit_generation_daily"
+      ]
+    },
+    {
+      "name": "weighted_avg_gcv_coal",
+      "label": "Weighted-average coal GCV, kcal/kg",
+      "formula": "SUM(gcv_coal_kcal_kg * coal_consumed_mt) / SUM(coal_consumed_mt)",
+      "tables": [
+        "fact_unit_generation_daily"
+      ],
+      "notes": "Also used for coal receipts: SUM(gcv_received_kcal_kg*quantity_mt)/SUM(quantity_mt) on fact_coal_receipt."
+    },
+    {
+      "name": "weighted_avg_heat_rate",
+      "label": "Weighted-average gross heat rate, kcal/kWh",
+      "formula": "SUM(gross_heat_rate_kcal_kwh * gross_gen_mu) / SUM(gross_gen_mu)",
+      "tables": [
+        "fact_unit_generation_daily"
+      ]
+    },
+    {
+      "name": "net_export_station",
+      "label": "Station net export, MU",
+      "formula": "SUM(unit gross_gen_mu) - SUM(unit aux_consumption_mu) - station common_aux_mu",
+      "tables": [
+        "fact_station_generation_daily"
+      ],
+      "notes": "Already computed as net_export_mu in fact_station_generation_daily/monthly/fy."
+    },
+    {
+      "name": "coal_stock_below_norm_days",
+      "label": "Days a station's coal cover fell below the normative level",
+      "formula": "COUNT(*) WHERE days_of_stock < normative_days",
+      "tables": [
+        "fact_coal_stock_daily"
+      ]
+    },
+    {
+      "name": "kpcl_share_of_state_demand",
+      "label": "KPCL share of Karnataka state consumption, %",
+      "formula": "SUM(fact_station_generation_daily.gross_gen_mu) / SUM(fact_grid_daily.state_consumption_mu) * 100 for matching date_key",
+      "tables": [
+        "fact_station_generation_daily",
+        "fact_grid_daily"
+      ]
+    },
+    {
+      "name": "outage_hours_by_reason",
+      "label": "Outage hours grouped by reason",
+      "formula": "SUM(outage_hrs) GROUP BY reason_code",
+      "tables": [
+        "fact_unit_outage"
+      ],
+      "notes": "Filter outage_type='FORCED' for forced-outage-only questions."
+    },
+    {
+      "name": "backdown_loss_by_reason",
+      "label": "Generation lost to back-down, by reason",
+      "formula": "SUM(loss_mu) GROUP BY reason_code",
+      "tables": [
+        "fact_generation_loss_daily"
+      ]
+    },
+    {
+      "name": "yoy_growth_pct",
+      "label": "Year-on-year growth %",
+      "formula": "(this_fy.gross_gen_mu / last_fy.gross_gen_mu - 1) * 100",
+      "tables": [
+        "fact_station_generation_fy"
+      ],
+      "notes": "Self-join fact_station_generation_fy on station_key where fy differs by one."
+    }
+  ],
+  "synonyms": {
+    "project": "station (station_code / station_name in dim_station)",
+    "MU": "million kWh, the standard energy unit used throughout",
+    "PLF": "Plant Load Factor % -- see metrics.PLF",
+    "PAF": "Plant Availability Factor % -- see metrics.PAF",
+    "NLD": "deemed generation lost to no-load-demand back-down; column deemed_gen_mu",
+    "back-down / backdown": "generation curtailed below capability; fact_generation_loss_daily, reason_class=BACKDOWN in dim_outage_reason",
+    "trip": "a FORCED outage event; fact_unit_outage where outage_type='FORCED'",
+    "RSD": "Reserve Shut Down -- unit available but not required; rsd_hrs / outage_type='RSD'",
+    "BTF / BTL": "Boiler Tube Failure / Leak; fact_unit_outage where is_btf=true, joined to dim_btf_type / dim_btf_location",
+    "JMR": "Joint Meter Reading, the monthly signed billing statement; fact_jmr_meter_monthly",
+    "MPR": "Monthly Performance Report; fact_station_generation_monthly / fact_unit_generation (aggregate to month)",
+    "water year / WY": "Jun-May hydro accounting year; dim_date.water_year",
+    "FY": "financial year, Apr-Mar; dim_date.fy, e.g. '2024-25'",
+    "major hydro / minor hydro": "dim_station.plant_category_label = 'MAJOR HYDRO' / 'MINOR HYDRO'",
+    "RES": "Renewable Energy Source station on the dashboard = waste-to-energy (BWTEP) in this data",
+    "CEA target": "generation_target.cea_target_mu, the Central Electricity Authority monthly target",
+    "declared capacity / DC": "declared_capacity_mu, the day's declared availability; drives PAF",
+    "ESCOM": "electricity distribution company: BESCOM, MESCOM, CESCOM, HESCOM, GESCOM -- dim_counterparty",
+    "sale of energy bill": "fact_energy_bill_escom, joined to dim_billing_group"
+  },
+  "join_rules": [
+    "Every fact table has a date_key -> join gms_mart.dim_date for fy / month_label / season / water_year.",
+    "Every fact table has a unit_key or station_key (never both required) -> join dim_unit or dim_station for names/category.",
+    "Do not join gms_mart views back to gms.* tables directly; gms_mart already carries every attribute you need.",
+    "fact_unit_outage.reason_code joins dim_outage_reason WHERE reason_class='OUTAGE'; fact_generation_loss_daily.reason_code joins WHERE reason_class='BACKDOWN'. Do not cross the two."
+  ],
+  "examples": [
+    {
+      "question": "What was KPCL's gross generation and net export in FY 2024-25 by plant category?",
+      "sql": "SELECT s.plant_category_label, round(sum(f.gross_gen_mu), 3) AS gross_gen_mu, round(sum(f.net_export_mu), 3) AS net_export_mu\nFROM fact_station_generation_daily f JOIN dim_date d USING (date_key) JOIN dim_station s USING (station_key)\nWHERE d.fy = '2024-25' GROUP BY s.plant_category_label ORDER BY gross_gen_mu DESC;"
+    },
+    {
+      "question": "Which stations generated less than their CEA target in March 2025?",
+      "sql": "SELECT s.station_name, round(f.gross_gen_mu, 3) AS actual_mu, f.cea_target_mu,\n       round(f.gross_gen_mu - f.cea_target_mu, 3) AS shortfall_mu\nFROM fact_station_generation_monthly f JOIN dim_date d USING (date_key) JOIN dim_station s USING (station_key)\nWHERE d.month_label = 'MAR-2025' AND f.gross_gen_mu < f.cea_target_mu ORDER BY shortfall_mu;"
+    },
+    {
+      "question": "FY 2024-25 generation vs last FY for each station",
+      "sql": "SELECT cur.station_key, cur.gross_gen_mu AS fy_2024_25, prev.gross_gen_mu AS fy_2023_24,\n       round((cur.gross_gen_mu / NULLIF(prev.gross_gen_mu, 0) - 1) * 100, 2) AS yoy_pct\nFROM fact_station_generation_fy cur LEFT JOIN fact_station_generation_fy prev\n       ON prev.station_key = cur.station_key AND prev.fy = '2023-24'\nWHERE cur.fy = '2024-25' ORDER BY cur.gross_gen_mu DESC;"
+    },
+    {
+      "question": "SGS generation in water year 2024-25 vs water year 2023-24",
+      "sql": "SELECT d.water_year, round(sum(f.gross_gen_mu), 3) AS gross_gen_mu\nFROM fact_unit_generation_daily f JOIN dim_date d USING (date_key)\nWHERE f.station_key = 'SGS' AND d.water_year IN ('2023-24', '2024-25') GROUP BY d.water_year;"
+    },
+    {
+      "question": "Unit-wise generation, peak load, PLF, running hours and trips at RTPS on 06-Apr-2025",
+      "sql": "SELECT u.unit_id, f.gross_gen_mu, f.peak_load_mw, round(f.gross_gen_mu / f.capacity_mu * 100, 2) AS plf_pct,\n       f.running_hrs, f.forced_outage_hrs, f.trips\nFROM fact_unit_generation_daily f JOIN dim_unit u USING (unit_key)\nWHERE f.station_key = 'RTPS' AND f.date_key = '2025-04-06' ORDER BY u.unit_no;"
+    },
+    {
+      "question": "What is the highest single-day generation of RTPS ever, and in FY 2024-25?",
+      "sql": "SELECT 'ever' AS scope, date_key, gross_gen_mu FROM\n  (SELECT date_key, gross_gen_mu FROM fact_station_generation_daily WHERE station_key = 'RTPS' ORDER BY gross_gen_mu DESC LIMIT 1) a\nUNION ALL\nSELECT 'FY 2024-25', f.date_key, f.gross_gen_mu FROM fact_station_generation_daily f JOIN dim_date d USING (date_key)\nWHERE f.station_key = 'RTPS' AND d.fy = '2024-25' ORDER BY gross_gen_mu DESC LIMIT 1;"
+    },
+    {
+      "question": "RTPS unit-wise MPR for March 2025 (generation, PLF, PAF, aux %, specific coal, specific oil, GCV, heat rate)",
+      "sql": "SELECT u.unit_id, round(sum(f.gross_gen_mu), 3) gross_gen_mu,\n       round(sum(f.gross_gen_mu) / sum(f.capacity_mu) * 100, 2) AS plf_pct,\n       round(sum(f.declared_capacity_mu) / sum(f.capacity_mu) * 100, 2) AS paf_pct,\n       round(sum(f.aux_consumption_mu) / NULLIF(sum(f.gross_gen_mu), 0) * 100, 2) AS aux_pct,\n       round(sum(f.coal_consumed_mt) / 1000 / NULLIF(sum(f.gross_gen_mu), 0), 3) AS sp_coal_kg_kwh,\n       round(sum(f.hfo_consumed_kl + f.ldo_consumed_kl) / NULLIF(sum(f.gross_gen_mu), 0), 3) AS sp_oil_ml_kwh,\n       round(sum(f.gcv_coal_kcal_kg * f.coal_consumed_mt) / NULLIF(sum(f.coal_consumed_mt) FILTER (WHERE f.gcv_coal_kcal_kg IS NOT NULL), 0)) AS wa_gcv_kcal_kg,\n       round(sum(f.gross_heat_rate_kcal_kwh * f.gross_gen_mu) / NULLIF(sum(f.gross_gen_mu) FILTER (WHERE f.gross_heat_rate_kcal_kwh IS NOT NULL), 0)) AS wa_heat_rate_kcal_kwh,\n       max(f.gross_gen_mu) AS max_day_gen_mu\nFROM fact_unit_generation_daily f JOIN dim_date d USING (date_key) JOIN dim_unit u USING (unit_key)\nWHERE f.station_key = 'RTPS' AND d.month_label = 'MAR-2025' GROUP BY u.unit_id, u.unit_no ORDER BY u.unit_no;"
+    },
+    {
+      "question": "RTPS station totals for FY 2024-25 and March 2025 (check against the source MPR: 8310.351 and 831.212 MU)",
+      "sql": "SELECT 'FY 2024-25' AS period, round(gross_gen_mu, 3) FROM fact_station_generation_fy WHERE station_key = 'RTPS' AND fy = '2024-25'\nUNION ALL\nSELECT 'MAR-2025', round(f.gross_gen_mu, 3) FROM fact_station_generation_monthly f JOIN dim_date d USING (date_key)\nWHERE f.station_key = 'RTPS' AND d.month_label = 'MAR-2025';"
+    },
+    {
+      "question": "Actual gross heat rate vs design heat rate per BTPS unit in FY 2024-25",
+      "sql": "SELECT u.unit_id, u.design_heat_rate_kcal_kwh,\n       round(sum(f.gross_heat_rate_kcal_kwh * f.gross_gen_mu) / sum(f.gross_gen_mu)) AS actual_ghr\nFROM fact_unit_generation_daily f JOIN dim_date d USING (date_key) JOIN dim_unit u USING (unit_key)\nWHERE f.station_key = 'BTPS' AND d.fy = '2024-25' AND f.gross_gen_mu > 0\nGROUP BY u.unit_id, u.design_heat_rate_kcal_kwh ORDER BY u.unit_id;"
+    },
+    {
+      "question": "Cumulative generation, running hours and trips since first synchronisation for RTPS units",
+      "sql": "SELECT unit_key, round(cum_gen_mu, 3) cum_gen_mu, cum_running_hrs, cum_trips, as_on_date\nFROM fact_unit_cumulative WHERE station_key = 'RTPS' ORDER BY unit_key;"
+    },
+    {
+      "question": "RTPS back-down in FY 2024-25 by reason",
+      "sql": "SELECT r.description, round(sum(f.loss_mu), 3) AS loss_mu\nFROM fact_generation_loss_daily f JOIN dim_date d USING (date_key) JOIN dim_outage_reason r ON r.reason_key = f.reason_code\nWHERE f.station_key = 'RTPS' AND d.fy = '2024-25' AND r.reason_class = 'BACKDOWN'\nGROUP BY r.description ORDER BY loss_mu DESC;"
+    },
+    {
+      "question": "Number of forced outages and outage hours by reason at BTPS in FY 2023-24",
+      "sql": "SELECT r.description, count(*) AS outages, round(sum(f.outage_hrs), 2) AS outage_hrs\nFROM fact_unit_outage f JOIN dim_date d USING (date_key) JOIN dim_outage_reason r ON r.reason_key = f.reason_code\nWHERE f.station_key = 'BTPS' AND d.fy = '2023-24' AND f.outage_type = 'FORCED' AND r.reason_class = 'OUTAGE'\nGROUP BY r.description ORDER BY outages DESC;"
+    },
+    {
+      "question": "List boiler tube failures of BTPS-U3 in January 2024 with failure type and location",
+      "sql": "SELECT f.outage_key, f.trip_at, f.sync_at, f.outage_hrs, t.description AS failure_type, l.description AS location\nFROM fact_unit_outage f JOIN dim_date d USING (date_key)\nJOIN dim_btf_type t ON t.btf_type_key = f.btf_type_key JOIN dim_btf_location l ON l.btf_location_key = f.btf_location_key\nWHERE f.unit_key = 'BTPS-U3' AND f.is_btf AND d.month_start = '2024-01-01' ORDER BY f.trip_at;"
+    },
+    {
+      "question": "Which boiler tube failure location is most common across all thermal stations?",
+      "sql": "SELECT l.description AS location, count(*) AS failures\nFROM fact_unit_outage f JOIN dim_btf_location l ON l.btf_location_key = f.btf_location_key\nWHERE f.is_btf GROUP BY l.description ORDER BY failures DESC;"
+    },
+    {
+      "question": "Which units are currently not running, and since when?",
+      "sql": "SELECT unit_key, status, status_since, reason_code FROM fact_unit_current_status WHERE status <> 'RUNNING' ORDER BY status_since;"
+    },
+    {
+      "question": "On how many days in FY 2024-25 was each station's coal stock below normative days?",
+      "sql": "SELECT f.station_key, count(*) AS days_below_norm\nFROM fact_coal_stock_daily f JOIN dim_date d USING (date_key)\nWHERE d.fy = '2024-25' AND f.days_of_stock < f.normative_days GROUP BY f.station_key;"
+    },
+    {
+      "question": "Rakes, quantity and weighted GCV of coal received by supplier in FY 2024-25",
+      "sql": "SELECT f.supplier_code, sum(f.no_of_rakes) rakes, round(sum(f.quantity_mt)) quantity_mt,\n       round(sum(f.gcv_received_kcal_kg * f.quantity_mt) / sum(f.quantity_mt)) AS wa_gcv_kcal_kg\nFROM fact_coal_receipt f JOIN dim_date d USING (date_key)\nWHERE d.fy = '2024-25' GROUP BY f.supplier_code ORDER BY quantity_mt DESC;"
+    },
+    {
+      "question": "RTPS coal position on 06-Apr-2025 (OB, receipt, consumption, CB)",
+      "sql": "SELECT opening_stock_mt, receipt_mt, indigenous_consumed_mt, imported_consumed_mt, total_consumed_mt, closing_stock_mt, days_of_stock\nFROM fact_coal_stock_daily WHERE station_key = 'RTPS' AND date_key = '2025-04-06';"
+    },
+    {
+      "question": "Linganamakki level, storage % and energy on 06-Apr-2025 vs the same day last year",
+      "sql": "SELECT date_key, water_level, capacity_pct, energy_potential_mu\nFROM fact_reservoir_daily WHERE reservoir_key = 1 AND date_key IN ('2025-04-06', '2024-04-06');"
+    },
+    {
+      "question": "Which power stations are fed by Supa dam, and what did they generate in water year 2024-25?",
+      "sql": "SELECT s.station_key, round(sum(f.gross_gen_mu), 3) AS gross_gen_mu\nFROM dim_reservoir r\nJOIN fact_station_generation_daily f ON f.station_key = ANY (string_to_array(r.feeds_stations, ', '))\nJOIN dim_date d USING (date_key) JOIN dim_station s USING (station_key)\nWHERE r.reservoir_name = 'SUPA' AND d.water_year = '2024-25' GROUP BY s.station_key;"
+    },
+    {
+      "question": "KPCL share of state consumption in March 2025",
+      "sql": "SELECT round(sum(k.gross_gen_mu) / sum(g.state_consumption_mu) * 100, 2) AS kpcl_share_pct\nFROM fact_grid_daily g JOIN dim_date d ON d.date_key = g.date_key\nJOIN (SELECT date_key, sum(gross_gen_mu) gross_gen_mu FROM fact_station_generation_daily GROUP BY date_key) k ON k.date_key = g.date_key\nWHERE d.month_label = 'MAR-2025';"
+    },
+    {
+      "question": "SGS generation by season in FY 2023-24",
+      "sql": "SELECT d.season, round(sum(f.gross_gen_mu), 3) AS gross_gen_mu\nFROM fact_station_generation_daily f JOIN dim_date d USING (date_key)\nWHERE f.station_key = 'SGS' AND d.fy = '2023-24' GROUP BY d.season ORDER BY gross_gen_mu DESC;"
+    },
+    {
+      "question": "Quarter-wise PLF of thermal stations in FY 2024-25",
+      "sql": "SELECT f.station_key, d.fy_quarter, round(sum(f.gross_gen_mu) / sum(f.capacity_mu) * 100, 2) AS plf_pct\nFROM fact_station_generation_daily f JOIN dim_date d USING (date_key) JOIN dim_station s USING (station_key)\nWHERE s.plant_category_label = 'THERMAL-COAL' AND d.fy = '2024-25'\nGROUP BY f.station_key, d.fy_quarter ORDER BY f.station_key, d.fy_quarter;"
+    },
+    {
+      "question": "Weekday vs weekend average daily KPCL generation in FY 2024-25",
+      "sql": "SELECT d.is_weekend, round(sum(f.gross_gen_mu) / count(DISTINCT f.date_key), 3) AS avg_daily_gen_mu\nFROM fact_station_generation_daily f JOIN dim_date d USING (date_key)\nWHERE d.fy = '2024-25' GROUP BY d.is_weekend;"
+    }
+  ]
+}

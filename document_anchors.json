@@ -1,0 +1,326 @@
+{
+  "_meta": {
+    "source": "erp_at_kpcl_hrms.docx -- GMS section screenshots (images 30-44)",
+    "purpose": "Every numeric value read directly off the K-eRP document screens. This is the ground truth the gms database must reproduce exactly at the stated dates/periods. All other days are free to be adjusted so these anchors hold and running totals stay consistent.",
+    "units": "MU unless noted. Dates in ISO format.",
+    "note_on_conflicts": "Where the document disagrees with itself (see conflicts[] at the end), the headline/printed total is treated as correct and the breakdown is adjusted to match it, per user instruction."
+  },
+
+  "ho_daily_generation_report": {
+    "report_date": "2025-04-06",
+    "source_image": "image39 (HO Daily Generation Report for 06-04-2025)",
+    "columns": ["daily_gen_mu", "monthly_gen_mu", "monthly_target_mu", "fy_target_mu", "fy_gen_mu", "last_fy_gen_mu", "wy_gen_mu", "last_wy_gen_mu"],
+    "stations": {
+      "RTPS":       [26.245, 168.661,  826.00,  8550.00, 168.661, 149.502, 6752.733, 6529.555],
+      "BTPS":       [15.373, 133.195,  860.00,  9100.00, 133.195, 141.220, 6878.909, 6741.155],
+      "YTPS":       [12.220,  84.733,  774.00,  8000.00,  84.733, 132.416, 4754.429, 5245.935],
+      "YCCPP":      [ 5.030,  33.474,   88.00,  1000.00,  33.474,   0.000,  740.498,    0.000],
+      "BWTEP":      [ 0.158,   0.4469,   6.20,    75.40,   0.447,   0.000,    7.187,    0.000],
+      "SGS":        [14.177,  97.476,  490.00,  4800.00,  97.476,  46.836, 4648.730, 2591.705],
+      "NPH":        [ 9.289,  75.377,  357.00,  3176.00,  75.377,  58.414, 3577.856, 1994.243],
+      "VUGPH":      [ 2.788,  20.356,   87.00,  1060.00,  20.356,  13.190, 1093.813,  534.672],
+      "MGHE":       [ 1.399,   8.7881,  45.00,   549.00,   8.788,   3.870,  414.801,  255.278],
+      "LPH":        [ 0.476,   2.827,   17.00,   221.00,   2.827,   1.489,  166.620,  121.049],
+      "GERUSOPPA":  [ 1.584,  10.3691, 108.00,  1196.00,  10.369,   5.893,  534.300,  271.728],
+      "SUPA":       [ 1.622,  12.797,   50.00,   542.00,  12.797,   8.624,  571.900,  319.597],
+      "KODASALLI":  [ 1.300,   6.8502,  42.00,   439.00,   6.850,   7.293,  459.575,  221.658],
+      "KADRA":      [ 0.750,   5.2878,  37.00,   520.00,   5.288,   7.952,  456.711,  233.127],
+      "MANI":       [ 0.079,   0.7147,   1.00,    24.00,   0.715,   0.206,   26.790,    7.854],
+      "ALAMATTI":   [ 0.122,   0.2273,   1.00,   510.00,   0.227,   1.107,  619.083,  234.421],
+      "GHATPRABHA": [ 0.602,   3.5784,   null,    null,   3.578,   3.280,   84.286,   37.398],
+      "BHADRA":     [ 0.424,   2.6712,   3.00,    55.00,   2.671,   1.335,   59.438,   20.396],
+      "MUNIRABAD":  [ 0.000,   0.0750,   0.00,   100.00,   0.075,   0.000,  122.530,   45.286],
+      "SHIVA":      [ 0.414,   1.0472,  10.00,   212.00,   1.047,   0.0006, 108.876,  132.747],
+      "SHIMSHA":    [ 0.000,   0.1157,   1.00,    47.00,   0.116,   0.000,   31.220,    3.619],
+      "MALLAPUR":   [ 0.000,   0.0000,   null,     null,   0.000,   0.000,   44.542,   22.439],
+      "SIRWAR":     [ 0.000,   0.0000,   null,     null,   0.000,   0.000,    0.000,    0.000],
+      "KALMALA":    [ 0.000,   0.0000,   null,     null,   0.000,   0.000,    0.017,    0.000],
+      "GANEKAL":    [ 0.000,   0.0000,   null,     null,   0.000,   0.000,    0.019,    0.000],
+      "MALAPRABHA": [ 0.000,   0.0000,   null,     null,   0.000,   0.000,    5.216,    0.939],
+      "KG-WEF":     [ 0.007,   0.0287,   0.23,     6.00,   0.029,   0.0252,   5.231,    5.747],
+      "YAL-SOLAR-3":[ 0.011,   0.0576,   0.20,     2.90,   0.058,   0.0663,   2.984,    2.612],
+      "ITN-SOLAR-3":[ 0.005,   0.0278,   0.18,     2.60,   0.028,   0.0294,   1.292,    1.532],
+      "YAP-SOLAR-3":[ 0.004,   0.0303,   0.28,     2.90,   0.030,   0.0346,   1.788,    2.075],
+      "SH-SOLAR-5": [ 0.012,   0.0631,   0.64,     6.50,   0.063,   0.0731,   3.632,    4.291],
+      "SH-SOLAR-10":[ 0.034,   0.1759,   1.22,    13.00,   0.176,   0.2307,   9.349,   10.832],
+      "CHANDAPUR":  [ 0.039,   0.2422,   1.35,    14.00,   0.242,   0.2500,  11.996,   12.734]
+    },
+    "totals": {"daily_gen_mu": 94.1639, "monthly_gen_mu": 669.6931, "monthly_target_mu": 3807.30, "fy_target_mu": 40224.30,
+               "fy_gen_mu": 669.6931, "last_fy_gen_mu": 583.3364, "wy_gen_mu": 32196.3504, "last_wy_gen_mu": 25604.6229},
+    "grid": {"system_peak_mw": 13264, "freq_max_hz": 50.44, "freq_min_hz": 49.94,
+             "tb_share_mu": 0.0331, "jurala_share_mu": 0.5890, "state_import_mu": 178.1458, "state_consumption_mu": 267.0128},
+    "dam_details": {
+      "LINGANAMAKKI": {"present_year": {"level_ft": 1781.4, "capacity_pct": 37.59, "energy_mu": 1728.58}, "last_year": {"level_ft": 1760.2, "capacity_pct": 18.36, "energy_mu": 844.27}},
+      "SUPA_DAM":     {"present_year": {"level_m": 540.94, "capacity_pct": 44.46, "energy_mu": 1404.54}, "last_year": {"level_m": 534.07, "capacity_pct": 32.76, "energy_mu": 1035.07}},
+      "MANI_DAM":     {"present_year": {"level_m": 582.32, "capacity_pct": 39.89, "energy_mu": 388.06}, "last_year": {"level_m": 575.6, "capacity_pct": 19.00, "energy_mu": 184.81}}
+    },
+    "abstract_generation_details_by_category": {
+      "note": "Dashboard MAJOR HYDRO = SGS+NPH+VUGPH only (26.254 daily = 14.177+9.289+2.788); MINOR HYDRO = MGHE+LPH+GERUSOPPA+SUPA+KODASALLI+KADRA+MANI+ALAMATTI+GHATPRABHA+BHADRA+MUNIRABAD+SHIVA+SHIMSHA+MALLAPUR+SIRWAR+KALMALA+GANEKAL+MALAPRABHA",
+      "categories": {
+        "THERMAL-COAL": {"day_gen": 53.838, "day_net": 48.777, "month_gen": 386.589, "month_net": 352.478, "fy_gen": 386.589, "fy_net": 352.478},
+        "MAJOR_HYDRO":  {"day_gen": 26.254, "day_net": 25.976, "month_gen": 193.209, "month_net": 191.181, "fy_gen": 193.209, "fy_net": 191.181},
+        "MINOR_HYDRO":  {"day_gen": 8.7729, "day_net": 7.0793, "month_gen": 55.3487, "month_net": 52.9514, "fy_gen": 55.3487, "fy_net": 52.9514},
+        "GAS":          {"day_gen": 5.03,   "day_net": 4.766,  "month_gen": 33.474,  "month_net": 31.916,  "fy_gen": 33.474,  "fy_net": 31.916},
+        "RES":          {"day_gen": 0.1583, "day_net": 0.134,  "month_gen": 0.4469,  "month_net": 0.3317,  "fy_gen": 0.4469,  "fy_net": 0.3317},
+        "SOLAR":        {"day_gen": 0.1041, "day_net": 0.000,  "month_gen": 0.5968,  "month_net": 0.000,   "fy_gen": 0.5968,  "fy_net": 0.000},
+        "WIND":         {"day_gen": 0.0067, "day_net": 0.000,  "month_gen": 0.0287,  "month_net": 0.000,   "fy_gen": 0.0287,  "fy_net": 0.000}
+      }
+    },
+    "fuel_details": {
+      "RTPS": {"coal_month_mt": 133894, "coal_fy_mt": 133894, "hfo_month_kl": 92.526, "hfo_fy_kl": 92.526, "ldo_month_kl": 0, "ldo_fy_kl": 0},
+      "BTPS": {"coal_month_mt": 100163, "coal_fy_mt": 100163, "hfo_month_kl": 12.49, "hfo_fy_kl": 12.49, "ldo_month_kl": 0, "ldo_fy_kl": 0},
+      "YTPS": {"coal_month_mt": 55180, "coal_fy_mt": 55180, "hfo_month_kl": 4, "hfo_fy_kl": 4, "ldo_month_kl": 0, "ldo_fy_kl": 0}
+    }
+  },
+
+  "rtps_daily_report_2025_04_06": {
+    "source_image": "image35",
+    "units": {
+      "U1": {"gen_mu": null, "aux_mu": null, "outage_hrs_no": "24/0"},
+      "U2": {"gen_mu": 4.008, "aux_mu": 0.445, "peak_hr_gen_mu": 1.362, "day_peak_load_mw": 188, "plf_pct": 79.52, "running_hrs": 24.00, "coal_consumed_mt": 3150, "h2_cylinders": 1},
+      "U3": {"gen_mu": 4.230, "aux_mu": 0.469, "peak_hr_gen_mu": 1.475, "day_peak_load_mw": 201, "plf_pct": 83.93, "running_hrs": 24.00, "coal_consumed_mt": 3308, "h2_cylinders": 3},
+      "U4": {"gen_mu": null, "aux_mu": null, "outage_hrs_no": "24/0"},
+      "U5": {"gen_mu": 4.153, "aux_mu": 0.461, "peak_hr_gen_mu": 1.521, "day_peak_load_mw": 214, "plf_pct": 82.40, "running_hrs": 24.00, "coal_consumed_mt": 3239, "h2_cylinders": 2},
+      "U6": {"gen_mu": 4.202, "aux_mu": 0.466, "peak_hr_gen_mu": 1.542, "day_peak_load_mw": 213, "plf_pct": 83.37, "running_hrs": 24.00, "coal_consumed_mt": 3265, "h2_cylinders": 2},
+      "U7": {"gen_mu": 4.830, "aux_mu": 0.536, "peak_hr_gen_mu": 1.648, "day_peak_load_mw": 212, "plf_pct": 95.83, "running_hrs": 24.00, "coal_consumed_mt": 3748, "h2_cylinders": 4},
+      "U8": {"gen_mu": 4.822, "aux_mu": 0.535, "peak_hr_gen_mu": 1.779, "day_peak_load_mw": 252, "plf_pct": 80.37, "running_hrs": 24.00, "coal_consumed_mt": 3862, "h2_cylinders": 2}
+    },
+    "station": {"gen_mu": 26.245, "aux_mu": 2.912, "peak_hr_gen_mu": 9.327, "plf_pct": 63.58, "paf_pct": 75.58, "running_hrs_total": null,
+                "station_trips": 0, "dm_water_cum": 2321, "coal_consumed_mt": 20572, "h2_cylinders_total": 14,
+                "aux_pct": 11.10, "net_export_mu": 23.333,
+                "highest_gen_fy_mu": 29.917, "highest_gen_fy_date": "2025-04-01",
+                "highest_gen_ever_mu": 41.892, "highest_gen_ever_date": "2016-10-26"},
+    "outage_status": {"U1": "FORCE_TRIPPED since 2022-08-10 09:00 (970 days as on this report)",
+                       "U4": "FORCE_TRIPPED since 2024-11-09 15:58 (148 days as on this report)",
+                       "U2": "running since 2025-04-04 07:05", "U3": "running since 2025-03-26 01:46",
+                       "U5": "running since 2025-02-23 00:11", "U6": "running since 2025-02-28 07:49",
+                       "U7": "running since 2025-03-23 02:50", "U8": "running since 2025-04-04 16:21"},
+    "backdown_reasons_mu": {"QUALITY_COAL": 0.027, "EQUIP_SYS_CONSTRAINT": 10.505, "NO_LOAD_DEMAND": 4.526, "TOTAL_SHORTFALL": 15.035},
+    "note": "unit-level backdown breakdown by reason for 06-04-2025 not fully legible; totals only confirmed."
+  },
+
+  "sgs_daily_report_2025_04_06": {
+    "source_image": "image34",
+    "station_capacity_mw": 1035,
+    "units_mu": {"U1": 1.462, "U2": 1.333, "U3": 1.463, "U4": 1.033, "U5": 1.462, "U6": 1.464, "U7": 1.466, "U8": 1.463, "U9": 1.628, "U10": 1.403},
+    "station_gen_mu": 14.177, "peak_hr_gen_mu": 5.409, "day_peak_load_mw": "926 @ 19:00 hrs", "plf_pct": 57.07,
+    "unit_aux_kwh": {"U1": 7532, "U2": 5372, "U6": 5534, "U7": 8708}, "station_aux_kwh_total": 27146,
+    "common_aux_kwh_total": 2805, "total_aux_kwh": 29951, "net_export_mu": 14.078,
+    "hydrological_data": {
+      "GERUSOPPA_DAM": {"report_date": "2025-04-07", "inflow_mcft": 532.68, "level_m": 51, "discharge_mcft": 721.57, "sluice_mcft": 0, "rainfall_mm": 0},
+      "LINGANMAKKI_DAM": {"report_date": "2025-04-07", "inflow_mcft": 0, "level_ft": 1781.15, "discharge_mcft": 323, "sluice_mcft": 108.77, "rainfall_mm": 0},
+      "TALKALALE_DAM": {"report_date": "2025-04-07", "inflow_mcft": 0, "level_ft": 1694.05, "discharge_mcft": 0, "sluice_mcft": 0, "rainfall_mm": 0}
+    }
+  },
+
+  "rtps_mpr_march_2025": {
+    "source_image": "image40, mpr40_0/1/2",
+    "month": "2025-03",
+    "units": {
+      "U2": {"gross_gen_mu": 90.145, "cea_target_mu": 103.000, "aux_mu": 9.505, "aux_pct": 10.544, "net_export_mu": 80.640, "max_gen_mu": 4.558, "max_gen_date": "2025-03-12",
+             "oplf_pct": 83.15, "paf_pct": 69.13, "plf_pct": 57.70, "nld_mu": 4.8220, "plf_with_nld_pct": 60.78, "forced_outages_no": null, "forced_outage_hrs": 744.00,
+             "running_hrs": null, "btf_no": null, "coal_mt": 75408.10, "hfo_kl": 83.93,
+             "sp_oil_ml_kwh": 0.93, "sp_coal_kg_kwh": 0.837, "peak_hr_morning_mu": 15.562, "peak_hr_evening_mu": 15.087,
+             "wa_gcv_coal": 3019, "wa_gcv_oil": 10248, "gross_heat_rate": 2535, "net_heat_rate": 2834, "efficiency_pct": 33.93},
+      "U3": {"gross_gen_mu": 141.361, "cea_target_mu": 99.000, "aux_mu": 14.905, "aux_pct": 10.544, "net_export_mu": 126.456, "max_gen_mu": 5.102, "max_gen_date": "2025-03-21",
+             "oplf_pct": 95.84, "paf_pct": 94.09, "plf_pct": 90.48, "nld_mu": 4.9610, "plf_with_nld_pct": 93.65, "forced_outages_no": 1, "forced_outage_hrs": 227.46,
+             "running_hrs": 516.14, "btf_no": null, "coal_mt": 113655.66, "hfo_kl": 83.88,
+             "sp_oil_ml_kwh": 0.59, "sp_coal_kg_kwh": 0.804, "peak_hr_morning_mu": 24.373, "peak_hr_evening_mu": 23.817,
+             "wa_gcv_coal": 3019, "wa_gcv_oil": 10248, "gross_heat_rate": 2433, "net_heat_rate": 2720, "efficiency_pct": 35.34},
+      "U4": {"gross_gen_mu": null, "cea_target_mu": 102.000, "forced_outage_hrs": 744.00, "coal_mt": 0.00},
+      "U5": {"gross_gen_mu": 147.580, "cea_target_mu": 101.000, "aux_mu": 15.560, "aux_pct": 10.544, "net_export_mu": 132.020, "max_gen_mu": 5.085, "max_gen_date": "2025-03-04",
+             "oplf_pct": 94.46, "paf_pct": 100.00, "plf_pct": 94.46, "nld_mu": 6.2760, "plf_with_nld_pct": 98.47, "forced_outages_no": null, "forced_outage_hrs": 0.00,
+             "running_hrs": 744.00, "btf_no": null, "coal_mt": 119741.98, "hfo_kl": 1.83,
+             "sp_oil_ml_kwh": 0.01, "sp_coal_kg_kwh": 0.811, "peak_hr_morning_mu": 25.403, "peak_hr_evening_mu": 24.962,
+             "wa_gcv_coal": 3019, "wa_gcv_oil": 10248, "gross_heat_rate": 2450, "net_heat_rate": 2738, "efficiency_pct": 35.11},
+      "U6": {"gross_gen_mu": 149.401, "cea_target_mu": 103.000, "aux_mu": 15.752, "aux_pct": 10.544, "net_export_mu": 133.649, "max_gen_mu": 5.079, "max_gen_date": "2025-03-19",
+             "oplf_pct": 95.62, "paf_pct": 100.00, "plf_pct": 95.62, "nld_mu": 6.1060, "plf_with_nld_pct": 99.53, "forced_outages_no": null, "forced_outage_hrs": 0.00,
+             "running_hrs": 744.00, "btf_no": null, "coal_mt": 121463.01, "hfo_kl": 10.63,
+             "sp_oil_ml_kwh": 0.07, "sp_coal_kg_kwh": 0.813, "peak_hr_morning_mu": 25.626, "peak_hr_evening_mu": 25.305,
+             "wa_gcv_coal": 3019, "wa_gcv_oil": 10248, "gross_heat_rate": 2455, "net_heat_rate": 2745, "efficiency_pct": 35.03},
+      "U7": {"gross_gen_mu": 131.205, "cea_target_mu": 99.000, "aux_mu": 13.834, "aux_pct": 10.544, "net_export_mu": 117.371, "max_gen_mu": 5.099, "max_gen_date": "2025-03-06",
+             "oplf_pct": 98.19, "paf_pct": 85.34, "plf_pct": 83.98, "nld_mu": 1.7020, "plf_with_nld_pct": 85.07, "forced_outages_no": 2, "forced_outage_hrs": 107.42,
+             "running_hrs": 636.18, "btf_no": 1, "coal_mt": 106876.54, "hfo_kl": 50.92,
+             "sp_oil_ml_kwh": 0.39, "sp_coal_kg_kwh": 0.815, "peak_hr_morning_mu": 22.312, "peak_hr_evening_mu": 22.403,
+             "wa_gcv_coal": 3019, "wa_gcv_oil": 10248, "gross_heat_rate": 2463, "net_heat_rate": 2754, "efficiency_pct": 34.91},
+      "U8": {"gross_gen_mu": 171.520, "cea_target_mu": 117.000, "aux_mu": 18.085, "aux_pct": 10.544, "net_export_mu": 153.435, "max_gen_mu": 6.033, "max_gen_date": "2025-03-05",
+             "oplf_pct": 93.10, "paf_pct": 98.70, "plf_pct": 92.22, "nld_mu": 8.5330, "plf_with_nld_pct": 96.80, "forced_outages_no": 1, "forced_outage_hrs": 7.02,
+             "running_hrs": 736.58, "btf_no": null, "coal_mt": 133730.71, "hfo_kl": 136.33,
+             "sp_oil_ml_kwh": 0.79, "sp_coal_kg_kwh": 0.780, "peak_hr_morning_mu": 29.844, "peak_hr_evening_mu": 29.080,
+             "wa_gcv_coal": 3078, "wa_gcv_oil": 10248, "gross_heat_rate": 2408, "net_heat_rate": 2692, "efficiency_pct": 35.71}
+    },
+    "station": {"gross_gen_mu": 831.212, "cea_target_mu": 724.000, "aux_mu": 87.641, "aux_pct": 10.544, "net_export_mu": 743.571,
+                "oplf_pct": 93.98, "paf_pct": 69.11, "plf_pct": 64.95, "nld_mu": 32.4000, "plf_with_nld_pct": 67.49,
+                "forced_outages_no": 4, "forced_outage_hrs": 1872, "running_hrs": 4079.14, "btf_no": 1,
+                "coal_mt": 670876.00, "hfo_kl": 446.58, "sp_oil_ml_kwh": 0.54, "sp_coal_kg_kwh": 0.807,
+                "peak_hr_morning_mu": 143.120, "peak_hr_evening_mu": 140.654, "wa_gcv_coal": 3031, "wa_gcv_oil": 10248,
+                "gross_heat_rate": 2452, "net_heat_rate": 2741, "efficiency_pct": null},
+    "unit_1_7_totals": {"gross_gen_mu": 659.692, "cea_target_mu": 607.000, "aux_pct": 10.54, "net_export_mu": 590.132,
+                         "oplf_pct": 64.08, "paf_pct": 64.08, "plf_pct": 60.32, "nld_mu": 23.8670, "plf_with_nld_pct": 62.66,
+                         "forced_outages_no": 3, "forced_outage_hrs": 1772, "coal_mt": 537145.29, "hfo_kl": 310.25,
+                         "sp_oil_ml_kwh": 0.47, "sp_coal_kg_kwh": 0.814, "peak_hr_morning_mu": 113.28, "peak_hr_evening_mu": 111.57,
+                         "wa_gcv_coal": 3019, "gross_heat_rate": 2463, "net_heat_rate": 2753, "efficiency_pct": 34.92}
+  },
+
+  "rtps_mpr_fy_2024_25": {
+    "source_image": "image41",
+    "units": {
+      "U1": {"gross_gen_mu": null, "cea_target_mu": 1100, "net_export_mu": null, "running_hrs": 6404, "reserve_shutdown_hrs": null, "planned_outage_hrs": null, "forced_outage_hrs": 8760, "btl_no": 26, "trips_no": null},
+      "U2": {"gross_gen_mu": 1155.843, "cea_target_mu": 1100, "net_export_mu": 1032.718, "running_hrs": 7596, "reserve_shutdown_hrs": 519, "planned_outage_hrs": 776, "forced_outage_hrs": 1059, "no_of_btl": null, "no_of_trips": 21,
+             "oaf_pct": 79.04, "paf_pct": 78.49, "plf_pct": 62.83, "plf_with_nld_pct": 73.97, "nld_mu": 204.9310,
+             "sp_oil_ml_kwh": 2.65, "sp_coal_kg_kwh": 0.780, "aux_mu": 123.12, "aux_pct": 10.65, "coal_mt": 901542.15, "hfo_kl": 3061.60, "ldo_kl": null,
+             "wa_gcv_coal": 3161, "wa_gcv_oil": 10317, "wa_gross_heat_rate": 2493, "cum_gen_mu": 46966, "cum_running_hrs": 250589, "cum_trips": 244},
+      "U3": {"gross_gen_mu": 1447.040, "cea_target_mu": 1100, "net_export_mu": 1292.896, "running_hrs": 7596, "reserve_shutdown_hrs": 643, "planned_outage_hrs": null, "forced_outage_hrs": 520, "no_of_trips": 16,
+             "oaf_pct": 94.06, "paf_pct": 93.77, "plf_pct": 78.66, "plf_with_nld_pct": 91.34, "nld_mu": 233.2780,
+             "sp_oil_ml_kwh": 0.78, "sp_coal_kg_kwh": 0.783, "aux_mu": 154.14, "aux_pct": 10.65, "coal_mt": 1133515.29, "hfo_kl": 1126.26,
+             "wa_gcv_coal": 3144, "wa_gcv_oil": 10317, "wa_gross_heat_rate": 2471, "cum_gen_mu": 49827.026, "cum_running_hrs": 269735.24, "cum_trips": 305},
+      "U4": {"gross_gen_mu": 620.258, "cea_target_mu": 1100, "net_export_mu": 554.186, "running_hrs": 3756, "reserve_shutdown_hrs": 609, "forced_outage_hrs": 3550, "no_of_btl": 2, "no_of_trips": 9,
+             "oaf_pct": 49.84, "paf_pct": 48.24, "plf_pct": 33.72, "plf_with_nld_pct": 44.49, "nld_mu": 198.1460,
+             "sp_oil_ml_kwh": 1.61, "sp_coal_kg_kwh": 0.771, "aux_mu": 66.07, "aux_pct": 10.65, "coal_mt": 477889.65, "hfo_kl": 998.48,
+             "wa_gcv_coal": 3246, "wa_gcv_oil": 10361, "wa_gross_heat_rate": 2518, "cum_gen_mu": 45449.249, "cum_running_hrs": 240269.00, "cum_trips": 220},
+      "U5": {"gross_gen_mu": 1277.500, "cea_target_mu": 1100, "net_export_mu": 1141.416, "running_hrs": 7092, "planned_outage_hrs": 1240, "forced_outage_hrs": 427, "no_of_trips": 8,
+             "oaf_pct": 80.96, "paf_pct": 80.13, "plf_pct": 69.44, "plf_with_nld_pct": 75.52, "nld_mu": 111.7800,
+             "sp_oil_ml_kwh": 1.39, "sp_coal_kg_kwh": 0.775, "aux_mu": 136.08, "aux_pct": 10.65, "coal_mt": 989598.40, "hfo_kl": 1776.04,
+             "wa_gcv_coal": 3157, "wa_gcv_oil": 10310, "wa_gross_heat_rate": 2460, "cum_gen_mu": 37709.864, "cum_running_hrs": 197804.13, "cum_trips": 232},
+      "U6": {"gross_gen_mu": 1243.286, "cea_target_mu": 1100, "net_export_mu": 1110.847, "running_hrs": 6817, "planned_outage_hrs": 1443, "forced_outage_hrs": 278, "no_of_trips": 10,
+             "oaf_pct": 80.35, "paf_pct": 78.52, "plf_pct": 67.58, "plf_with_nld_pct": 75.01, "nld_mu": 136.0060,
+             "sp_oil_ml_kwh": 0.57, "sp_coal_kg_kwh": 0.777, "aux_mu": 132.44, "aux_pct": 10.65, "coal_mt": 978251.56, "hfo_kl": 705.77,
+             "wa_gcv_coal": 3143, "wa_gcv_oil": 10316, "wa_gross_heat_rate": 2479, "cum_gen_mu": 36940.992, "cum_running_hrs": 192486.00, "cum_trips": 201},
+      "U7": {"gross_gen_mu": 1308.495, "cea_target_mu": 1100, "net_export_mu": 1169.109, "running_hrs": 6839, "planned_outage_hrs": 290, "forced_outage_hrs": 1300, "no_of_trips": 14,
+             "oaf_pct": 81.84, "paf_pct": 81.71, "plf_pct": 71.13, "plf_with_nld_pct": 78.32, "nld_mu": 132.2130,
+             "sp_oil_ml_kwh": 0.63, "sp_coal_kg_kwh": 0.783, "aux_mu": 139.39, "aux_pct": 10.65, "coal_mt": 1024651.22, "hfo_kl": 827.69,
+             "wa_gcv_coal": 3143, "wa_gcv_oil": 10310, "wa_gross_heat_rate": 2468, "cum_gen_mu": 29713, "cum_running_hrs": 153584, "cum_trips": 297},
+      "U8": {"gross_gen_mu": 1257.929, "cea_target_mu": 1300, "net_export_mu": 1123.930, "running_hrs": 7139, "planned_outage_hrs": 1377, "forced_outage_hrs": 163, "no_of_trips": 13,
+             "oaf_pct": 82.41, "paf_pct": 72.99, "plf_pct": 57.44, "plf_with_nld_pct": 65.81, "nld_mu": 183.3560,
+             "sp_oil_ml_kwh": 0.82, "sp_coal_kg_kwh": 0.817, "aux_mu": 134.00, "aux_pct": 10.65, "coal_mt": 1028046.74, "hfo_kl": 1031.08,
+             "wa_gcv_coal": 3160, "wa_gcv_oil": 10327, "wa_gross_heat_rate": 2591, "cum_gen_mu": 16500, "cum_running_hrs": 84746, "cum_trips": 279}
+    },
+    "station": {"gross_gen_mu": 8310.351, "cea_target_mu": 7900, "net_export_mu": 7425.101, "no_of_btl": 26, "no_of_trips": 99,
+                "oaf_pct": 66.73, "paf_pct": 66.73, "plf_pct": 55.16, "plf_with_nld_pct": 63.12, "nld_mu": 1200.3100,
+                "sp_oil_ml_kwh": 1.15, "sp_coal_kg_kwh": 0.786, "aux_mu": 885.25, "aux_pct": 9.32,
+                "coal_mt": 6533495.01, "hfo_kl": 9526.92, "wa_gcv_coal": 3158, "wa_gcv_oil": 10321, "wa_gross_heat_rate": 2495},
+    "unit_1_7_totals": {"gross_gen_mu": 7052.422, "net_export_mu": null, "oaf_pct": 65.84, "paf_pct": 65.84, "plf_pct": 54.77,
+                         "sp_coal_kg_kwh": 0.781, "coal_mt": 5505448.27, "hfo_kl": 8495.84, "wa_gcv_coal": null, "wa_gross_heat_rate": null}
+  },
+
+  "sgs_mpr_march_2025": {
+    "source_image": "image42, sgsmpr_a/b",
+    "month": "2025-03",
+    "station_capacity_mw": 1035,
+    "units": [
+      {"unit_no": 1, "commissioning_date": "1964-11-14", "capacity_mw": 103.5, "gen_month_mu": 52.6320, "cum_gen_mu": 517.1300, "plf_month_pct": 68.35, "cum_plf_yr_pct": 57.04,
+       "idle_hrs": "0:56", "maint_outage_hrs": "6:56", "forced_outage_hrs": "0:0", "service_hrs": "737:4", "available_hrs": 737.04, "paf_month_pct": 99.07, "cum_paf_yr_pct": 99.40},
+      {"unit_no": 2, "commissioning_date": "1965-04-22", "capacity_mw": 103.5, "gen_month_mu": 50.6180, "cum_gen_mu": 484.6740, "plf_month_pct": 65.73, "cum_plf_yr_pct": 53.46,
+       "idle_hrs": "0:0", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "744:0", "available_hrs": 744.00, "paf_month_pct": 100.00, "cum_paf_yr_pct": 97.43},
+      {"unit_no": 3, "commissioning_date": "1967-10-16", "capacity_mw": 103.5, "gen_month_mu": 52.6970, "cum_gen_mu": 500.3490, "plf_month_pct": 68.43, "cum_plf_yr_pct": 55.19,
+       "idle_hrs": "6:50", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "737:10", "available_hrs": 737.10, "paf_month_pct": 99.08, "cum_paf_yr_pct": 99.49},
+      {"unit_no": 4, "commissioning_date": "1967-10-16", "capacity_mw": 103.5, "gen_month_mu": 53.6600, "cum_gen_mu": 485.4500, "plf_month_pct": 69.68, "cum_plf_yr_pct": 53.54,
+       "idle_hrs": "0:0", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:40", "service_hrs": "743:20", "available_hrs": 743.20, "paf_month_pct": 99.91, "cum_paf_yr_pct": 98.96},
+      {"unit_no": 5, "commissioning_date": "1968-04-16", "capacity_mw": 103.5, "gen_month_mu": 53.9760, "cum_gen_mu": 490.5260, "plf_month_pct": 70.10, "cum_plf_yr_pct": 54.10,
+       "idle_hrs": "0:0", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "744:0", "available_hrs": 744.00, "paf_month_pct": 100.00, "cum_paf_yr_pct": 97.45},
+      {"unit_no": 6, "commissioning_date": "1968-08-06", "capacity_mw": 103.5, "gen_month_mu": 53.9430, "cum_gen_mu": 520.1740, "plf_month_pct": 70.05, "cum_plf_yr_pct": 57.37,
+       "idle_hrs": "0:0", "maint_outage_hrs": "5:2", "forced_outage_hrs": "0:0", "service_hrs": "738:58", "available_hrs": 738.58, "paf_month_pct": 99.32, "cum_paf_yr_pct": 96.98},
+      {"unit_no": 7, "commissioning_date": "1968-05-04", "capacity_mw": 103.5, "gen_month_mu": 52.6180, "cum_gen_mu": 516.5110, "plf_month_pct": 68.33, "cum_plf_yr_pct": 56.97,
+       "idle_hrs": "3:35", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "740:25", "available_hrs": 740.25, "paf_month_pct": 99.52, "cum_paf_yr_pct": 98.18},
+      {"unit_no": 8, "commissioning_date": "1971-04-16", "capacity_mw": 103.5, "gen_month_mu": 54.4380, "cum_gen_mu": 508.1460, "plf_month_pct": 70.70, "cum_plf_yr_pct": 56.05,
+       "idle_hrs": "0:0", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "744:0", "available_hrs": 744.00, "paf_month_pct": 100.00, "cum_paf_yr_pct": 98.68},
+      {"unit_no": 9, "commissioning_date": "1976-08-27", "capacity_mw": 103.5, "gen_month_mu": 51.8240, "cum_gen_mu": 486.2940, "plf_month_pct": 67.30, "cum_plf_yr_pct": 53.64,
+       "idle_hrs": "7:13", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "736:47", "available_hrs": 736.47, "paf_month_pct": 99.03, "cum_paf_yr_pct": 98.44},
+      {"unit_no": 10, "commissioning_date": "1977-04-09", "capacity_mw": 103.5, "gen_month_mu": 50.5750, "cum_gen_mu": 458.5080, "plf_month_pct": 65.68, "cum_plf_yr_pct": 50.57,
+       "idle_hrs": "0:0", "maint_outage_hrs": "0:0", "forced_outage_hrs": "0:0", "service_hrs": "744:0", "available_hrs": 744.00, "paf_month_pct": 100.00, "cum_paf_yr_pct": 95.73}
+    ],
+    "station_totals": {"gen_month_mu": 526.9810, "cum_gen_mu": 4967.7620, "plf_month_pct": 68.44, "cum_plf_yr_pct": 54.79, "paf_month_pct": 99.59, "cum_paf_yr_pct": 98.07},
+    "station_operation_data": {
+      "peak_load_generated_on": {"date": "2025-03-10", "mw": 996.000},
+      "max_energy_gen_per_day_on": {"date": "2025-03-19", "mu": 20.985},
+      "gross_energy_gen_month": 526.9810, "net_energy_transmission_month": 523.0840,
+      "aux_power_consumption_mu": 3.8970, "aux_power_consumption_pct": 0.739,
+      "plf_pct": 68.44, "paf_pct": 99.59, "water_let_out_mcft": 17564.27,
+      "colony_cons_kwh": 0, "kptcl_cons_kwh": 0, "dg_cons_kwh": 0
+    },
+    "reservoir_levels": {
+      "GERUSOPPA_DAM": {"level_01_03_2025_m": 49.41, "level_31_03_2025_m": 51.84, "inflow_mcft": 18394.045},
+      "LINGANMAKKI_DAM": {"level_01_03_2025_ft": 1793, "level_31_03_2025_ft": 1783.5, "inflow_mcft": 762.73},
+      "TALKALALE_DAM": {"level_01_03_2025_ft": 1693.35, "level_31_03_2025_ft": 1695.05, "inflow_mcft": 0}
+    }
+  },
+
+  "alamatti_jmr_march_2025": {
+    "source_image": "image43",
+    "month": "2025-03",
+    "units_mu": {"U1": 0.1834, "U2": 0.000, "U3": 0.000, "U4": 0.000, "U5": 6.4535, "U6": 5.3665},
+    "gross_generation_mu": 12.0034,
+    "unit_aux_consumption_kwh": {"U1": 0, "U3": 0, "U5": 14400},
+    "common_aux_consumption_kwh": {"U1": 85120, "U3": 0, "U5": 10510},
+    "total_station_aux_kwh": 110030,
+    "net_energy_transmitted_mu": 11.939,
+    "net_energy_transmitted_per_jemr_kwh": 11939000
+  },
+
+  "rtps_jmr_april_2025": {
+    "source_image": "image36",
+    "month": "2025-04 (readings up to 2025-04-06)",
+    "units_mu": {"U1": 0.000, "U2": 27.343, "U3": 31.176, "U4": 0.000, "U5": 32.440, "U6": 32.547, "U7": 34.505, "U8": 38.513},
+    "total_units_generated_mu": 196.524,
+    "unit_aux_consumption_mu": {"U1": 0.000, "U2": 2.978, "U3": 3.395, "U4": 0.000, "U5": 3.533, "U6": 3.545, "U7": 3.758, "U8": 4.195},
+    "total_units_aux_mu": 21.404,
+    "common_aux_consumption_mu": 0,
+    "total_station_aux_mu": 21.404,
+    "net_energy_transmitted_month_mu": 175.120,
+    "net_energy_transmitted_per_jemr_mu": 175.120
+  },
+
+  "sale_of_energy_bill_march_2025": {
+    "source_image": "image44, bill_00/01/10/11/20/21",
+    "bill_no": "22042025", "bill_date": "2025-04-22", "period": "MAR-2025",
+    "escom_shares_pct": {
+      "svp":      {"BESCOM": 27.5440, "MESCOM": 10.7270, "CESCORP": 15.3520, "HESCOM": 41.2010, "GESCOM": 5.1760},
+      "kvp":      {"BESCOM": 32.1660, "MESCOM": 7.9940,  "CESCORP": 21.3010, "HESCOM": 26.5890, "GESCOM": 11.9500},
+      "other_hydro": {"BESCOM": 40.0000, "MESCOM": 11.0000, "CESCORP": 15.0000, "HESCOM": 22.0500, "GESCOM": 11.9500},
+      "rtps_u1_7": {"BESCOM": 60.5000, "MESCOM": 7.6050, "CESCORP": 13.0000, "HESCOM": 10.0000, "GESCOM": 8.8950},
+      "rtps_u8":   {"BESCOM": 60.5000, "MESCOM": 7.6050, "CESCORP": 13.0000, "HESCOM": 10.0000, "GESCOM": 8.8950},
+      "btps_u1_2_3": {"BESCOM": 60.5000, "MESCOM": 7.6050, "CESCORP": 13.0000, "HESCOM": 10.0000, "GESCOM": 8.8950}
+    },
+    "hydel_res_lines_transmitted_kwh": {
+      "Sharavathy Valley Project (SVP)": 523084000,
+      "Linganamakki Power House": 15880900,
+      "Kali Valley Project (KVP)": 495526000,
+      "Varahi Valley Project (VVP)": 141709900,
+      "Kadra Power House": 30670621,
+      "Kodasalli DPH": 41324440,
+      "Gerusoppa PH": 49584000,
+      "Ghataprabha": 3348000,
+      "Bhadra Power House": 2854779,
+      "Almatti DPH": 11939000,
+      "Varahi Unit 3 & 4": null,
+      "Kappatagudda Stage 1": 0,
+      "Kappatagudda Stage 2": 196746,
+      "MGHE Jogfalls": 49356800,
+      "Shivasamudram": 10475000,
+      "Munirabad": 4646469,
+      "Shimshapura": 4067200,
+      "Solar PV Plant Yalesandra": 350840,
+      "Solar PV Plant Itnal": 158880,
+      "Solar PV Plant Yapaladinni": 200428,
+      "Malaprabha Mini Hydel": 3860
+    },
+    "total_hydel_res_a_transmitted_kwh": 1385377863,
+    "total_hydel_res_a_amount_rs": 125130394308,
+    "thermal_lines_transmitted_kwh": {
+      "RTPS Unit 1 & 2": 806400000, "RTPS Unit 3": 1264560000, "RTPS Unit 4": null, "RTPS Unit 5 & 6": 2656690000,
+      "RTPS Unit 7": 1173710000, "RTPS Unit 8": 1534350000, "BTPS Unit 1": 2783418500, "BTPS Unit 2": 2623314800, "BTPS Unit 3": 2955241100
+    },
+    "total_thermal_b_transmitted_kwh": 15797684400,
+    "total_thermal_b_amount_rs": 92242644440,
+    "grand_total_transmitted_kwh": 29651460303,
+    "grand_total_amount_rs": 1047730375200,
+    "note": "Full ESCOM-wise breakdown (BESCOM/MESCOM/CESCORP/HESCOM/GESCOM transmitted kwh + amount rs per line) fully legible in bill_00/01/10/11/20/21 -- to be transcribed in full during data-load step, not duplicated here to keep this anchor file to headline figures."
+  },
+
+  "conflicts_resolved_by_headline_total": [
+    {"item": "SGS net export 06-04-2025", "breakdown_says": 14.147, "headline_says": 14.078, "resolution": "use 14.078 (printed net export); absorb the 0.069 MU difference into unit-level aux allocation"},
+    {"item": "Alamatti net export MAR-2025", "breakdown_says": 11.893, "headline_says": 11.939, "resolution": "use 11.939 (printed net, matches JMR kwh figure exactly); absorb into aux allocation"},
+    {"item": "RTPS running+outage hours MAR-2025 (all units)", "breakdown_says": 743.6, "headline_says": 744, "resolution": "force running_hrs+forced_outage_hrs+planned_outage_hrs+rsd_hrs=24*days_in_month per the schema CHECK constraint; treat the 0.4hr gap as unaccounted idle/reserve-shutdown hours folded into rsd_hrs"},
+    {"item": "solar/wind net export in HO dashboard", "breakdown_says": "> 0 (gross - typical aux)", "headline_says": 0.000, "resolution": "keep as printed (0.000); treat as 100% self-consumption/measurement convention for these small stations rather than an error"}
+  ]
+}

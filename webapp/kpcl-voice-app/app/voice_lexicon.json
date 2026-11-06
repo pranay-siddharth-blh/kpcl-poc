@@ -1,0 +1,289 @@
+{
+ "_purpose": "Words the speech-to-text model writes for KPCL station / reservoir names, and what they mean. Loaded by app/voice_guard.py and applied by app/spoken.py clean_transcript. Every entry is validated at load and by tests/test_voice_guards.py: 'heard' must not be (or sound exactly like) a real station, reservoir or supplier name, or an ordinary question word; 'means' must be a name the data knows. Invalid entries are ignored.",
+ "_how_to_add": "Only from real officer recordings collected with their consent (set VOICE_COLLECT_MISHEARINGS=true; text only, no audio, written to logs/voice_mishearings.jsonl). Review with: python tests/review_mishearings.py; add with: python tests/review_mishearings.py --add <heard>=<Name> --reviewer <name>. Then run the tests.",
+ "mishearings": [
+  {
+   "heard": "jerusalem",
+   "means": "Gerusoppa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "jerusalempa",
+   "means": "Gerusoppa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "jerusoppa",
+   "means": "Gerusoppa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "gerusoppe",
+   "means": "Gerusoppa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "natarrey",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "natteri",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "natchary",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "natary",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "nagari",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almanta",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almankathi",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almanthathi",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almondatti",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almonthati",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "almantati",
+   "means": "Alamatti",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "komala",
+   "means": "Kalmala",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "comal",
+   "means": "Kalmala",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "guttaprava",
+   "means": "Ghataprabha",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "ghatprava",
+   "means": "Ghataprabha",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "warahe",
+   "means": "Varahi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "werahe",
+   "means": "Varahi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "sapadam",
+   "means": "Supa dam",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "sapada",
+   "means": "Supa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "sapar",
+   "means": "Supa",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "shavati",
+   "means": "Sharavathi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "sharadti",
+   "means": "Sharavathi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "yemurus",
+   "means": "Yermarus",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "lingunmakil",
+   "means": "Linganamakki",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "coatzale",
+   "means": "Kodasalli",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "coatsali",
+   "means": "Kodasalli",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "coatsalie",
+   "means": "Kodasalli",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "worahi",
+   "means": "Varahi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "worahih",
+   "means": "Varahi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "werahi",
+   "means": "Varahi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "nagri",
+   "means": "Nagjhari",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "shivarathi",
+   "means": "Sharavathi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  },
+  {
+   "heard": "shivarati",
+   "means": "Sharavathi",
+   "source": "voice stress test, Windows Indian-English voices (Ravi, Heera) through qwen3-asr",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  }
+ ],
+ "confusable": [
+  {
+   "heard": [
+    "shiva",
+    "siva"
+   ],
+   "options": [
+    "Shiva",
+    "Sirwar"
+   ],
+   "unless_followed_by": [
+    "hydro",
+    "mini",
+    "solar",
+    "samudra",
+    "samudram",
+    "electric",
+    "station"
+   ],
+   "why": "Sirwar mini hydel is heard as 'Shiva' (a different, real station) in the voice stress test.",
+   "added": "2026-10-02",
+   "reviewed_by": "voice stress test review 2026-10-02"
+  }
+ ]
+}

@@ -1,0 +1,315 @@
+[
+ {
+  "id": 1,
+  "question": "How much did YTPS generate in total during FY 2023-24?",
+  "pass": true,
+  "expected": [
+   5886.255
+  ],
+  "route": "metric:gross_generation",
+  "answer": "**YTPS gross generation in FY 2023-24 was 5,886.255 MU.**",
+  "sql": "SELECT ROUND(SUM(gross_gen_mu), 3) AS value, SUM(CASE WHEN anchor_scope = 'document_fy_total' THEN 1 ELSE 0 END) AS doc_rows, COUNT(*) AS n_rows, NULL AS level_unit FROM mart_fact_station_generation_fy WHERE fy = '2023-24' AND station_key = 'YTPS'",
+  "error": "",
+  "ms": 188,
+  "timing_ms": {
+   "router_ms": 188.0,
+   "db_ms": 0.0
+  }
+ },
+ {
+  "id": 2,
+  "question": "Give me the PAF of each BTPS unit for March 2025",
+  "pass": true,
+  "expected": [
+   100.0
+  ],
+  "route": "llm",
+  "answer": "**The PAF % is 100.00% for every one of the 3 units.**\n\n\u2022  BTPS-U1 \u2014 PAF %: 100.00%\n\u2022  BTPS-U2 \u2014 PAF %: 100.00%\n\u2022  BTPS-U3 \u2014 PAF %: 100.00%",
+  "sql": "SELECT unit_key AS unit, paf_pct AS paf_pct FROM mart_fact_unit_generation_monthly WHERE station_key = 'BTPS' AND month_label = 'MAR-2025' ORDER BY unit_key NULLS LAST",
+  "error": "",
+  "ms": 9781,
+  "timing_ms": {
+   "router_ms": 140.0,
+   "prompt_ms": 0.0,
+   "prompt_tokens_est": 9967,
+   "llm_ms": 9516.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 125.0
+  }
+ },
+ {
+  "id": 3,
+  "question": "Which hydro station generated the most in water year 2023-24 and how much?",
+  "pass": true,
+  "expected": [
+   "SGS",
+   4861.171
+  ],
+  "route": "llm",
+  "answer": "**The hydro station SGS generated the most in water year 2023-24 with 4,861.171 MU.**",
+  "sql": "SELECT station_key AS station, ROUND(SUM(gross_gen_mu), 3) AS gross_generation_mu FROM mart_fact_station_generation_daily WHERE plant_type_code = 'HYDRO' AND water_year = '2023-24' GROUP BY station_key ORDER BY gross_generation_mu DESC LIMIT 1",
+  "error": "",
+  "ms": 875,
+  "timing_ms": {
+   "router_ms": 140.0,
+   "prompt_ms": 16.0,
+   "prompt_tokens_est": 9829,
+   "llm_ms": 578.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 141.0
+  }
+ },
+ {
+  "id": 4,
+  "question": "What was the aux consumption percentage of YTPS across FY 2024-25 overall?",
+  "pass": true,
+  "expected": [
+   6.2
+  ],
+  "route": "metric:aux_pct",
+  "answer": "**YTPS auxiliary consumption % in FY 2024-25 was 6.20%.**",
+  "sql": "SELECT ROUND((SUM(aux_consumption_mu)) * 100 / NULLIF(SUM(gross_gen_mu), 0), 2) AS value, SUM(CASE WHEN anchor_scope = 'document_fy_total' THEN 1 ELSE 0 END) AS doc_rows, COUNT(*) AS n_rows, NULL AS level_unit FROM mart_fact_station_generation_fy WHERE fy = '2024-25' AND station_key = 'YTPS'",
+  "error": "",
+  "ms": 156,
+  "timing_ms": {
+   "router_ms": 156.0,
+   "db_ms": 0.0
+  }
+ },
+ {
+  "id": 5,
+  "question": "How many boiler tube failures did RTPS units have in FY 2022-23, unit by unit?",
+  "pass": true,
+  "expected": [
+   "RTPS-U5",
+   6
+  ],
+  "route": "llm",
+  "answer": "**RTPS-U5 has the highest BTF count, 6, which is 24.0% of the 25 total across 8 units.** It is followed by RTPS-U8 (5) and RTPS-U3 (4); together the top three account for 60.0%.\n\nThe other 5 units range from 3 (RTPS-U2) down to 1 (RTPS-U1).\n\nAll 8 units are in the table below.\n\nNote: RTPS-U1 has been out since 10-Aug-2022; RTPS-U4 has been out since 09-Nov-2024, so it generates nothing.",
+  "sql": "SELECT o.unit_key AS unit, COUNT(DISTINCT o.outage_key) AS btf_count\nFROM mart_fact_unit_outage o\nWHERE o.is_btf = 1\n  AND o.station_key = 'RTPS'\n  AND o.fy = '2022-23'\nGROUP BY o.unit_key\nORDER BY o.unit_key NULLS LAST",
+  "error": "",
+  "ms": 2562,
+  "timing_ms": {
+   "router_ms": 140.0,
+   "prompt_ms": 16.0,
+   "prompt_tokens_est": 10579,
+   "llm_ms": 703.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "repair_llm_ms": 1360.0,
+   "guard_ms_1": 0.0,
+   "db_ms_1": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 343.0
+  }
+ },
+ {
+  "id": 6,
+  "question": "Compare KPCL's total generation in FY 2022-23 and FY 2023-24",
+  "pass": true,
+  "expected": [
+   36481.659
+  ],
+  "route": "llm",
+  "answer": "**36589.084 has the highest FY 2023 24 (MU), 36,589.084 MU, which is 50.1% of the 73,070.743 MU total across 2 financial years.** 36481.659 has 36,481.659 MU.\n\n\u2022  36589.084 \u2014 FY 2023 24 (MU): 36,589.084 MU\n\u2022  36481.659 \u2014 FY 2023 24 (MU): 36,481.659 MU",
+  "sql": "SELECT ROUND(SUM(gross_gen_mu), 3) AS fy_2022_23_mu, ROUND(SUM(gross_gen_mu), 3) AS fy_2023_24_mu FROM mart_fact_station_generation_fy WHERE fy IN ('2022-23', '2023-24') GROUP BY fy ORDER BY fy NULLS LAST",
+  "error": "",
+  "ms": 1375,
+  "timing_ms": {
+   "router_ms": 141.0,
+   "prompt_ms": 0.0,
+   "prompt_tokens_est": 9873,
+   "llm_ms": 953.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 16.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 250.0
+  }
+ },
+ {
+  "id": 7,
+  "question": "Which month in FY 2023-24 did SGS generate the least?",
+  "pass": true,
+  "expected": [
+   "JUN-2023",
+   305.879
+  ],
+  "route": "report:month_extreme",
+  "answer": "**Jun-2023 was SGS's weakest month of FY 2023-24: 305.879 MU (PLF 41.05%).**\n\nThe best was Mar-2024 at 513.684 MU. Against the CEA target, Jun-2023 was -18.105 MU short.",
+  "sql": "\nSELECT year_month, month_label AS month, ROUND(SUM(gross_gen_mu), 3) AS gross_gen_mu,\n       ROUND(SUM(gross_gen_mu) * 100.0 / NULLIF(SUM(capacity_mu), 0), 2) AS plf_pct,\n       ROUND(SUM(cea_target_mu), 3) AS cea_target_mu\nFROM mart_fact_station_generation_monthly\nWHERE fy = ? AND station_key = ?\nGROUP BY year_month, month_label ORDER BY year_month",
+  "error": "",
+  "ms": 172,
+  "timing_ms": {
+   "router_ms": 157.0,
+   "db_ms": 0.0
+  }
+ },
+ {
+  "id": 8,
+  "question": "What was the weighted average GCV of coal burnt at BTPS in FY 2024-25?",
+  "pass": true,
+  "expected": [
+   3232.0
+  ],
+  "route": "llm",
+  "answer": "Weighted GCV kcal kg: 3,232 kcal/kg",
+  "sql": "SELECT ROUND(SUM(m.gcv_coal_x_coal_mt) / NULLIF(SUM(m.coal_mt_with_gcv), 0), 2) AS weighted_gcv_kcal_kg\nFROM mart_fact_station_generation_fy m\nJOIN mart_dim_station s ON m.station_key = s.station_key\nWHERE m.station_key = 'BTPS' AND m.fy = '2024-25'",
+  "error": "",
+  "ms": 1360,
+  "timing_ms": {
+   "router_ms": 141.0,
+   "prompt_ms": 15.0,
+   "prompt_tokens_est": 10779,
+   "llm_ms": 1079.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 125.0
+  }
+ },
+ {
+  "id": 9,
+  "question": "Total forced outage hours of YTPS units in FY 2024-25",
+  "pass": true,
+  "expected": [
+   193.8
+  ],
+  "route": "metric:forced_outage_hours",
+  "answer": "**YTPS forced outage hours (unit-hours) in FY 2024-25 was 193.80 hours.**",
+  "sql": "SELECT ROUND(SUM(forced_outage_hrs), 2) AS value, SUM(CASE WHEN anchor_scope = 'document_fy_total' THEN 1 ELSE 0 END) AS doc_rows, COUNT(*) AS n_rows, NULL AS level_unit FROM mart_fact_station_generation_fy WHERE fy = '2024-25' AND station_key = 'YTPS'",
+  "error": "",
+  "ms": 156,
+  "timing_ms": {
+   "router_ms": 140.0,
+   "db_ms": 0.0
+  }
+ },
+ {
+  "id": 10,
+  "question": "What was the maximum state system peak demand in FY 2024-25?",
+  "pass": true,
+  "expected": [
+   14297.0
+  ],
+  "route": "llm",
+  "answer": "**The maximum state system peak demand in FY 2024-25 was 14,297.00 MW.**",
+  "sql": "SELECT MAX(system_peak_mw) AS max_system_peak_mw FROM mart_fact_grid_daily WHERE fy = '2024-25'",
+  "error": "",
+  "ms": 734,
+  "timing_ms": {
+   "router_ms": 140.0,
+   "prompt_ms": 0.0,
+   "prompt_tokens_est": 10351,
+   "llm_ms": 469.0,
+   "guard_ms_0": 16.0,
+   "db_ms_0": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 109.0
+  }
+ },
+ {
+  "id": 11,
+  "question": "How many days in FY 2023-24 was the Linganamakki reservoir below 30% storage?",
+  "pass": false,
+  "expected": [
+   93
+  ],
+  "route": "metric:storage_pct",
+  "answer": "**The storage of Linganamakki reservoir at the end of FY 2023-24 (31-Mar-2024) was 40.53%.**\n\nDuring FY 2023-24 it ranged from 10.94% to 99.43%, averaging 55.05% over 366 days. Storage is a position on one day, so a period is reported by its closing figure.",
+  "sql": "SELECT MAX(date_key), ROUND(MIN(capacity_pct), 2), ROUND(MAX(capacity_pct), 2), ROUND(AVG(capacity_pct), 2), COUNT(*), MAX(level_unit) FROM mart_fact_reservoir_daily WHERE fy = '2023-24' AND capacity_pct IS NOT NULL AND reservoir_name = 'LINGANAMAKKI';\nSELECT ROUND(capacity_pct, 2) AS value, 0 AS doc_rows, COUNT(*) AS n_rows, MAX(level_unit) AS level_unit FROM mart_fact_reservoir_daily WHERE date_key = '2024-03-31' AND reservoir_name = 'LINGANAMAKKI'",
+  "error": "",
+  "ms": 156,
+  "timing_ms": {
+   "router_ms": 141.0,
+   "db_ms": 15.0
+  }
+ },
+ {
+  "id": 12,
+  "question": "What was the solar stations' combined generation in FY 2024-25?",
+  "pass": true,
+  "expected": [
+   37.399
+  ],
+  "route": "report:generation_breakdown:station",
+  "answer": "**KPCL's solar stations generated 37.399 MU in FY 2024-25, station by station.**\n\nLargest: CHANDAPUR 14.296 MU (38.2%), SH-SOLAR-10 11.518 MU (30.8%), SH-SOLAR-5 4.312 MU (11.5%).\n\nCEA target achievement 94.30%; 6 of 6 stations fell short.\n\nAll 6 stations are in the table below.",
+  "sql": "-- dashboard queries (app/dashboard_data.py)",
+  "error": "",
+  "ms": 219,
+  "timing_ms": {
+   "router_ms": 141.0,
+   "db_ms": 63.0
+  }
+ },
+ {
+  "id": 13,
+  "question": "Which thermal unit had the lowest PLF in FY 2024-25 excluding units that were shut all year?",
+  "pass": true,
+  "expected": [
+   "RTPS-U4",
+   33.72
+  ],
+  "route": "llm",
+  "answer": "**The thermal unit with the lowest PLF in FY 2024-25 (excluding units that generated nothing) is RTPS-U4 with a PLF of 33.72%.**",
+  "sql": "SELECT u.unit_key AS unit, ROUND(SUM(m.gross_gen_mu) / SUM(m.capacity_mu) * 100, 2) AS plf_pct\nFROM mart_fact_unit_generation_monthly m\nJOIN mart_dim_unit u ON u.unit_key = m.unit_key\nWHERE u.plant_type_code = 'THERMAL'\n  AND m.fy = '2024-25'\nGROUP BY u.unit_key\nHAVING SUM(m.gross_gen_mu) > 0\nORDER BY plf_pct ASC NULLS LAST\nLIMIT 1",
+  "error": "",
+  "ms": 2297,
+  "timing_ms": {
+   "router_ms": 156.0,
+   "prompt_ms": 0.0,
+   "prompt_tokens_est": 9919,
+   "llm_ms": 1172.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "repair_llm_ms": 844.0,
+   "guard_ms_1": 0.0,
+   "db_ms_1": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 125.0
+  }
+ },
+ {
+  "id": 14,
+  "question": "Coal consumption at RTPS in March 2025 in tonnes",
+  "pass": true,
+  "expected": [
+   646831.0
+  ],
+  "route": "metric:coal_consumption",
+  "answer": "**RTPS coal consumption in March 2025 was 646,831 tonnes.**",
+  "sql": "SELECT ROUND(SUM(coal_consumed_mt), 0) AS value, SUM(CASE WHEN anchor_scope = 'document_month_total' THEN 1 ELSE 0 END) AS doc_rows, COUNT(*) AS n_rows, NULL AS level_unit FROM mart_fact_station_generation_monthly WHERE month_label = 'MAR-2025' AND station_key = 'RTPS'",
+  "error": "",
+  "ms": 156,
+  "timing_ms": {
+   "router_ms": 156.0,
+   "db_ms": 0.0
+  }
+ },
+ {
+  "id": 15,
+  "question": "How much imported coal did BTPS receive in FY 2024-25?",
+  "pass": true,
+  "expected": [
+   357076.0
+  ],
+  "route": "llm",
+  "answer": "**BTPS received 357,076 tonnes of imported coal in FY 2024-25 across 91 rakes.**",
+  "sql": "SELECT ROUND(SUM(quantity_mt)) AS imported_coal_received_mt, SUM(no_of_rakes) AS rakes FROM mart_fact_coal_receipt WHERE station_key = 'BTPS' AND fy = '2024-25' AND is_imported = 1",
+  "error": "",
+  "ms": 907,
+  "timing_ms": {
+   "router_ms": 157.0,
+   "prompt_ms": 15.0,
+   "prompt_tokens_est": 11072,
+   "llm_ms": 610.0,
+   "guard_ms_0": 0.0,
+   "db_ms_0": 0.0,
+   "fill_ms": 0.0,
+   "review_ms_1": 125.0
+  }
+ }
+]

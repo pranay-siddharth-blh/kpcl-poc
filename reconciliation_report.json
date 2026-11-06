@@ -1,0 +1,499 @@
+[
+  {
+    "label": "RTPS-U2 gross_gen 06-Apr-2025",
+    "expected": 4.008,
+    "actual": 4.008,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U3 gross_gen 06-Apr-2025",
+    "expected": 4.23,
+    "actual": 4.23,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U5 gross_gen 06-Apr-2025",
+    "expected": 4.153,
+    "actual": 4.153,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U6 gross_gen 06-Apr-2025",
+    "expected": 4.202,
+    "actual": 4.202,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U7 gross_gen 06-Apr-2025",
+    "expected": 4.83,
+    "actual": 4.83,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U8 gross_gen 06-Apr-2025",
+    "expected": 4.822,
+    "actual": 4.822,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS station gross_gen 06-Apr-2025",
+    "expected": 26.245,
+    "actual": 26.245,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U1 gross_gen 06-Apr-2025",
+    "expected": 1.462,
+    "actual": 1.462,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U2 gross_gen 06-Apr-2025",
+    "expected": 1.333,
+    "actual": 1.333,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U3 gross_gen 06-Apr-2025",
+    "expected": 1.463,
+    "actual": 1.463,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U4 gross_gen 06-Apr-2025",
+    "expected": 1.033,
+    "actual": 1.033,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U5 gross_gen 06-Apr-2025",
+    "expected": 1.462,
+    "actual": 1.462,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U6 gross_gen 06-Apr-2025",
+    "expected": 1.464,
+    "actual": 1.464,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U7 gross_gen 06-Apr-2025",
+    "expected": 1.466,
+    "actual": 1.466,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U8 gross_gen 06-Apr-2025",
+    "expected": 1.463,
+    "actual": 1.463,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U9 gross_gen 06-Apr-2025",
+    "expected": 1.628,
+    "actual": 1.628,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U10 gross_gen 06-Apr-2025",
+    "expected": 1.403,
+    "actual": 1.403,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS station gross_gen 06-Apr-2025",
+    "expected": 14.177,
+    "actual": 14.177,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U2 gross_gen MAR-2025",
+    "expected": 90.145,
+    "actual": 90.145,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U3 gross_gen MAR-2025",
+    "expected": 141.361,
+    "actual": 141.361,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U5 gross_gen MAR-2025",
+    "expected": 147.58,
+    "actual": 147.58,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U6 gross_gen MAR-2025",
+    "expected": 149.401,
+    "actual": 149.401,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U7 gross_gen MAR-2025",
+    "expected": 131.205,
+    "actual": 131.205,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U8 gross_gen MAR-2025",
+    "expected": 171.52,
+    "actual": 171.52,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS station gross_gen MAR-2025",
+    "expected": 831.212,
+    "actual": 831.212,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U2 gross_gen FY2024-25",
+    "expected": 1155.843,
+    "actual": 1155.843,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U3 gross_gen FY2024-25",
+    "expected": 1447.04,
+    "actual": 1447.04,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U4 gross_gen FY2024-25",
+    "expected": 620.258,
+    "actual": 620.258,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U5 gross_gen FY2024-25",
+    "expected": 1277.5,
+    "actual": 1277.5,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U6 gross_gen FY2024-25",
+    "expected": 1243.286,
+    "actual": 1243.286,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U7 gross_gen FY2024-25",
+    "expected": 1308.495,
+    "actual": 1308.495,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U8 gross_gen FY2024-25",
+    "expected": 1257.929,
+    "actual": 1257.929,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS station gross_gen FY2024-25",
+    "expected": 8310.351,
+    "actual": 8310.351,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "RTPS-U1 gross_gen FY2024-25 (should be 0, forced out all year)",
+    "expected": 0,
+    "actual": 0.0,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U1 gross_gen MAR-2025",
+    "expected": 52.632,
+    "actual": 52.632,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U2 gross_gen MAR-2025",
+    "expected": 50.618,
+    "actual": 50.618,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U3 gross_gen MAR-2025",
+    "expected": 52.697,
+    "actual": 52.697,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U4 gross_gen MAR-2025",
+    "expected": 53.66,
+    "actual": 53.66,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U5 gross_gen MAR-2025",
+    "expected": 53.976,
+    "actual": 53.976,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U6 gross_gen MAR-2025",
+    "expected": 53.943,
+    "actual": 53.943,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U7 gross_gen MAR-2025",
+    "expected": 52.618,
+    "actual": 52.618,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U8 gross_gen MAR-2025",
+    "expected": 54.438,
+    "actual": 54.438,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U9 gross_gen MAR-2025",
+    "expected": 51.824,
+    "actual": 51.824,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS-U10 gross_gen MAR-2025",
+    "expected": 50.575,
+    "actual": 50.575,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SGS station gross_gen MAR-2025",
+    "expected": 526.981,
+    "actual": 526.981,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "BTPS gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 8181.451,
+    "actual": 8181.451,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "YTPS gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 6015.925,
+    "actual": 6015.926,
+    "diff": 0.0010000000002037268,
+    "status": "PASS"
+  },
+  {
+    "label": "YCCPP gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 707.024,
+    "actual": 707.024,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "BWTEP gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 6.74,
+    "actual": 6.74,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "NPH gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 4096.355,
+    "actual": 4096.355,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "VUGPH gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 1207.555,
+    "actual": 1207.555,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "MGHE gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 443.609,
+    "actual": 443.607,
+    "diff": -0.0019999999999527063,
+    "status": "PASS"
+  },
+  {
+    "label": "LPH gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 178.93,
+    "actual": 178.93,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "GERUSOPPA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 583.843,
+    "actual": 583.842,
+    "diff": -0.0009999999999763531,
+    "status": "PASS"
+  },
+  {
+    "label": "SUPA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 646.78,
+    "actual": 646.78,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "KODASALLI gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 526.875,
+    "actual": 526.875,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "KADRA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 532.268,
+    "actual": 532.268,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "ALAMATTI gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 630.111,
+    "actual": 630.111,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "GHATPRABHA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 114.051,
+    "actual": 114.05,
+    "diff": -0.0010000000000047748,
+    "status": "PASS"
+  },
+  {
+    "label": "BHADRA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 70.34,
+    "actual": 70.339,
+    "diff": -0.0010000000000047748,
+    "status": "PASS"
+  },
+  {
+    "label": "MUNIRABAD gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 122.455,
+    "actual": 122.455,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "SHIVA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 107.835,
+    "actual": 107.833,
+    "diff": -0.001999999999995339,
+    "status": "PASS"
+  },
+  {
+    "label": "SHIMSHA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 31.104,
+    "actual": 31.104,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "MALLAPUR gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 44.542,
+    "actual": 44.542,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "MALAPRABHA gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 5.216,
+    "actual": 5.216,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "KG-WEF gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 5.458,
+    "actual": 5.458,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "MANI gross_gen FY2024-25 (workbook anchor, untouched)",
+    "expected": 28.169,
+    "actual": 28.17,
+    "diff": 0.0010000000000012221,
+    "status": "PASS"
+  },
+  {
+    "label": "Rows where hours don't sum to 24 (should be 0)",
+    "expected": 0,
+    "actual": 0.0,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "Rows where aux > gross (should be 0)",
+    "expected": 0,
+    "actual": 0.0,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "Rows where declared_capacity < gross_gen i.e. PAF<PLF (should be 0)",
+    "expected": 0,
+    "actual": 0.0,
+    "diff": 0.0,
+    "status": "PASS"
+  },
+  {
+    "label": "Rows with negative gross/aux (should be 0)",
+    "expected": 0,
+    "actual": 0.0,
+    "diff": 0.0,
+    "status": "PASS"
+  }
+]

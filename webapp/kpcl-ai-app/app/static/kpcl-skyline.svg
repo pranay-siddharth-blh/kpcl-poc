@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 260" preserveAspectRatio="xMidYMax slice">
+  <!-- KPCL's generation portfolio as a soft skyline: hydro dam and reservoir, thermal cooling towers,
+       transmission line, wind turbines and a solar park. Colours are tints of the KPCL portal navy (#072577)
+       and the logo's sky blue, kept very light so text on top stays readable. -->
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe6f6"/><stop offset="1" stop-color="#e7f1fa"/>
+    </linearGradient>
+    <linearGradient id="steam" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- far hills -->
+  <path d="M0 170 C120 120 220 135 330 110 C440 85 520 130 640 118 C760 106 850 70 980 92 C1100 112 1180 80 1300 96 C1420 112 1500 90 1600 104 L1600 260 L0 260Z" fill="#e3e9f6"/>
+  <!-- sun -->
+  <circle cx="1235" cy="62" r="34" fill="#fde9c4" opacity=".85"/>
+
+  <!-- hydro: reservoir, dam wall with spillway gates, penstock -->
+  <path d="M0 176 C60 168 140 170 210 174 L210 206 L0 206Z" fill="url(#water)"/>
+  <path d="M206 140 L292 140 L318 206 L196 206Z" fill="#c9d4ec"/>
+  <g fill="#b7c5e4">
+    <rect x="214" y="146" width="9" height="16" rx="1"/><rect x="229" y="146" width="9" height="16" rx="1"/>
+    <rect x="244" y="146" width="9" height="16" rx="1"/><rect x="259" y="146" width="9" height="16" rx="1"/>
+    <rect x="274" y="146" width="9" height="16" rx="1"/>
+  </g>
+  <path d="M292 152 C330 170 345 190 372 206" stroke="#c3cfe9" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <rect x="360" y="186" width="44" height="20" rx="2" fill="#c9d4ec"/>
+
+  <!-- mid hills -->
+  <path d="M0 206 C160 186 260 196 420 184 C560 174 660 196 800 188 C960 178 1080 196 1240 186 C1400 176 1500 192 1600 186 L1600 260 L0 260Z" fill="#d8e0f1"/>
+
+  <!-- thermal: cooling towers, chimney, turbine hall -->
+  <g fill="#c6d1ea">
+    <path d="M520 208 C526 180 522 160 512 138 L566 138 C556 160 552 180 558 208Z"/>
+    <path d="M572 208 C578 186 575 170 567 152 L611 152 C603 170 600 186 606 208Z"/>
+    <rect x="624" y="104" width="11" height="104"/>
+    <rect x="642" y="176" width="70" height="32"/>
+    <path d="M642 176 L677 164 L712 176Z"/>
+  </g>
+  <g fill="#b9c6e4"><rect x="623" y="110" width="13" height="3"/><rect x="623" y="120" width="13" height="3"/></g>
+  <path d="M539 136 C520 110 552 96 536 70 C562 88 548 110 566 124Z" fill="url(#steam)"/>
+  <path d="M589 150 C574 130 598 118 586 98 C606 112 596 130 610 142Z" fill="url(#steam)"/>
+
+  <!-- transmission line across the scene -->
+  <g stroke="#bccae6" stroke-width="2.2" fill="none">
+    <path d="M760 208 L776 96 L792 208 M764 180 L788 180 M767 150 L785 150 M770 124 L782 124 M756 108 L796 108 M760 120 L792 120"/>
+    <path d="M1010 208 L1024 110 L1038 208 M1013 182 L1035 182 M1016 154 L1032 154 M1004 120 L1044 120 M1008 132 L1040 132"/>
+    <path d="M1470 208 L1482 126 L1494 208 M1473 184 L1491 184 M1476 160 L1488 160 M1464 136 L1500 136"/>
+  </g>
+  <g stroke="#cad5ec" stroke-width="1.1" fill="none">
+    <path d="M712 180 C735 128 745 112 756 108"/>
+    <path d="M796 108 C880 140 940 140 1004 120"/><path d="M792 120 C880 152 950 152 1008 132"/>
+    <path d="M1044 120 C1250 170 1350 160 1464 136"/><path d="M1040 132 C1250 182 1350 172 1466 146"/>
+  </g>
+
+  <!-- wind turbines -->
+  <g stroke="#c2cee8" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M1150 212 L1150 120"/><path d="M1150 120 L1150 86 M1150 120 L1180 136 M1150 120 L1121 137"/>
+    <path d="M1212 212 L1212 138"/><path d="M1212 138 L1224 111 M1212 138 L1238 150 M1212 138 L1185 144"/>
+    <path d="M1272 212 L1272 150"/><path d="M1272 150 L1268 126 M1272 150 L1295 158 M1272 150 L1252 166"/>
+  </g>
+  <g fill="#c2cee8"><circle cx="1150" cy="120" r="4"/><circle cx="1212" cy="138" r="4"/><circle cx="1272" cy="150" r="3.5"/></g>
+
+  <!-- solar park -->
+  <g fill="#c9d6ef" stroke="#b6c5e5" stroke-width="1">
+    <path d="M1310 218 L1340 202 L1400 202 L1370 218Z"/><path d="M1378 218 L1408 202 L1468 202 L1438 218Z"/>
+    <path d="M1296 234 L1326 218 L1386 218 L1356 234Z"/><path d="M1364 234 L1394 218 L1454 218 L1424 234Z"/>
+    <path d="M1432 234 L1462 218 L1522 218 L1492 234Z"/>
+  </g>
+
+  <!-- near ground -->
+  <path d="M0 230 C200 214 380 226 560 218 C760 208 960 228 1160 220 C1360 212 1480 224 1600 218 L1600 260 L0 260Z" fill="#cfd9ee"/>
+</svg>

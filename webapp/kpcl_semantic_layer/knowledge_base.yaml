@@ -1,0 +1,917 @@
+# =============================================================================
+# KPCL Generation Assistant — general knowledge base
+# =============================================================================
+# Used by webapp/kpcl-ai-app/app/knowledge.py to answer GENERAL questions: what KPCL is,
+# who owns it, why it exists, its history, its subsidiaries, what a station is, and the laws,
+# regulators and rules it works under. It is also the fallback when the generation data
+# cannot answer. Figures about generation, PLF, outages, coal or reservoirs always come from
+# the warehouse, never from this file.
+#
+# Station capacities and unit counts are taken from this system's own station records
+# (mart_dim_station), so they agree with every data answer. The organisation, policy and public-information
+# sections come from KPCL's official website (kpcl.karnataka.gov.in): its organogram (25 May 2026), RTI 4(1)(b)
+# handbook (Sept 2024), PIO list (28 July 2026), CSR and Whistle Blower policies, and its About, Mission, Awards,
+# Projects, Joint Ventures, Careers, Consultancy and Environment pages (researched 30 September 2026). Company, history and regulatory
+# facts come from the sources listed in each section. Facts that change often (office holders,
+# staff numbers, finances, tariffs) are deliberately left out. Last researched: 29 September 2026.
+# =============================================================================
+
+meta:
+  title: KPCL Generation Assistant knowledge base
+  updated: "2026-09-30"
+  display_rule: "Answers never show sources, site names or where the text came from; the sources below are for maintainers."
+
+# -----------------------------------------------------------------------------
+kpcl:
+  aliases: [kpcl, karnataka power corporation, karnataka power corporation limited, karnataka power corp, the corporation, the company]
+  name: Karnataka Power Corporation Limited (KPCL)
+  summary: >-
+    Karnataka Power Corporation Limited (KPCL) is the Government of Karnataka's own power generation
+    company. It builds, owns and runs hydro-electric, coal-fired thermal, gas, solar, wind and
+    waste-to-energy power stations in Karnataka and sells the electricity they produce to the state's
+    five electricity supply companies (ESCOMs), which distribute it to consumers. It was incorporated on
+    20 July 1970 and has its registered office at Shakti Bhavan, 82 Race Course Road, Bengaluru.
+  founded: >-
+    KPCL was incorporated on 20 July 1970 under the Companies Act, 1956 (registration number 1919), as a
+    company wholly owned by the Government of Karnataka. It was formed to take over power generation from
+    the Government of Mysore's Hydro Electric Construction Projects and to concentrate on developing new
+    power projects in the state. It began with an installed capacity of 746 MW.
+  legal_status: >-
+    KPCL is a State Government company (a state public sector undertaking), wholly owned by the
+    Government of Karnataka and administered through the state's Energy Department. Its Corporate
+    Identification Number (CIN) is U85110KA1970SGC001919.
+  ownership: >-
+    KPCL is wholly owned by the Government of Karnataka. It in turn holds stakes in two subsidiaries
+    that appear in this data: Raichur Power Corporation Limited (RPCL, a joint venture with BHEL, which
+    owns the Yeramarus Thermal Power Station) and KPCL Gas Power Corporation Limited (KPCGPCL, which owns
+    the Yelahanka Combined Cycle Power Plant).
+  head_office: Shakti Bhavan, No. 82, Race Course Road, Bengaluru 560 001, Karnataka.
+  office_holders: >-
+    KPCL is run by a Board of Directors constituted by the Government of Karnataka. The Chief Minister is
+    usually its Chairman and the Minister for Energy its Vice Chairman. Day-to-day management rests with the
+    Managing Director, a senior civil-service officer appointed by the state, supported by three other
+    full-time directors: the Technical Director, the Finance Director and the Director (HR). This assistant
+    does not name KPCL's current office holders because they change. The current Board and senior officers
+    are listed on KPCL's official website. Ask "What is KPCL's organisation structure?" for the full hierarchy.
+  mission: |-
+    KPCL's stated mission is to reach "higher vantage points in the world of power engineering" by starting with a world-class organisation, building in efficiency and cost control, and making sure progress is in harmony with the environment. It pursues this by:
+    •  exploring, identifying and developing opportunities in power generation;
+    •  devising innovative ways of setting up and operating power plants;
+    •  investing in technical competence, systems, processes and capability;
+    •  empowering its people, work teams and support network to achieve these objectives.
+  why_it_exists: >-
+    KPCL was set up in 1970 because the Karnataka government wanted a separate body to build and run
+    power stations, leaving the Karnataka Electricity Board to handle transmission and supply. This
+    separation of generation from distribution came decades before the national power-sector reforms
+    of the late 1990s and 2000s. Its early work was developing the state's large river valleys for
+    hydro power, beginning with the Kali (Kalinadi) valley, where the Nagjhari power house was
+    commissioned in 1980. It later added coal-fired stations to meet growing demand when rainfall-
+    dependent hydro could not. Today its purpose is to give Karnataka a reliable, state-owned source of
+    electricity at tariffs approved by the state regulator.
+  what_it_does: >-
+    KPCL plans, builds, operates and maintains power stations; runs the dams and reservoirs that feed
+    its hydro stations; buys coal for its thermal stations; and sells its output to the ESCOMs under
+    power purchase agreements at tariffs set by the Karnataka Electricity Regulatory Commission (KERC).
+    The State Load Despatch Centre decides, hour by hour, how much each station should generate for
+    the grid.
+  regulated_by: >-
+    KPCL works under the Electricity Act, 2003 and the Karnataka Electricity Reform Act, 1999. The Karnataka
+    Electricity Regulatory Commission (KERC) sets the tariff for its sales to the ESCOMs and the operating
+    norms that tariff assumes. The Central Electricity Authority (CEA) sets technical and safety standards
+    and the yearly generation target for each station. The State Load Despatch Centre, run by KPTCL,
+    directs how much each station generates. Its thermal stations must meet the Ministry of Environment,
+    Forest and Climate Change's emission norms, enforced by the Karnataka State Pollution Control Board.
+    As a state government company it reports to the Government of Karnataka's Energy Department, and its
+    accounts are audited under the oversight of the Comptroller and Auditor General of India (CAG). Ask
+    "What is KERC?", "What is the CEA?" or "What is the Electricity Act?" for detail on each.
+  generation_mix: >-
+    KPCL generates from coal-fired thermal stations (Raichur, Bellary and Yeramarus), major hydro
+    stations on the Sharavathi, Kali, Varahi, Krishna, Kaveri and other rivers, minor and mini hydel
+    stations, a gas combined-cycle plant at Yelahanka (Bengaluru), a waste-to-energy plant at Bidadi,
+    and small solar and wind farms. Hydro output depends heavily on the monsoon, so thermal
+    generation carries more of the load in dry years.
+  capacity: >-
+    Published figures put KPCL's installed capacity at about 8,700-8,800 MW before the 370 MW Yelahanka
+    gas plant and the 11.5 MW Bidadi waste-to-energy plant were added. The 33 stations and 103 units in
+    this system (including the subsidiaries' stations) total 9,119.8 MW: 5,020 MW coal-fired thermal,
+    3,640.4 MW major hydro, 39.35 MW minor hydro, 370 MW gas, 34 MW solar, 11.5 MW waste-to-energy and
+    4.555 MW wind.
+  history:
+    - "1970: KPCL incorporated on 20 July 1970 with 746 MW of installed capacity."
+    - "1980: Nagjhari power house, the first in the Kali valley, commissioned (first stage of the Kalinadi project)."
+    - "1985: First unit of the Raichur Thermal Power Station, Karnataka's first coal-fired thermal station, commissioned."
+    - "1999: The Karnataka Electricity Reform Act, 1999 restructured the power sector; KPTCL formed on 1 August 1999 and KERC constituted in November 1999."
+    - "2002: Distribution split into electricity supply companies (ESCOMs), which buy KPCL's power."
+    - "2007: Bellary Thermal Power Station Unit 1 (500 MW) commissioned; Unit 2 (500 MW) followed in 2012 and supercritical Unit 3 (700 MW) in 2016."
+    - "2016-2017: Yeramarus Thermal Power Station (2 x 800 MW, India's first 800 MW supercritical units, built by BHEL for RPCL) entered commercial operation."
+    - "2024: Yelahanka Combined Cycle Power Plant (370 MW), Karnataka's first gas-based plant, and the 11.5 MW Bidadi waste-to-energy plant added."
+  in_this_data: >-
+    This system holds KPCL's generation records for 33 stations and 103 units from 1 April 2015 to
+    30 April 2025: daily and monthly generation, PLF, PAF, auxiliary consumption, fuel, outages and
+    trips, back-down, CEA targets, coal stock and receipts, reservoir levels and the state grid.
+  sources:
+    - https://en.wikipedia.org/wiki/Karnataka_Power_Corporation
+    - https://www.zaubacorp.com/company/KARNATAKA-POWER-CORPORATION-LIMITED/U85110KA1970SGC001919
+    - http://karnatakapower.com/en/portfolio/nagjhari-power-house/
+    - https://kpcl.karnataka.gov.in/20/about--us/en
+    - https://kpcl.karnataka.gov.in/22/mission/en
+    - "KPCL RTI Section 4(1)(b) handbook, version 2.0, September 2024 (chapters 1-3): https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+    - Station records in this system (33 stations, 103 units)
+
+# -----------------------------------------------------------------------------
+companies:
+  - id: rpcl
+    name: Raichur Power Corporation Limited (RPCL)
+    aliases: [rpcl, raichur power corporation, raichur power corporation limited]
+    summary: >-
+      Raichur Power Corporation Limited is a joint venture of KPCL and Bharat Heavy Electricals Limited
+      (BHEL), set up to build and own the Yeramarus Thermal Power Station (2 x 800 MW) in Raichur
+      district. BHEL was also the plant's engineering, procurement and construction contractor. Published
+      sources differ on the exact shareholding, so none is given here.
+    in_this_data: KPCL totals in this assistant always include YTPS.
+    sources:
+      - https://en.wikipedia.org/wiki/Yermarus_Thermal_Power_Station
+      - https://www.bhel.com/bhel-commissions-800-mw-supercritical-thermal-power-plant-karnataka
+  - id: kpcgpcl
+    name: KPCL Gas Power Corporation Limited (KPCGPCL)
+    aliases: [kpcgpcl, kpcl gas power corporation, gas power corporation]
+    summary: >-
+      KPCL Gas Power Corporation Limited is the KPCL company that owns the 370 MW Yelahanka Combined
+      Cycle Power Plant in Bengaluru, Karnataka's first and only gas-based power station. Natural gas is
+      supplied by GAIL through the Dabhol-Bengaluru pipeline.
+    in_this_data: KPCL totals in this assistant always include the Yelahanka plant.
+    sources:
+      - https://www.businessworld.in/article/karnataka%E2%80%99s-first-gas-based-power-plant-yelahanka-ccpp-to-be-commissioned-on-24-september-534064
+      - https://www.deccanherald.com/india/karnataka/bengaluru/yelahanka-s-370-mw-gas-power-plant-set-for-april-launch-2904700
+      - https://kpcl.karnataka.gov.in/25/joint-ventures/en (listed as KPCL's subsidiary)
+  - id: kecml
+    name: Karnataka EMTA Coal Mines Limited (KECML) and the Baranj coal mines
+    aliases: [kecml, karnataka emta, karnataka emta coal mines, emta, baranj, baranj mine, baranj mines, baranj coal, baranj open cast, bocm, coal mines of kpcl, kpcl coal mine, kpcl coal mines, captive coal, captive mine]
+    summary: >-
+      Karnataka EMTA Coal Mines Limited is a joint venture that KPCL formed with Eastern Mining and Trading
+      Agency (EMTA) under an agreement of September 2002, to mine coal from the Baranj I-IV, Manoradeep and
+      Kiloni blocks near Bhadravati in Chandrapur district, Maharashtra, and send it to the Bellary Thermal
+      Power Station. Mining began around 2008-09. In 2014 the Supreme Court cancelled the allocation of 214
+      coal blocks across the country, including these, and on 31 March 2015 the blocks were allotted again to
+      KPCL under the Coal Mines (Special Provisions) Act, 2015. KPCL now runs them as the Baranj Open Cast
+      Mining Project, which has its own environmental clearance and six-monthly compliance reports, and a Chief
+      Engineer (Mines) for Baranj in its organisation. The joint venture's affairs have been the subject of
+      court cases, so its shareholding is not given here.
+    in_this_data: >-
+      Coal receipts in this system are recorded by supplier and source, so you can ask, for example, "Coal
+      received by supplier at BTPS in FY 2024-25".
+    sources:
+      - https://kpcl.karnataka.gov.in/25/joint-ventures/en
+      - https://kpcl.karnataka.gov.in/136/environment/en
+      - https://www.gem.wiki/Integrated_Baranj_Mine
+      - https://indiankanoon.org/doc/192257583/
+
+# -----------------------------------------------------------------------------
+# One profile per station. Capacity and units: this system's station records.
+stations:
+  - key: RTPS
+    name: Raichur Thermal Power Station
+    type: Coal-fired thermal
+    capacity_mw: 1720
+    units: 8
+    summary: >-
+      Raichur Thermal Power Station, at Shaktinagar in Raichur district, is Karnataka's first coal-fired
+      thermal power station. It has seven 210 MW units and one 250 MW unit (1,720 MW). The first unit
+      was commissioned in March 1985, and Unit 8 (250 MW) was added last. It draws cooling water from the
+      Krishna river and burns coal supplied mainly by Western Coalfields and Mahanadi Coalfields.
+    sources: [https://en.wikipedia.org/wiki/Raichur_Thermal_Power_Station]
+  - key: BTPS
+    name: Bellary Thermal Power Station
+    type: Coal-fired thermal
+    capacity_mw: 1700
+    units: 3
+    summary: >-
+      Bellary Thermal Power Station, at Kudatini in Ballari district, has three units: Unit 1 (500 MW,
+      commissioned December 2007), Unit 2 (500 MW, January 2012) and Unit 3 (700 MW, a supercritical unit,
+      March 2016), 1,700 MW in all. The units were supplied by BHEL.
+    sources: [https://en.wikipedia.org/wiki/Bellary_Thermal_Power_station]
+  - key: YTPS
+    name: Yeramarus Thermal Power Station
+    type: Coal-fired thermal (supercritical)
+    capacity_mw: 1600
+    units: 2
+    summary: >-
+      Yeramarus (Yermarus) Thermal Power Station, near Yegnur in Raichur district, has two 800 MW
+      supercritical units (1,600 MW), described as India's first 800 MW supercritical units, built by BHEL.
+      Unit 1 began commercial operation in March 2017 and Unit 2 in April 2017. It is owned by Raichur Power
+      Corporation Limited (RPCL), a KPCL-BHEL joint venture.
+    sources: [https://en.wikipedia.org/wiki/Yermarus_Thermal_Power_Station]
+  - key: YCCPP
+    name: Yelahanka Combined Cycle Power Plant
+    type: Gas / combined cycle
+    capacity_mw: 370
+    units: 2
+    summary: >-
+      Yelahanka Combined Cycle Power Plant in Bengaluru is Karnataka's first gas-based power station
+      (370 MW), built on the site of an old diesel plant with BHEL as contractor and owned by KPCL Gas Power
+      Corporation Limited. News reports put its formal commissioning in September 2024; this system records
+      it from July 2024. Gas comes from GAIL. News reports in March 2026 said GAIL had suspended gas supply
+      during the West Asia crisis.
+    sources:
+      - https://www.businessworld.in/article/karnataka%E2%80%99s-first-gas-based-power-plant-yelahanka-ccpp-to-be-commissioned-on-24-september-534064
+      - https://telanganatoday.com/gulf-crisis-gail-halts-gas-supply-to-yelahanka-power-plant-generation-may-be-hit
+  - key: SGS
+    name: Sharavathy Generating Station
+    type: Major hydro
+    capacity_mw: 1035
+    units: 10
+    summary: >-
+      Sharavathy Generating Station in Shivamogga district, near Jog Falls, is KPCL's largest hydro
+      station: ten 103.5 MW units (1,035 MW). It is fed by the Linganamakki and Talakalale reservoirs on the
+      Sharavathi river. Its first units were commissioned in 1964.
+    sources: [https://en.wikipedia.org/wiki/Sharavathi_River]
+  - key: NPH
+    name: Nagjhari Power House
+    type: Major hydro
+    capacity_mw: 900
+    units: 6
+    summary: >-
+      Nagjhari Power House, on the Kali river in Uttara Kannada district, is the main station of the
+      Kalinadi hydro-electric project: six units, 900 MW. It was the first power house in the Kali valley
+      (1980) and is fed by the Supa reservoir.
+    sources: [http://karnatakapower.com/en/portfolio/nagjhari-power-house/]
+  - key: VUGPH
+    name: Varahi Underground Power House
+    type: Major hydro
+    capacity_mw: 460
+    units: 4
+    summary: >-
+      Varahi Underground Power House, in Udupi district, is an underground station of four units (460 MW)
+      on the Varahi river, fed by the Mani reservoir.
+  - key: MGHE
+    name: Mahatma Gandhi Hydro Electric Station
+    type: Major hydro
+    capacity_mw: 139.2
+    units: 8
+    summary: >-
+      Mahatma Gandhi Hydro Electric Station at Jog, on the Sharavathi river, is one of the oldest hydro
+      stations in the Sharavathi valley: eight units, 139.2 MW.
+  - key: LPH
+    name: Linganamakki Dam Power House
+    type: Major hydro
+    capacity_mw: 55
+    units: 2
+    summary: Linganamakki Dam Power House sits at the Linganamakki dam on the Sharavathi river (two units, 55 MW).
+  - key: GERUSOPPA
+    name: Gerusoppa Dam Power House
+    type: Major hydro
+    capacity_mw: 240
+    units: 4
+    summary: >-
+      Gerusoppa Dam Power House, downstream on the Sharavathi river in Uttara Kannada district, reuses the
+      water released by the Sharavathy station (tail-race development): four units, 240 MW.
+  - key: SUPA
+    name: Supa Dam Power House
+    type: Major hydro
+    capacity_mw: 100
+    units: 2
+    summary: Supa Dam Power House sits at the Supa dam on the Kali river, part of the Kalinadi project (two units, 100 MW).
+  - key: KADRA
+    name: Kadra Dam Power House
+    type: Major hydro
+    capacity_mw: 150
+    units: 3
+    summary: Kadra Dam Power House is on the Kali river near Karwar in Uttara Kannada district (three units, 150 MW).
+  - key: KODASALLI
+    name: Kodasalli Dam Power House
+    type: Major hydro
+    capacity_mw: 120
+    units: 3
+    summary: Kodasalli Dam Power House is on the Kali river in Uttara Kannada district (three units, 120 MW).
+  - key: ALAMATTI
+    name: Alamatti Dam Power House
+    type: Major hydro
+    capacity_mw: 290
+    units: 6
+    summary: >-
+      Alamatti Dam Power House is at the Lal Bahadur Shastri (Almatti) dam on the Krishna river, part of
+      the Upper Krishna Project: six units, 290 MW.
+  - key: SHIVA
+    name: Shiva Hydro Electric Station
+    type: Major hydro
+    capacity_mw: 42
+    units: 10
+    summary: >-
+      Shiva Hydro Electric Station at Shivanasamudra on the Kaveri river (Mandya district) dates from 1902
+      and is regarded as one of Asia's first hydro-electric stations, built to power the Kolar Gold Fields
+      and Bengaluru: ten units, 42 MW.
+    sources: [https://en.wikipedia.org/wiki/Shivanasamudra_Falls]
+  - key: BHADRA
+    name: Bhadra Generating Station
+    type: Major hydro
+    capacity_mw: 39.2
+    units: 5
+    summary: Bhadra Generating Station is at the Bhadra dam in Chikkamagaluru district (five units, 39.2 MW).
+  - key: MUNIRABAD
+    name: Munirabad Dam Power House
+    type: Major hydro
+    capacity_mw: 38
+    units: 4
+    summary: Munirabad Dam Power House is at the Tungabhadra dam in Koppal district (four units, 38 MW).
+  - key: GHATPRABHA
+    name: Ghataprabha Dam Power House
+    type: Major hydro
+    capacity_mw: 32
+    units: 2
+    summary: Ghataprabha Dam Power House is on the Ghataprabha river in Belagavi district (two units, 32 MW).
+  - key: SHIMSHA
+    name: Shimsha Hydro Electric Station
+    type: Minor hydro
+    capacity_mw: 17.2
+    units: 2
+    summary: Shimsha Hydro Electric Station is on the Shimsha river, a tributary of the Kaveri, in Mandya district (two units, 17.2 MW).
+  - key: MANI
+    name: Mani Dam Power House
+    type: Minor hydro
+    capacity_mw: 9
+    units: 2
+    summary: Mani Dam Power House sits at the Mani dam on the Varahi river, which also feeds the Varahi underground station (two units, 9 MW).
+  - key: MALLAPUR
+    name: Mallapur Mini Hydel
+    type: Minor hydro
+    capacity_mw: 9
+    units: 2
+    summary: Mallapur Mini Hydel is a small canal-based hydro station (two units, 9 MW).
+  - key: MALAPRABHA
+    name: Malaprabha Mini Hydel
+    type: Minor hydro
+    capacity_mw: 2.4
+    units: 1
+    summary: Malaprabha Mini Hydel is a small hydro station on the Malaprabha system (one unit, 2.4 MW).
+  - key: SIRWAR
+    name: Sirwar Mini Hydel
+    type: Minor hydro
+    capacity_mw: 1
+    units: 1
+    summary: Sirwar Mini Hydel is a small canal-based hydro station in Raichur district (one unit, 1 MW).
+  - key: KALMALA
+    name: Kalmala Mini Hydel
+    type: Minor hydro
+    capacity_mw: 0.4
+    units: 1
+    summary: Kalmala Mini Hydel is a small canal-based hydro station in Raichur district (one unit, 0.4 MW).
+  - key: GANEKAL
+    name: Ganekal Mini Hydel
+    type: Minor hydro
+    capacity_mw: 0.35
+    units: 1
+    summary: Ganekal Mini Hydel is KPCL's smallest station, a canal-based mini hydel of 0.35 MW (one unit).
+  - key: BWTEP
+    name: Bidadi Waste to Energy Plant
+    type: Waste to energy
+    capacity_mw: 11.5
+    units: 1
+    summary: >-
+      Bidadi Waste to Energy Plant, near Bengaluru, generates electricity from the city's municipal solid
+      waste (one unit, 11.5 MW). This system records it from June 2024.
+  - key: SH-SOLAR-10
+    name: Shivasamudra Solar PV Plant 10 MW
+    type: Solar PV
+    capacity_mw: 10
+    units: 1
+    summary: A 10 MW solar photovoltaic plant at Shivanasamudra, commissioned in 2017.
+  - key: SH-SOLAR-5
+    name: Shivasamudra Solar PV Plant 5 MW
+    type: Solar PV
+    capacity_mw: 5
+    units: 1
+    summary: A 5 MW solar photovoltaic plant at Shivanasamudra, commissioned in 2017.
+  - key: CHANDAPUR
+    name: Chandapur Solar PV Plant
+    type: Solar PV
+    capacity_mw: 10
+    units: 1
+    summary: A 10 MW solar photovoltaic plant at Chandapur, commissioned in 2017.
+  - key: YAL-SOLAR-3
+    name: Yalesandra Solar PV Plant
+    type: Solar PV
+    capacity_mw: 3
+    units: 1
+    summary: A 3 MW solar photovoltaic plant at Yalesandra (Kolar district), one of KPCL's first solar plants (2012).
+  - key: ITN-SOLAR-3
+    name: Itnal Solar PV Plant
+    type: Solar PV
+    capacity_mw: 3
+    units: 1
+    summary: A 3 MW solar photovoltaic plant at Itnal (Belagavi district), commissioned in 2012.
+  - key: YAP-SOLAR-3
+    name: Yapaldinni Solar PV Plant
+    type: Solar PV
+    capacity_mw: 3
+    units: 1
+    summary: A 3 MW solar photovoltaic plant at Yapaldinni (Raichur district), commissioned in 2012.
+  - key: KG-WEF
+    name: Kappatagudda Wind Energy Farm
+    type: Wind
+    capacity_mw: 4.555
+    units: 2
+    summary: Kappatagudda Wind Energy Farm, in the Kappatagudda hills of Gadag district, is KPCL's wind farm (4.555 MW).
+
+# -----------------------------------------------------------------------------
+# How KPCL is organised: its governing bodies, hierarchy, offices and how decisions are made.
+# Structure only; no names of office holders (they change). Organogram as updated on 25 May 2026.
+organisation:
+  - id: hierarchy
+    name: How KPCL is organised
+    aliases: [organisation structure, organization structure, organisational structure, organizational structure, organogram,
+              organigram, org chart, organisation chart, organization chart, hierarchy, kpcl hierarchy, reporting structure,
+              chain of command, management structure, structure of kpcl, kpcl structure, who reports to, reports to whom,
+              wings of kpcl, departments of kpcl, kpcl departments, divisions of kpcl, reports to the technical director,
+              reports to the finance director, reports to the director hr, reports to the managing director, reports to the md,
+              under the technical director, under the finance director, under the director hr, under the managing director,
+              who heads rtps, who heads btps, who heads ytps, who heads a power station, who heads the stations]
+    summary: |-
+      KPCL's hierarchy runs from the Chairman to the Board of Directors and then to the Managing Director, who heads the company. Three full-time directors report to the Managing Director, each with their own wing, and a few offices report to the Managing Director directly.
+      •  Technical Director: the power stations and projects. Under this post are the Executive Directors of the three thermal stations (Raichur, Bellary and Yeramarus); Chief Engineers for thermal designs, electrical designs, civil designs, systems, mines and the Yelahanka gas plant; the Chief Engineers for operation and maintenance and for civil works in the Sharavathi and Kali valleys; the Chief Engineers (Mines) for Godhna, the Mandakini coal block and the Baranj open cast mines; and three Superintending Engineers and a Resident Engineer.
+      •  Finance Director: finance and accounts, through two General Managers at the head office and the General Manager (Finance) of Raichur Power Corporation Limited.
+      •  Director (HR): people and administration, through the General Manager (Administration & HR), two Assistant General Managers (one for HR development) and the medical officer.
+      •  Reporting directly to the Managing Director: the Chief Vigilance Officer, the General Manager (Internal Audit), the General Manager (Corporate Affairs) who is also the Company Secretary, the Head of Legal Services, and the Head of land acquisition and rehabilitation & resettlement.
+      Each power station or valley project is run by an Executive Director (thermal stations) or a Chief Engineer (hydro valleys), who reports up the technical wing.
+    in_this_data: >-
+      Ask "What does the Board of Directors do?", "What are the board committees?" or "What are the management
+      levels in KPCL?" for more on each part.
+    sources:
+      - "KPCL organogram (Annexure-A to the RTI 4(1)(b) disclosures), updated 25.05.2026: https://kpcl.karnataka.gov.in/uploads/media_to_upload1780384819.pdf"
+      - https://kpcl.karnataka.gov.in/3/kpcl-senior-officials/en
+  - id: board
+    name: KPCL's Board of Directors
+    aliases: [board of directors, kpcl board, kpcl's board, the board, board members, members of the board, chairman of kpcl,
+              kpcl chairman, chairman of the board, vice chairman, vice-chairman, directors of kpcl, board composition,
+              who is on the board, board meetings]
+    summary: >-
+      Under its Articles of Association, KPCL is managed by a Board of Directors constituted by the Government of
+      Karnataka from time to time. By convention the Chief Minister is appointed Chairman and the Minister for
+      Energy Vice Chairman; the other members are senior IAS officers, technocrats and professionals appointed by
+      the state. The Board takes all major decisions, approves the capital and revenue budget each year after the
+      Audit Committee has vetted it, and has delegated substantial management powers to the Managing Director. It
+      meets at least four times a year. Its minutes are not public under company law, although information can
+      be sought under the Right to Information Act. This assistant does not name KPCL's current office holders
+      because they change. The current Board and senior officers are listed on KPCL's official website.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 1.1, 3.4, chapters 8 and 11: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: board_committees
+    name: Committees of KPCL's Board
+    aliases: [board committees, committees of the board, board sub committees, sub committees, sub-committees, subcommittees,
+              audit committee, technical committee, csr committee, negotiation committee, committees of kpcl]
+    summary: |-
+      The Board works through sub-committees whose members come from the Board itself:
+      •  Audit Committee: vets the annual capital and revenue budget, advises on accounts and audit, and is where whistle-blower complaints are finally decided. It meets at least three times a year.
+      •  Technical Committee: advises on technical matters and meets as the company's work requires.
+      •  CSR Committee: recommends the company's social-responsibility spending and annual action plan to the Board. Under KPCL's CSR policy it is chaired by the Additional Chief Secretary of the Energy Department, with the Additional Chief Secretary of the Finance Department and KPCL's Managing Director as members.
+      •  Board sub-committees for negotiations.
+      Major decisions are taken by the Managing Director in consultation with the Audit and Technical Committees before going to the Board. For dam safety, KPCL also has a panel of independent experts.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 3.4 and 8: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+      - "KPCL CSR Policy (Board, 284th meeting, 08.04.2022): https://kpcl.karnataka.gov.in/storage/pdf-files/CSR%20Policy%20_KPCL%202021-22.pdf"
+  - id: managing_director
+    name: The Managing Director and the full-time directors
+    aliases: [managing director, md of kpcl, kpcl md, kpcl's md, the md, role of the md, powers of the md, technical director,
+              finance director, director hr, director (hr), hr director, functional directors, full time directors,
+              full-time directors, whole time directors, whole-time directors]
+    summary: >-
+      KPCL has four full-time directors. The Managing Director, the head of the company, is appointed by the
+      Government of Karnataka from among senior civil-service officers; the Board has vested this post with
+      substantial administrative and managerial powers, which it passes down through a scheme of delegation. The
+      Technical Director and the Finance Director are appointed from among the company's own senior officers, and
+      the Director (HR) is appointed by the state from among Karnataka Administrative Service officers. The Technical
+      Director oversees the power stations and projects, the Finance Director finance and accounts, and the Director
+      (HR) people and administration. This assistant does not name KPCL's current office holders because they
+      change. The current Board and senior officers are listed on KPCL's official website.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 1.1 and 2: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: cadres
+    name: Management levels and cadres in KPCL
+    aliases: [management levels, levels of management, cadres, cadre, employee cadres, corporate cadre, workmen cadre, workmen,
+              grades, designations, ranks, junior management, middle management, senior management, executive director,
+              executive directors, chief engineer, chief engineers, superintending engineer, executive engineer,
+              assistant executive engineer, assistant engineer, junior engineer, employees of kpcl, kpcl employees, staff of kpcl]
+    summary: |-
+      KPCL's employees are in two cadres: the corporate cadre and the workmen cadre. The corporate cadre has three levels:
+      •  Junior management: Junior Engineers, Assistant Engineers, Assistant Accounts Officers and equivalent posts, the first supervisory level.
+      •  Middle management: Assistant Executive Engineers, Executive Engineers and equivalents, who execute the work in their areas.
+      •  Senior management: Superintending Engineers, Deputy General Managers, Chief Engineers, General Managers and Executive Directors.
+      Officers from Assistant Executive Engineer upwards hold delegated financial and disciplinary powers; workmen hold no financial or disciplinary powers. Senior managers at each project monitor their areas against set targets and report to the top level.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, chapters 2 and 3: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: decision_making
+    name: How decisions are made in KPCL
+    aliases: [decision making, decision-making, how are decisions made, who takes decisions, delegation of powers, delegation of power,
+              powers delegated, accountability, channels of supervision, approval process, approvals in kpcl]
+    summary: >-
+      KPCL functions on commercial lines while following the mandates of the state government. All major decisions
+      are taken by the Board. Others are taken by the Managing Director in consultation with the Audit and Technical
+      Committees. The Board has vested the Managing Director with substantial management powers, and these are
+      delegated further, down to Assistant Executive Engineers, through a documented scheme of delegation of powers.
+      Officers at each project (Executive Directors, Chief Engineers, General Managers and Deputy General Managers for
+      finance and HR) monitor their areas against set targets and benchmarks and report regularly to the top. KPCL
+      funds new projects, renovation and maintenance from its own earnings and commercial borrowing, receives no
+      subsidy from the state government, and has its budget vetted by the Audit Committee and approved by the Board.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, chapters 3, 5, 11-13: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: offices
+    name: KPCL's offices and working hours
+    aliases: [kpcl offices, offices of kpcl, office addresses, project offices, green building, shakti bhavan, shakthi bhavan,
+              corporate office, working hours, office hours, office timings, kpcl timings, where are kpcl offices, kpcl's offices,
+              where are the offices, offices in karnataka, project office, project offices of kpcl]
+    summary: |-
+      KPCL's head office is Shakthi Bhavan, 82 Race Course Road, Bengaluru, with a second corporate office in the KPCL Green Building, 3 Palace Road, Bengaluru. Its projects have offices across the state:
+      •  Bengaluru: the Yelahanka combined cycle plant. Ramanagara: the Bidadi waste-to-energy plant.
+      •  Raichur: Raichur Thermal Power Station at Shakthinagar and Yeramarus Thermal Power Station. Ballari: Bellary Thermal Power Station at Kudithini.
+      •  Shivamogga and Udupi: the Sharavathi Valley Project at Jog Falls and the Varahi project at Masthikatte and Hosangadi.
+      •  Uttara Kannada: the Kalinadi project at Ambikanagar, Ganeshgudi and Kadra, and the Gerusoppa project.
+      •  Belagavi: Ghataprabha at Hidkal Dam. Bagalkot: the Almatti dam power house. Koppal: Munirabad. Mandya: Shivanasamudra.
+      •  Outside Karnataka: the Godhna project office in Janjgir-Champa district, Chhattisgarh.
+      The head office works 9.30 am to 5.30 pm and is closed on the second and fourth Saturdays. Project offices work 9.30 am to 5.30 pm on weekdays and 9.30 am to 1.30 pm on Saturdays, while shift staff at the stations work round the clock in three shifts.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 1.6 and 1.7: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: vigilance
+    name: Vigilance in KPCL
+    aliases: [vigilance, chief vigilance officer, cvo, vigilance wing, corruption complaint, report corruption, complaint against an officer]
+    summary: >-
+      KPCL has a Chief Vigilance Officer who reports directly to the Managing Director, alongside the General Manager
+      (Internal Audit). Employees and directors can also report suspected fraud, misconduct or rule violations in
+      confidence under the company's Whistle Blower Policy and Vigil Mechanism. Ask "What is KPCL's whistle blower
+      policy?" for how that works.
+    sources:
+      - "KPCL organogram, updated 25.05.2026"
+      - https://kpcl.karnataka.gov.in/3/kpcl-senior-officials/en
+  - id: energy_department
+    name: The Energy Department, KPCL's administrative department
+    aliases: [energy department, department of energy, energy dept, administrative department, parent department, energy minister,
+              minister for energy, who controls kpcl, government department for kpcl, which department, department controls kpcl,
+              department that controls kpcl, ministry for kpcl, under which department]
+    summary: >-
+      KPCL is administered through the Government of Karnataka's Energy Department, which also oversees the
+      transmission company KPTCL and the five electricity supply companies. The Minister for Energy is normally
+      Vice Chairman of KPCL's Board, and the Additional Chief Secretary of the Energy Department chairs the Board's
+      CSR Committee. The state appoints KPCL's Board, its Managing Director and its Director (HR).
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 1.1 and 2"
+      - KPCL CSR Policy 2022 (CSR Committee composition)
+
+# -----------------------------------------------------------------------------
+# KPCL's own rules, manuals and policies (what the company itself has adopted).
+policies:
+  - id: service_rules
+    name: KPCL's service rules and manuals
+    aliases: [service rules, service regulations, hrd manual, hr manual, human resources manual, standing orders, standing regulations,
+              conduct rules, rules for employees, employee rules, transfer rules, promotion rules, rules of kpcl, kpcl rules,
+              rules and regulations, manuals of kpcl, kpcl manuals, pay and allowances, e-office manual]
+    summary: >-
+      KPCL's rules for its employees are compiled in its HRD Manual, which covers recruitment, transfer, promotion,
+      pay and allowances, the medical scheme and related matters. Day-to-day administration also follows its Standing
+      Regulations and circulars, and disciplinary matters follow the company's Standing Orders. Decisions and
+      spending follow the Board's scheme of delegation of powers. Copies of the rules can be requested from the
+      General Manager (Administration & HR) at the head office, on payment of the fee fixed under the Karnataka
+      Right to Information Rules, 2005.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024, sections 3.1-3.3, 6 and 7.3: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+  - id: csr_policy
+    name: KPCL's Corporate Social Responsibility (CSR) policy
+    aliases: [csr, csr policy, corporate social responsibility, csr spending, csr activities, csr work, social responsibility,
+              enterprise social responsibility, esr, csr projects]
+    summary: |-
+      KPCL's CSR policy, approved by its Board on 8 April 2022, directs its social spending mainly to the rural and remote areas around its projects and stations. It follows Schedule VII of the Companies Act, 2013.
+      •  Focus areas: drinking water, sanitation, education and skills (including school infrastructure), healthcare, rural development, livelihoods for disadvantaged groups, environmental protection and sports.
+      •  How it is governed: a three-tier structure of the Board, its CSR Committee, and the Managing Director with project heads. The CSR Committee is chaired by the Additional Chief Secretary of the Energy Department. The Board approves the annual action plan.
+      •  How much: at least 2% of the average net profit of the three preceding years, every year. Unspent money for ongoing projects goes to an Unspent CSR Account and must be used within three years.
+      •  Controls: administrative overheads are capped at 5% of CSR spending, projects of ₹1 crore or more are independently assessed for impact, and the policy and approved projects are disclosed publicly.
+      KPCL publishes a list of its CSR activities every year.
+    sources:
+      - "KPCL CSR Policy (Board, 284th meeting, 08.04.2022): https://kpcl.karnataka.gov.in/storage/pdf-files/CSR%20Policy%20_KPCL%202021-22.pdf"
+      - https://kpcl.karnataka.gov.in/126/corporate-social-responsibility/en
+  - id: whistle_blower
+    name: KPCL's Whistle Blower Policy and Vigil Mechanism
+    aliases: [whistle blower, whistleblower, whistle-blower, whistle blower policy, vigil mechanism, protected disclosure,
+              report misconduct, report fraud, how to report wrongdoing]
+    summary: |-
+      KPCL's Whistle Blower Policy and Vigil Mechanism, 2020 (approved by the Board on 7 January 2020 under Section 177(9) of the Companies Act, 2013) lets directors and employees report unethical behaviour, suspected fraud or breaches of the code of conduct without fear of victimisation.
+      •  How to report: in writing, within 30 days of becoming aware, in a sealed envelope marked "Protected Disclosure under the Whistle Blower policy", addressed to the Nodal Officer, who is the Director (HR) at the head office. Anonymous complaints are not taken up, but the complainant's identity is kept confidential.
+      •  Who decides: a screening committee of the Managing Director, Finance Director and Director (HR) recommends within 90 working days whether to investigate; investigations normally finish within 120 days, and the Audit Committee decides the outcome. Complaints about a director go straight to the Chairman of the Audit Committee.
+      •  Protection: whistle blowers are protected from retaliation, transfer or demotion for a genuine disclosure, but knowingly false or malicious complaints lead to disciplinary action.
+      Personal grievances are not covered by this policy.
+    sources:
+      - "KPCL Whistle Blower Policy/Vigil Mechanism 2020 (Board, 273rd meeting, 07.01.2020): https://kpcl.karnataka.gov.in/storage/pdf-files/3Whistle-Blower-Policy-KPCL.pdf"
+  - id: recruitment
+    name: How KPCL recruits
+    aliases: [recruitment, recruitment rules, recruitment process, jobs at kpcl, kpcl jobs, job at kpcl, how to join kpcl, careers,
+              careers at kpcl, vacancies, kpcl vacancies, hyderabad karnataka reservation, kalyana karnataka reservation, 371j,
+              article 371j, hk quota, kannada language test, seniority list, recruit, recruits, recruiting, hiring, hire,
+              selection process, entrance exam, how does kpcl recruit]
+    summary: >-
+      KPCL recruits through public notifications on its website for posts such as Assistant Engineers and Junior
+      Engineers (civil, electrical, mechanical and instrumentation), chemists and chemical supervisors, accounts and
+      medical officers, and legal officers on contract. Selection is by written examination, followed by publication
+      of a provisional list, document and certificate verification, and a final selection list. Candidates must pass
+      a Kannada language test. Posts are filled separately for the Kalyana Karnataka (Hyderabad-Karnataka) region
+      under the Article 371J reservation order of 2013 and for the rest of the state, each with its own list. The
+      recruitment rules themselves are part of KPCL's HRD Manual.
+    sources:
+      - https://kpcl.karnataka.gov.in/18/careers--and--recruitment/en
+      - https://kpcl.karnataka.gov.in/32/human-resource/en
+  - id: rti
+    name: Getting information from KPCL under the RTI Act
+    aliases: [rti, right to information, rti act, rti application, public information officer, public information officers, pio,
+              apio, first appellate authority, appellate authority, how to get information from kpcl, information request]
+    summary: |-
+      KPCL is a public authority under the Right to Information Act, 2005. Anyone can ask it for information online through the Karnataka RTI portal or by a written application, paying the fee set by the Karnataka Right to Information Rules, 2005.
+      •  Where to apply: each subject has its own Public Information Officer, Assistant Public Information Officer and First Appellate Authority. At the head office these cover corporate affairs, finance, technical matters and HR; in the field they cover the Sharavathi, Varahi and Kali valley projects, the Bellary, Raichur and Yeramarus thermal stations, the Godhna project, the KPC Gas Power Corporation and Raichur Power Corporation.
+      •  What it publishes proactively: under Section 4(1)(b), a handbook on its organisation and functions, powers and duties, decision-making, rules and manuals, budget, directory of officers, the monthly pay of its officers and employees, and the list of information officers.
+      •  How information is shared: notice boards, inspection of records, copies of documents, printed manuals and the official website.
+      A single application should cover one subject and not exceed 150 words.
+    sources:
+      - "KPCL RTI 4(1)(b) handbook, Sept 2024: https://kpcl.karnataka.gov.in/storage/pdf-files/RTI-4(1)(b)-EnglishManual.pdf"
+      - "KPCL list of PIOs, APIOs and FAAs, updated 28.07.2026: https://kpcl.karnataka.gov.in/uploads/media_to_upload1785236797.pdf"
+      - https://kpcl.karnataka.gov.in/12/rti-4%281%29/en
+  - id: procurement
+    name: How KPCL buys (tenders and procurement)
+    aliases: [tenders, tender, kpcl tenders, procurement, e-procurement, purchase manual, purchase procedure, blacklisted firms,
+              blacklisted, contractors, vendor registration, agency payments, how to supply to kpcl]
+    summary: >-
+      KPCL publishes its tenders on the Government of Karnataka's public procurement portal, as the state's
+      transparency-in-procurement law requires of state undertakings, and awards contracts under its own purchase
+      procedures and the Board's delegation of powers. It also publishes a list of blacklisted firms and lets
+      suppliers and agencies track their payments online.
+    sources:
+      - https://kppp.karnataka.gov.in/
+      - https://kpcl.karnataka.gov.in/51/blacklisted-firms/en
+      - https://kpcl.karnataka.gov.in/45/agency-payments/en
+
+# -----------------------------------------------------------------------------
+# What KPCL makes public, and other things it is known for.
+public_information:
+  - id: public_data
+    name: What information KPCL makes public
+    aliases: [public data, public information, what does kpcl publish, what information does kpcl publish, published data,
+              kpcl disclosures, disclosures, kpcl website, official website, what data is public, open data, annual report,
+              kpcl annual report, financial statements, profit and loss, budget book, annual return, tariff application,
+              tariff petition, sale of energy]
+    summary: |-
+      KPCL publishes a good deal about itself:
+      •  Finance: annual reports, profit and loss statements, income and expenditure, sale of energy, the budget book and the annual return, plus tariff applications filed with the state regulator (for example for Bellary Thermal Power Station Unit 3).
+      •  Generation: generation performance, monthly performance of the thermal stations, performance of the major hydro stations, generation graphs and reports, and installed capacity by station.
+      •  Technical and environment: water use by station, generator voltages and transmission lines, technical case studies, fly ash utilisation at the Raichur, Bellary and Yeramarus stations, and the environmental clearances and compliance reports of the Yelahanka plant and the Baranj coal mines.
+      •  Governance: the Board, senior officials, mission, policies (CSR and Whistle Blower), joint ventures, awards, and the Right to Information disclosures, including the organisation chart, delegation of powers, officers' pay and the budget.
+      •  People and suppliers: recruitment notifications and results, seniority lists, reservation notifications, pension slips and tax forms for staff, agency payments, blacklisted firms and holiday lists.
+      The generation figures in this assistant come from its own records for April 2015 to April 2025.
+    sources:
+      - https://kpcl.karnataka.gov.in/en (site map, September 2026)
+      - https://kpcl.karnataka.gov.in/8/technical/en
+      - https://kpcl.karnataka.gov.in/136/environment/en
+  - id: awards
+    name: Awards KPCL has received
+    aliases: [awards, kpcl awards, awards won, honours, recognition, karnataka ratna award, igbc, green building award]
+    summary: |-
+      KPCL lists awards going back to the late 1980s, among them:
+      •  2022: IGBC Platinum certification for its Green Building headquarters.
+      •  2008-09: the Government of Karnataka's award for the best overall performance among public sector undertakings, and gold and bronze medals for the Varahi project for early completion and performance.
+      •  2008: first prize for Raichur Unit 6 as the best safe power boiler (37th National Safety Council awards), and an IEEMA first prize for excellence for the Sharavathi Generating Station.
+      •  2005-2008: awards for Gerusoppa, Kodasalli and Varahi as among the best-performing hydel stations, and for Almatti Units 3 and 6 as best-executed projects.
+      •  1988 to 2004: repeated cash awards, medals and shields for high plant load factor and for cutting auxiliary consumption and secondary fuel oil at the Raichur thermal station.
+    sources: [https://kpcl.karnataka.gov.in/24/awards/en]
+  - id: consultancy
+    name: KPCL's consultancy services
+    aliases: [consultancy, consultancy services, consulting services, kpcl consultancy, dpr preparation, dam rehabilitation]
+    summary: >-
+      KPCL's consultancy division offers its power-project experience to other organisations, from concept to
+      commissioning: feasibility studies and detailed project reports, design and engineering, procurement and
+      construction support, project management, supervision of civil, electrical and mechanical work, operation and
+      maintenance, dam rehabilitation, and renovation and modernisation of stations. Past clients include the Central
+      Electricity Authority (project reports for hydro schemes), NTPC's hydro arm and the Nuclear Power Corporation
+      of India (investigations for Kaiga Units 3 and 4), as well as state water and irrigation corporations.
+    sources: [https://kpcl.karnataka.gov.in/28/consultancy-services-offered/en]
+
+# -----------------------------------------------------------------------------
+# Laws, regulators and rules KPCL works under.
+regulation:
+  - id: electricity_act_2003
+    name: The Electricity Act, 2003
+    aliases: [electricity act, electricity act 2003, ea 2003]
+    summary: >-
+      The Electricity Act, 2003 is the central law governing electricity in India. It replaced the Indian
+      Electricity Act, 1910, the Electricity (Supply) Act, 1948 and the Electricity Regulatory Commissions
+      Act, 1998. For a generator like KPCL it matters in five ways. Generation needs no licence (Section 7),
+      but hydro schemes above a set cost need the Central Electricity Authority's concurrence (Section 8).
+      Generating companies must run their stations under the grid rules and technical standards
+      (Section 10). The tariff for power sold to distribution companies is fixed by the state commission
+      (Section 62). The State Load Despatch Centre directs grid operation (Sections 32-33).
+    sources: [https://en.wikipedia.org/wiki/Electricity_Act,_2003]
+  - id: reform_act_1999
+    name: The Karnataka Electricity Reform Act, 1999
+    aliases: [karnataka electricity reform act, reform act, electricity reform act, kera]
+    summary: >-
+      The Karnataka Electricity Reform Act, 1999 restructured Karnataka's power sector. The Karnataka
+      Electricity Board was dissolved, its transmission and distribution passed to the new Karnataka Power
+      Transmission Corporation Limited (KPTCL, formed on 1 August 1999), and the Karnataka Electricity
+      Regulatory Commission was set up. Distribution was then split into electricity supply companies in
+      2002. KPCL, already separate since 1970, stayed the state's generator.
+    sources:
+      - https://www.indiacode.nic.in/handle/123456789/7141
+      - https://en.wikipedia.org/wiki/Electricity_supply_companies_in_Karnataka
+  - id: kerc
+    name: Karnataka Electricity Regulatory Commission (KERC)
+    aliases: [kerc, karnataka electricity regulatory commission, the regulator, state regulator, state commission]
+    summary: >-
+      The Karnataka Electricity Regulatory Commission is the state's electricity regulator, constituted in
+      November 1999 under Section 3(1) of the Karnataka Electricity Reform Act, 1999 and now working under the
+      Electricity Act, 2003. It sets the tariff at which KPCL sells power to the ESCOMs (under multi-year
+      tariff regulations, first issued on 31 May 2006), approves power purchase agreements, fixes retail
+      tariffs, and sets the operating norms, such as availability and auxiliary consumption, that tariffs
+      assume. It sits in Bengaluru.
+    sources:
+      - https://kerc.karnataka.gov.in/32/about-us/en
+      - https://solarquarter.com/2024/11/27/25-years-of-kerc-pioneering-power-reforms-and-renewable-energy-growth-in-karnataka/
+  - id: cea
+    name: Central Electricity Authority (CEA)
+    aliases: [cea, central electricity authority]
+    summary: >-
+      The Central Electricity Authority is the Government of India's technical adviser on power, a statutory
+      body under the Ministry of Power (Section 70 of the Electricity Act, 2003). It frames technical and
+      safety standards, prepares the National Electricity Plan, approves major hydro schemes, and each year
+      sets a generation target for every major station in the country. Those station targets are the "CEA
+      targets" in this system. Achievement against them is a standard measure of how a station performed.
+    sources: [https://cea.nic.in/]
+  - id: kptcl
+    name: Karnataka Power Transmission Corporation Limited (KPTCL)
+    aliases: [kptcl, karnataka power transmission corporation, transmission company]
+    summary: >-
+      KPTCL, formed on 1 August 1999 when the Karnataka Electricity Board was dissolved, owns and runs the
+      state's high-voltage transmission network, which carries KPCL's power from the stations to the ESCOMs.
+      The State Load Despatch Centre works within KPTCL.
+    sources: [https://en.wikipedia.org/wiki/Karnataka_Power_Transmission_Corporation]
+  - id: sldc
+    name: State Load Despatch Centre (SLDC)
+    aliases: [sldc, state load despatch centre, state load dispatch center, load despatch, load dispatch]
+    summary: >-
+      The State Load Despatch Centre is the apex body for running Karnataka's grid (Sections 31-33 of the
+      Electricity Act, 2003). It schedules and despatches power from every station minute by minute, usually
+      calling on the cheapest sources first ("merit order"). Its instructions to reduce output for grid or cost
+      reasons are the back-down recorded in this system. In Karnataka it is run by KPTCL.
+    sources: [https://en.wikipedia.org/wiki/Electricity_Act,_2003]
+  - id: escoms
+    name: Electricity supply companies (ESCOMs)
+    aliases: [escoms, escom, bescom, mescom, hescom, gescom, cesc, cescom, electricity supply companies, discoms, distribution companies]
+    summary: >-
+      Karnataka's five electricity supply companies buy power from KPCL, central stations and private
+      producers and distribute it to consumers. They are BESCOM (Bengaluru), MESCOM (Mangaluru), HESCOM
+      (Hubballi), GESCOM (Kalaburagi) and CESC (Mysuru). They were created when distribution was separated
+      from KPTCL in 2002. KPCL's income comes mainly from its sales to them.
+    sources: [https://en.wikipedia.org/wiki/Electricity_supply_companies_in_Karnataka]
+  - id: emission_norms
+    name: Emission norms for thermal power stations
+    aliases: [emission norms, pollution norms, fgd, flue gas desulphurisation, flue gas desulfurization, environment rules, environmental norms]
+    summary: >-
+      Coal-fired stations must meet the emission limits notified by the Ministry of Environment, Forest and
+      Climate Change on 7 December 2015 (Environment (Protection) Amendment Rules, 2015). These rules
+      tightened limits on particulate matter, sulphur dioxide, nitrogen oxides and mercury and on water use.
+      Meeting the sulphur-dioxide limit generally requires flue gas desulphurisation (FGD) units. The
+      Karnataka State Pollution Control Board enforces consent conditions for each station.
+    sources: [https://moef.gov.in/]
+  - id: companies_act_2013
+    name: The Companies Act, 2013 and KPCL
+    aliases: [companies act, companies act 2013, company law, corporate governance, governance rules, section 135, section 177]
+    summary: >-
+      KPCL was incorporated under the Companies Act, 1956 and is now governed by the Companies Act, 2013 as a
+      Government company, one where the state holds more than half the shares. The Act shapes its governance in
+      several ways. It sets the Board's powers and meetings and the Audit Committee (Section 177). It requires a
+      vigil mechanism for directors and employees (Section 177(9)), which KPCL runs as its Whistle Blower Policy. It
+      requires CSR spending of at least 2% of average net profit (Section 135 and Schedule VII), under KPCL's CSR
+      policy. And it requires audited annual accounts and an annual return. Minutes of Board and committee
+      meetings are not open to the public under company law.
+    sources:
+      - https://www.mca.gov.in/content/mca/global/en/acts-rules/ebooks/acts.html
+      - "KPCL RTI 4(1)(b) handbook, chapter 8; KPCL CSR and Whistle Blower policies"
+  - id: cag_audit
+    name: Audit of KPCL (statutory auditors and the CAG)
+    aliases: [cag, comptroller and auditor general, audit of kpcl, kpcl audit, statutory audit, statutory auditor, auditors of kpcl,
+              internal audit, who audits kpcl]
+    summary: >-
+      As a Government company, KPCL's accounts are audited by statutory auditors appointed by the Comptroller and
+      Auditor General of India (CAG), who can also carry out a supplementary audit and comment on the accounts
+      (Sections 139 and 143 of the Companies Act, 2013). Inside the company, the General Manager (Internal Audit)
+      reports directly to the Managing Director, and the Board's Audit Committee reviews the accounts and the audit
+      findings.
+    sources:
+      - https://cag.gov.in/
+      - "KPCL organogram, updated 25.05.2026 (GM (IA) under the MD)"
+  - id: fly_ash_rules
+    name: Fly ash rules for thermal stations
+    aliases: [fly ash, flyash, fly-ash, ash utilisation, ash utilization, ash disposal, ash pond, bottom ash, fly ash notification]
+    summary: >-
+      Coal-fired stations must put all the fly ash they produce to use, in cement, bricks, roads, mine filling and
+      similar work, under the Ministry of Environment, Forest and Climate Change's fly ash notification of 31
+      December 2021, which replaced earlier notifications from 1999 onwards. Stations that fall short face
+      environmental compensation. KPCL reports fly ash utilisation for the Raichur, Bellary and Yeramarus thermal
+      stations and manages ash supply through an online system.
+    sources:
+      - https://kpcl.karnataka.gov.in/117/fly-ash-utilization/en
+      - https://moef.gov.in/
+  - id: coal_mines_act_2015
+    name: The Coal Mines (Special Provisions) Act, 2015
+    aliases: [coal mines special provisions act, coal mines act, coal block allocation, coal blocks, coal block, coalgate]
+    summary: >-
+      After the Supreme Court cancelled the allocation of 214 coal blocks in 2014, the Coal Mines (Special
+      Provisions) Act, 2015 set out how those blocks would be auctioned or allotted afresh. Under it the Baranj
+      blocks in Maharashtra were allotted again to KPCL on 31 March 2015, and KPCL has also been allotted the
+      Mandakini-A block in the Talcher coalfield (Angul district, Odisha), which is being developed to supply its
+      thermal stations.
+    sources:
+      - https://www.gem.wiki/Integrated_Baranj_Mine
+      - https://www.careratings.com/upload/CompanyFiles/PR/202508120826_Karnataka_Power_Corporation_Limited.pdf
+
+# -----------------------------------------------------------------------------
+projects:
+  - id: sharavathi_psp
+    name: Sharavathi Pumped Storage Project
+    aliases: [sharavathi pumped storage, sharavathi psp, pumped storage project, pumped storage]
+    summary: >-
+      KPCL has proposed a 2,000 MW (8 x 250 MW) pumped storage project on the Sharavathi river. It would
+      pump water between two existing reservoirs to store surplus power and release it at peak demand. The
+      CEA approved it in August 2024, the State Board for Wildlife in January 2025, and the National Board
+      for Wildlife gave in-principle approval in July 2025. Forest clearance was contested, and reports say
+      the Government of India put the project on hold in November 2025 over the loss of Western Ghats
+      forest.
+    sources:
+      - https://en.wikipedia.org/wiki/Sharavathi_Pumped_Storage_Hydropower_Project
+      - https://www.landconflictwatch.org/conflicts/environmentalists-raise-concerns-over-sharavathi-pumped-storage-project-in-karnataka
+      - https://kpcl.karnataka.gov.in/31/proposed-projects/en
+  - id: proposed_projects
+    name: KPCL's proposed projects
+    aliases: [proposed projects, upcoming projects, future projects, new projects, planned projects, pipeline projects, projects in the pipeline,
+              ongoing projects, projects of kpcl, kpcl projects, capacity addition plans, expansion plans]
+    summary: |-
+      KPCL lists four proposed projects, together about 5,300 MW:
+      •  Godhna Thermal Power Station: 1,600 MW (2 x 800 MW), coal-fired, in Janjgir-Champa district, Chhattisgarh, where KPCL has a project office.
+      •  Sharavathi pumped storage plant: 2,000 MW in the Sharavathi basin. Ask "What is the Sharavathi pumped storage project?" for its approvals.
+      •  Varahi pumped storage plant: 1,500 MW in the Varahi basin.
+      •  Shivanasamudra seasonal scheme: 200 MW (2 units) on the Kaveri at Shivanasamudra.
+      Its two most recent projects, the 370 MW Yelahanka combined cycle plant and the 11.5 MW Bidadi waste-to-energy plant, are already in this system's station records. KPCL is also developing captive coal mines: the Baranj mines in Maharashtra and the Mandakini-A block in Odisha.
+    sources:
+      - https://kpcl.karnataka.gov.in/31/proposed-projects/en
+      - https://kpcl.karnataka.gov.in/30/ongoing-projects/en
+  - id: varahi_psp
+    name: Varahi pumped storage project
+    aliases: [varahi pumped storage, varahi psp, varahi basin pumped storage, varahi pumped storage project, varahi pumped storage plant]
+    summary: >-
+      KPCL has proposed a 1,500 MW pumped storage plant in the Varahi basin, near its existing Varahi Underground
+      Power House in Udupi district. Like the Sharavathi scheme, it would pump water uphill when power is spare and
+      generate with it at peak demand. It is listed among KPCL's proposed projects.
+    sources: [https://kpcl.karnataka.gov.in/31/proposed-projects/en]
+  - id: godhna
+    name: Godhna Thermal Power Station (proposed)
+    aliases: [godhna, godhna thermal, godhna thermal power station, godhna project, chhattisgarh project]
+    summary: >-
+      Godhna Thermal Power Station is a proposed 1,600 MW (2 x 800 MW) coal-fired station of KPCL in Janjgir-Champa
+      district, Chhattisgarh. KPCL keeps a project office there, and its organisation includes a Chief Engineer
+      (Mines) for Godhna.
+    sources:
+      - https://kpcl.karnataka.gov.in/31/proposed-projects/en
+      - "KPCL RTI 4(1)(b) handbook, section 1.6 (Godhna office address); organogram 25.05.2026"
+  - id: shivanasamudra_seasonal
+    name: Shivanasamudra seasonal scheme (proposed)
+    aliases: [shivanasamudra seasonal, shivanasamudra seasonal scheme, shivasamudram seasonal, seasonal scheme]
+    summary: >-
+      The Shivanasamudra seasonal scheme is a proposed 200 MW (2 units) hydro project on the Kaveri at
+      Shivanasamudra, the site of Asia's first hydro-electric station (1902). It would use the river's high flows
+      during the monsoon season.
+    sources: [https://kpcl.karnataka.gov.in/31/proposed-projects/en, https://kpcl.karnataka.gov.in/20/about--us/en]
+
+# -----------------------------------------------------------------------------
+# Terms not already in the data glossary (PLF, PAF, MU, CEA target, ESCOM ... are defined there).
+glossary:
+  KERC: Karnataka Electricity Regulatory Commission, the state electricity regulator that sets KPCL's tariffs.
+  KPTCL: Karnataka Power Transmission Corporation Limited, which runs the state's transmission network.
+  SLDC: State Load Despatch Centre, which schedules and despatches power from every station in Karnataka.
+  PPA: Power purchase agreement, the long-term contract under which an ESCOM buys a station's power.
+  IPP: Independent power producer, a privately owned generating company.
+  Supercritical: A coal-fired unit whose steam runs above water's critical pressure, making it more efficient; YTPS and BTPS Unit 3 are supercritical.
+  Combined cycle: A gas plant where a gas turbine's hot exhaust raises steam for a second (steam) turbine, as at Yelahanka.
+  Pumped storage: A hydro scheme that pumps water uphill when power is spare and generates with it at peak demand.
+  Tail race: The channel carrying water away from a hydro station; a tail-race station, like Gerusoppa, reuses that water.
+  Merit order: The practice of despatching the cheapest available power first.
+  RPCL: Raichur Power Corporation Limited, the KPCL-BHEL joint venture that owns YTPS.
+  KPCGPCL: KPCL Gas Power Corporation Limited, which owns the Yelahanka gas plant.
+  BHEL: Bharat Heavy Electricals Limited, the central public-sector company that built many of KPCL's thermal units.
+  GAIL: GAIL (India) Limited, which supplies natural gas to the Yelahanka plant.
+  Kalinadi: The Kali river hydro-electric project in Uttara Kannada (Supa, Nagjhari, Kodasalli, Kadra).
+  KECML: Karnataka EMTA Coal Mines Limited, KPCL's joint venture formed to mine the Baranj coal blocks in Maharashtra for the Bellary station.
+  Organogram: An organisation chart showing who reports to whom; KPCL's runs from the Chairman and Board to the Managing Director and three full-time directors.
+  CVO: Chief Vigilance Officer, who looks into corruption and misconduct and reports directly to KPCL's Managing Director.
+  PIO: Public Information Officer, the officer who answers applications under the Right to Information Act; KPCL has one for each subject and project.
+  First Appellate Authority: The officer who hears an appeal when an RTI applicant is not satisfied with the Public Information Officer's reply.
+  Executive Director: In KPCL, the senior officer who heads a thermal power station (RTPS, BTPS, YTPS) and reports to the Technical Director.
+  Chief Engineer: In KPCL, a senior officer heading a design wing or the operation, maintenance or civil works of a hydro valley project.
+  Superintending Engineer: A senior-management engineer in KPCL, below Chief Engineer and above Executive Engineer.
+  Assistant Executive Engineer: A middle-management engineer in KPCL, the lowest level holding delegated financial and disciplinary powers.
+  Workmen cadre: KPCL employees outside the officer (corporate) cadre, who hold no financial or disciplinary powers.
+  O&M: Operation and maintenance, the running and upkeep of a power station.
+  R&R: Rehabilitation and resettlement of people whose land is taken for a project.
+glossary_sources:
+  - https://en.wikipedia.org/wiki/Electricity_Act,_2003
+  - https://en.wikipedia.org/wiki/Karnataka_Power_Corporation
+  - KPCL organogram (25.05.2026), RTI 4(1)(b) handbook (Sept 2024) and PIO list (28.07.2026) on kpcl.karnataka.gov.in

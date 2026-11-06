@@ -1,0 +1,33 @@
+
+=== STEP 1: RTPS & SGS daily report, 2025-04-06 ===
+  RTPS units updated for 2025-04-06.
+  SGS units updated for 2025-04-06.
+
+=== STEP 2: RTPS MPR March 2025 (unit-month) ===
+  [RTPS-MAR25] RTPS-U2: 31 days rescaled by x1.0000 (was 90.145 MU, target 90.145 MU + 0.000 fixed = 90.145)
+  [RTPS-MAR25] RTPS-U3: 31 days rescaled by x1.0000 (was 141.361 MU, target 141.361 MU + 0.000 fixed = 141.361)
+  [RTPS-MAR25] RTPS-U5: 31 days rescaled by x1.0000 (was 147.580 MU, target 147.580 MU + 0.000 fixed = 147.580)
+  [RTPS-MAR25] RTPS-U6: 31 days rescaled by x1.0000 (was 149.401 MU, target 149.401 MU + 0.000 fixed = 149.401)
+  [RTPS-MAR25] RTPS-U7: 31 days rescaled by x1.0000 (was 131.205 MU, target 131.205 MU + 0.000 fixed = 131.205)
+  [RTPS-MAR25] RTPS-U8: 31 days rescaled by x1.0000 (was 171.520 MU, target 171.520 MU + 0.000 fixed = 171.520)
+
+=== STEP 2b: RTPS MPR FY 2024-25 (unit-FY, excluding March which is separately pinned above) ===
+  [RTPS-FY24-25] RTPS-U2: 334 non-March FY days rescaled x1.0000 (target FY total 1155.843 = March 90.145 + rest 1065.698)
+  [RTPS-FY24-25] RTPS-U3: 334 non-March FY days rescaled x1.0000 (target FY total 1447.040 = March 141.361 + rest 1305.679)
+  [RTPS-FY24-25] RTPS-U4: 334 non-March FY days rescaled x1.0000 (target FY total 620.258 = March 0.000 + rest 620.258)
+  [RTPS-FY24-25] RTPS-U5: 334 non-March FY days rescaled x1.0000 (target FY total 1277.500 = March 147.580 + rest 1129.920)
+  [RTPS-FY24-25] RTPS-U6: 334 non-March FY days rescaled x1.0000 (target FY total 1243.286 = March 149.401 + rest 1093.885)
+  [RTPS-FY24-25] RTPS-U7: 334 non-March FY days rescaled x1.0000 (target FY total 1308.495 = March 131.205 + rest 1177.290)
+  [RTPS-FY24-25] RTPS-U8: 334 non-March FY days rescaled x1.0000 (target FY total 1257.929 = March 171.520 + rest 1086.409)
+
+=== STEP 3: SGS MPR March 2025 (unit-month) ===
+  [SGS-MAR25] SGS-U1: 31 days rescaled by x1.0000 (was 52.632 MU, target 52.632 MU + 0.000 fixed = 52.632)
+  [SGS-MAR25] SGS-U2: 31 days rescaled by x1.0000 (was 50.618 MU, target 50.618 MU + 0.000 fixed = 50.618)
+  [SGS-MAR25] SGS-U3: 31 days rescaled by x1.0000 (was 52.697 MU, target 52.697 MU + 0.000 fixed = 52.697)
+  [SGS-MAR25] SGS-U4: 31 days rescaled by x1.0000 (was 53.660 MU, target 53.660 MU + 0.000 fixed = 53.660)
+  [SGS-MAR25] SGS-U5: 31 days rescaled by x1.0000 (was 53.976 MU, target 53.976 MU + 0.000 fixed = 53.976)
+  [SGS-MAR25] SGS-U6: 31 days rescaled by x1.0000 (was 53.943 MU, target 53.943 MU + 0.000 fixed = 53.943)
+  [SGS-MAR25] SGS-U7: 31 days rescaled by x1.0000 (was 52.618 MU, target 52.618 MU + 0.000 fixed = 52.618)
+  [SGS-MAR25] SGS-U8: 31 days rescaled by x1.0000 (was 54.438 MU, target 54.438 MU + 0.000 fixed = 54.438)
+  [SGS-MAR25] SGS-U9: 31 days rescaled by x1.0000 (was 51.824 MU, target 51.824 MU + 0.000 fixed = 51.824)
+  [SGS-MAR25] SGS-U10: 31 days rescaled by x1.0000 (was 50.575 MU, target 50.575 MU + 0.000 fixed = 50.575)

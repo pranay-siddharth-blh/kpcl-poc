@@ -1,0 +1,996 @@
+{
+ "_purpose": "One definition per KPI, used by the router (synonyms), the prompt (formulas), the SQL guard (non-averageable columns), the deterministic metric lookup (expressions per table family) and the answer writer (unit, precision). Table families: 'daily' = mart_fact_unit_generation_daily, 'rollup' = the monthly and FY generation facts.",
+ "version": "1.0",
+ "non_averageable_columns": [
+  "plf_pct",
+  "paf_pct",
+  "plf_with_nld_pct",
+  "aux_pct",
+  "sp_coal_kg_kwh",
+  "sp_oil_ml_kwh",
+  "wa_gcv_coal_kcal_kg",
+  "wa_gross_heat_rate_kcal_kwh",
+  "cea_target_achievement_pct",
+  "kpcl_share_of_consumption_pct",
+  "gcv_coal_kcal_kg",
+  "gcv_oil_kcal_l",
+  "gross_heat_rate_kcal_kwh",
+  "gcv_received_kcal_kg"
+ ],
+ "non_summable_columns": [
+  "plf_pct",
+  "paf_pct",
+  "plf_with_nld_pct",
+  "aux_pct",
+  "sp_coal_kg_kwh",
+  "sp_oil_ml_kwh",
+  "wa_gcv_coal_kcal_kg",
+  "wa_gross_heat_rate_kcal_kwh",
+  "cea_target_achievement_pct",
+  "kpcl_share_of_consumption_pct",
+  "gcv_coal_kcal_kg",
+  "gcv_oil_kcal_l",
+  "gross_heat_rate_kcal_kwh",
+  "gcv_received_kcal_kg",
+  "days_of_stock",
+  "water_level",
+  "capacity_pct",
+  "level_above_mddl",
+  "peak_load_mw",
+  "system_peak_mw",
+  "freq_max_hz",
+  "freq_min_hz",
+  "max_day_gen_mu"
+ ],
+ "metrics": [
+  {
+   "key": "gross_generation",
+   "label": "gross generation",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "gross generation",
+    "generation",
+    "generated",
+    "gross gen",
+    "energy generated",
+    "output",
+    "production",
+    "gen",
+    "generate",
+    "generating",
+    "produce",
+    "produced"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(gross_gen_mu)"
+    }
+   }
+  },
+  {
+   "key": "net_export",
+   "label": "net export",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "net export",
+    "net generation",
+    "net energy",
+    "net gen",
+    "energy exported",
+    "exported"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(net_export_mu)"
+    }
+   }
+  },
+  {
+   "key": "aux_consumption",
+   "label": "auxiliary consumption",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "auxiliary consumption",
+    "aux consumption",
+    "auxiliary power consumption"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(aux_consumption_mu)"
+    }
+   }
+  },
+  {
+   "key": "plf",
+   "label": "plant load factor (PLF)",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "plf",
+    "plant load factor",
+    "load factor",
+    "cuf",
+    "capacity utilisation factor",
+    "capacity utilization factor",
+    "capacity utilisation",
+    "capacity utilization"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(gross_gen_mu)",
+     "den": "SUM(capacity_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "paf",
+   "label": "plant availability factor (PAF)",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "paf",
+    "plant availability factor",
+    "availability factor",
+    "availability"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(declared_capacity_mu)",
+     "den": "SUM(capacity_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "plf_with_nld",
+   "label": "PLF including deemed generation (NLD)",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "plf with nld",
+    "plf including nld",
+    "plf including deemed",
+    "deemed plf"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(gross_gen_mu + deemed_gen_mu)",
+     "den": "SUM(capacity_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "aux_pct",
+   "label": "auxiliary consumption %",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "aux %",
+    "aux percent",
+    "aux percentage",
+    "auxiliary consumption %",
+    "auxiliary consumption percent",
+    "auxiliary percentage",
+    "aux pct",
+    "aux consumption percentage",
+    "aux consumption percent",
+    "aux consumption %",
+    "aux consumption pct",
+    "auxiliary consumption percentage",
+    "auxiliary consumption percent",
+    "auxiliary percent"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(aux_consumption_mu)",
+     "den": "SUM(gross_gen_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "deemed_generation",
+   "label": "deemed generation (NLD)",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "deemed generation",
+    "nld",
+    "no load demand generation"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(deemed_gen_mu)"
+    }
+   }
+  },
+  {
+   "key": "specific_coal",
+   "label": "specific coal consumption",
+   "unit": "kg/kWh",
+   "precision": 3,
+   "kind": "ratio",
+   "synonyms": [
+    "specific coal consumption",
+    "specific coal",
+    "scc"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(coal_consumed_mt) / 1000.0",
+     "den": "SUM(gross_gen_mu)",
+     "scale": 1
+    }
+   }
+  },
+  {
+   "key": "specific_oil",
+   "label": "specific oil consumption",
+   "unit": "ml/kWh",
+   "precision": 3,
+   "kind": "ratio",
+   "synonyms": [
+    "specific oil consumption",
+    "specific oil",
+    "sfoc"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(COALESCE(hfo_consumed_kl, 0) + COALESCE(ldo_consumed_kl, 0))",
+     "den": "SUM(gross_gen_mu)",
+     "scale": 1
+    }
+   }
+  },
+  {
+   "key": "weighted_gcv_coal",
+   "label": "weighted average coal GCV",
+   "unit": "kcal/kg",
+   "precision": 0,
+   "kind": "ratio",
+   "synonyms": [
+    "gcv",
+    "coal gcv",
+    "calorific value",
+    "gross calorific value"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "daily": {
+     "num": "SUM(gcv_coal_kcal_kg * coal_consumed_mt)",
+     "den": "SUM(CASE WHEN gcv_coal_kcal_kg IS NOT NULL THEN coal_consumed_mt END)",
+     "scale": 1
+    },
+    "rollup": {
+     "num": "SUM(gcv_coal_x_coal_mt)",
+     "den": "SUM(coal_mt_with_gcv)",
+     "scale": 1
+    }
+   }
+  },
+  {
+   "key": "heat_rate",
+   "label": "weighted average gross heat rate",
+   "unit": "kcal/kWh",
+   "precision": 0,
+   "kind": "ratio",
+   "synonyms": [
+    "heat rate",
+    "gross heat rate",
+    "ghr"
+   ],
+   "applies_to": [
+    "THERMAL",
+    "GAS"
+   ],
+   "expr": {
+    "daily": {
+     "num": "SUM(gross_heat_rate_kcal_kwh * gross_gen_mu)",
+     "den": "SUM(CASE WHEN gross_heat_rate_kcal_kwh IS NOT NULL THEN gross_gen_mu END)",
+     "scale": 1
+    },
+    "rollup": {
+     "num": "SUM(heat_rate_x_gen_mu)",
+     "den": "SUM(gen_mu_with_heat_rate)",
+     "scale": 1
+    }
+   }
+  },
+  {
+   "key": "coal_consumption",
+   "label": "coal consumption",
+   "unit": "tonnes",
+   "precision": 0,
+   "kind": "sum",
+   "synonyms": [
+    "coal consumption",
+    "coal consumed",
+    "coal burnt",
+    "coal used"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(coal_consumed_mt)"
+    }
+   }
+  },
+  {
+   "key": "hfo_consumption",
+   "label": "HFO consumption",
+   "unit": "kL",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "hfo consumption",
+    "hfo",
+    "heavy fuel oil"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(hfo_consumed_kl)"
+    }
+   }
+  },
+  {
+   "key": "ldo_consumption",
+   "label": "LDO consumption",
+   "unit": "kL",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "ldo consumption",
+    "ldo",
+    "light diesel oil"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(ldo_consumed_kl)"
+    }
+   }
+  },
+  {
+   "key": "forced_outage_hours",
+   "label": "forced outage hours (unit-hours)",
+   "unit": "hours",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "forced outage hours",
+    "forced outage hrs",
+    "breakdown hours"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(forced_outage_hrs)"
+    }
+   }
+  },
+  {
+   "key": "planned_outage_hours",
+   "label": "planned outage hours (unit-hours)",
+   "unit": "hours",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "planned outage hours",
+    "maintenance hours",
+    "planned outage hrs"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(planned_outage_hrs)"
+    }
+   }
+  },
+  {
+   "key": "running_hours",
+   "label": "running hours (unit-hours)",
+   "unit": "hours",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "running hours",
+    "running hrs",
+    "service hours",
+    "operating hours"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(running_hrs)"
+    }
+   }
+  },
+  {
+   "key": "trips",
+   "label": "unit trips",
+   "unit": "count",
+   "precision": 0,
+   "kind": "sum",
+   "synonyms": [
+    "trips",
+    "number of trips",
+    "tripping",
+    "trippings",
+    "trip",
+    "tripped",
+    "times tripped"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(trips)"
+    }
+   }
+  },
+  {
+   "key": "cea_target",
+   "label": "CEA generation target",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "cea target",
+    "generation target",
+    "target"
+   ],
+   "rollup_only": true,
+   "expr": {
+    "rollup": {
+     "num": "SUM(cea_target_mu)"
+    }
+   }
+  },
+  {
+   "key": "cea_target_achievement",
+   "label": "CEA target achievement",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "target achievement",
+    "achievement against target",
+    "target achieved",
+    "% of target",
+    "percent of target"
+   ],
+   "rollup_only": true,
+   "expr": {
+    "rollup": {
+     "num": "SUM(gross_gen_mu)",
+     "den": "SUM(cea_target_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "water_used",
+   "label": "water used for generation",
+   "unit": "MCFT",
+   "precision": 2,
+   "kind": "sum",
+   "synonyms": [
+    "water used",
+    "water let out",
+    "water utilised",
+    "water consumption"
+   ],
+   "applies_to": [
+    "HYDRO"
+   ],
+   "expr": {
+    "all": {
+     "num": "SUM(water_used_mcft)"
+    }
+   }
+  },
+  {
+   "key": "backdown_loss",
+   "label": "generation lost to back-down",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "back-down loss",
+    "backdown loss",
+    "back down loss",
+    "generation loss",
+    "back-down",
+    "backdown"
+   ],
+   "applies_to": [
+    "THERMAL",
+    "GAS"
+   ],
+   "source_table": "mart_fact_generation_loss_daily",
+   "expr": {
+    "all": {
+     "num": "SUM(loss_mu)"
+    }
+   }
+  },
+  {
+   "key": "coal_below_norm_days",
+   "label": "days with coal stock below the normative level",
+   "unit": "days",
+   "precision": 0,
+   "kind": "sum",
+   "synonyms": [
+    "below norm",
+    "below normative",
+    "coal stock below",
+    "critical coal stock",
+    "days below norm"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "source_table": "mart_fact_coal_stock_daily",
+   "station_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(is_below_norm)"
+    }
+   }
+  },
+  {
+   "key": "coal_receipt",
+   "label": "coal received",
+   "unit": "tonnes",
+   "precision": 0,
+   "kind": "sum",
+   "synonyms": [
+    "coal received",
+    "coal receipt",
+    "coal receipts",
+    "coal arrived"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "source_table": "mart_fact_coal_receipt",
+   "station_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(quantity_mt)"
+    }
+   }
+  },
+  {
+   "key": "forced_outage_count",
+   "label": "number of forced outages",
+   "unit": "count",
+   "precision": 0,
+   "kind": "count",
+   "synonyms": [
+    "number of forced outages",
+    "forced outages",
+    "how many forced outages",
+    "count of forced outages",
+    "number of outages"
+   ],
+   "source_table": "mart_fact_unit_outage",
+   "filter": "outage_type = 'FORCED'",
+   "expr": {
+    "all": {
+     "num": "COUNT(*)"
+    }
+   }
+  },
+  {
+   "key": "btf_count",
+   "label": "number of boiler tube failures",
+   "unit": "count",
+   "precision": 0,
+   "kind": "count",
+   "synonyms": [
+    "boiler tube failures",
+    "boiler tube leaks",
+    "btf",
+    "btl",
+    "tube failures",
+    "tube leaks"
+   ],
+   "applies_to": [
+    "THERMAL"
+   ],
+   "source_table": "mart_fact_unit_outage",
+   "filter": "is_btf = 1",
+   "expr": {
+    "all": {
+     "num": "COUNT(*)"
+    }
+   }
+  },
+  {
+   "key": "kpcl_share_of_consumption",
+   "label": "KPCL share of state consumption",
+   "unit": "%",
+   "precision": 2,
+   "kind": "ratio",
+   "synonyms": [
+    "share of state consumption",
+    "share of state demand",
+    "kpcl share",
+    "contribution to state"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(kpcl_gross_gen_mu)",
+     "den": "SUM(state_consumption_mu)",
+     "scale": 100
+    }
+   }
+  },
+  {
+   "key": "internal_target",
+   "label": "internal generation target",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "internal target",
+    "internal generation target",
+    "kpcl target",
+    "own target",
+    "internal targets"
+   ],
+   "rollup_only": true,
+   "expr": {
+    "rollup": {
+     "num": "SUM(internal_target_mu)"
+    }
+   }
+  },
+  {
+   "key": "state_consumption",
+   "label": "electricity consumption",
+   "subject": "Karnataka's",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "state consumption",
+    "state electricity consumption",
+    "electricity consumption",
+    "power consumption",
+    "karnataka consumption",
+    "energy consumption"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(state_consumption_mu)"
+    }
+   }
+  },
+  {
+   "key": "state_generation",
+   "label": "generation within the state",
+   "subject": "Karnataka's",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "state generation",
+    "generation within the state",
+    "state's own generation"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(state_generation_mu)"
+    }
+   }
+  },
+  {
+   "key": "state_import",
+   "label": "power import",
+   "subject": "Karnataka's",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "import",
+    "imports",
+    "state import",
+    "power import",
+    "power imports",
+    "imported power",
+    "import power"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(state_import_mu)"
+    }
+   }
+  },
+  {
+   "key": "system_peak",
+   "label": "peak demand",
+   "subject": "Karnataka's",
+   "unit": "MW",
+   "precision": 0,
+   "kind": "max",
+   "synonyms": [
+    "peak demand",
+    "system peak",
+    "state peak",
+    "state peak demand",
+    "maximum demand",
+    "peak demand met"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "MAX(system_peak_mw)"
+    }
+   }
+  },
+  {
+   "key": "min_frequency",
+   "label": "lowest grid frequency",
+   "subject": "The state grid's",
+   "unit": "Hz",
+   "precision": 2,
+   "kind": "min",
+   "synonyms": [
+    "lowest grid frequency",
+    "lowest frequency",
+    "minimum frequency",
+    "min frequency",
+    "minimum grid frequency"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "MIN(freq_min_hz)"
+    }
+   }
+  },
+  {
+   "key": "max_frequency",
+   "label": "highest grid frequency",
+   "subject": "The state grid's",
+   "unit": "Hz",
+   "precision": 2,
+   "kind": "max",
+   "synonyms": [
+    "highest grid frequency",
+    "highest frequency",
+    "maximum frequency",
+    "max frequency",
+    "maximum grid frequency"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "MAX(freq_max_hz)"
+    }
+   }
+  },
+  {
+   "key": "tb_share",
+   "label": "share from the Tungabhadra projects",
+   "subject": "Karnataka's",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "tungabhadra share",
+    "tb share",
+    "share from tungabhadra",
+    "tungabhadra"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(tb_share_mu)"
+    }
+   }
+  },
+  {
+   "key": "jurala_share",
+   "label": "share from Jurala",
+   "subject": "Karnataka's",
+   "unit": "MU",
+   "precision": 3,
+   "kind": "sum",
+   "synonyms": [
+    "jurala share",
+    "share from jurala",
+    "jurala",
+    "priyadarshini jurala"
+   ],
+   "source_table": "mart_fact_grid_daily",
+   "company_only": true,
+   "expr": {
+    "all": {
+     "num": "SUM(jurala_share_mu)"
+    }
+   }
+  },
+  {
+   "key": "reservoir_level",
+   "label": "water level",
+   "unit": "level",
+   "precision": 2,
+   "kind": "level",
+   "reservoir_only": true,
+   "synonyms": [
+    "water level",
+    "reservoir level",
+    "dam level",
+    "level",
+    "levels"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "water_level"
+    }
+   }
+  },
+  {
+   "key": "storage_pct",
+   "label": "storage",
+   "unit": "%",
+   "precision": 2,
+   "kind": "level",
+   "reservoir_only": true,
+   "synonyms": [
+    "storage",
+    "how full",
+    "percent full",
+    "% full",
+    "capacity percentage",
+    "storage percentage",
+    "filled",
+    "live storage"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "capacity_pct"
+    }
+   }
+  },
+  {
+   "key": "energy_potential",
+   "label": "energy potential",
+   "unit": "MU",
+   "precision": 2,
+   "kind": "level",
+   "reservoir_only": true,
+   "synonyms": [
+    "energy potential",
+    "energy stored",
+    "stored energy",
+    "energy content"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "energy_potential_mu"
+    }
+   }
+  },
+  {
+   "key": "inflow",
+   "label": "inflow",
+   "unit": "MCFT",
+   "precision": 2,
+   "kind": "sum",
+   "reservoir_only": true,
+   "synonyms": [
+    "inflow",
+    "inflows",
+    "water inflow",
+    "total inflow"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "SUM(inflow_mcft)"
+    }
+   }
+  },
+  {
+   "key": "rainfall",
+   "label": "rainfall",
+   "unit": "mm",
+   "precision": 1,
+   "kind": "sum",
+   "reservoir_only": true,
+   "synonyms": [
+    "rainfall",
+    "rain"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "SUM(rainfall_mm)"
+    }
+   }
+  },
+  {
+   "key": "spill",
+   "label": "spill through the sluices",
+   "unit": "MCFT",
+   "precision": 2,
+   "kind": "sum",
+   "reservoir_only": true,
+   "synonyms": [
+    "spill",
+    "spilled",
+    "spillage",
+    "sluice",
+    "water spilled"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "SUM(spill_sluice_mcft)"
+    }
+   }
+  },
+  {
+   "key": "discharge_power",
+   "label": "water discharged for power",
+   "unit": "MCFT",
+   "precision": 2,
+   "kind": "sum",
+   "reservoir_only": true,
+   "synonyms": [
+    "discharge",
+    "discharged",
+    "discharge for power",
+    "water released"
+   ],
+   "source_table": "mart_fact_reservoir_daily",
+   "expr": {
+    "all": {
+     "num": "SUM(discharge_power_mcft)"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "_purpose": "SHA-256 of the files the chatbot only reads; written by build_semantic_layer.py.",
+ "files": {
+  "warehouse/kpcl_gms.db": "bad7c98cfc23daa2c69d60c7f513f62c97d15e5f7d1969f80c94a3ae4036aad4",
+  "webapp/kpcl_semantic_layer/semantic_layer.json": "59cb299e97a0ecc4aaac3df1cb960d43bdc97ee2ed0b650e280d7a396345abde",
+  "webapp/kpcl_semantic_layer/example_queries.sql": "c5fa743c298dbe1b539a54d5a9ba3147df6bfa04cba3eccefbdabab8cbf9b331"
+ }
+}

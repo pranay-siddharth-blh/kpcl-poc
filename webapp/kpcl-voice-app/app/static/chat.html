@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPCL Generation Assistant · Voice</title>
+<link rel="icon" href="/static/kpcl-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Serif:wght@500;600;700&family=Noto+Serif+Kannada:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Shell follows the WB and Cescom assistants (portal header, sidebar of questions, conversational body),
+     restyled for a formal, government-briefing look. Palette: KPCL portal navy #072577 as the primary, a muted
+     gold for accents, ivory paper, the KPCL mark's steel/sky blue in charts, and the Karnataka flag's
+     yellow over red as a hairline under the header. Red appears only on errors. */
+  :root{
+    --navy:#072577; --navy-deep:#04164a; --navy-mid:#16357f; --navy-soft:#eef1f8;
+    --steel:#3b5a8f; --sky:#7fa7d6;
+    --gold:#b8892b; --gold-deep:#8e6819; --gold-soft:#f7f1e3; --gold-line:#e4d3ab;
+    --kn-yellow:#ffcd00; --kn-red:#d82221;
+    --paper:#fbfaf7; --surface:#ffffff; --bg:#f5f6f9;
+    --ink:#1a2233; --muted:#5f6b7d; --faint:#8a94a6; --border:#e3e6ee; --border-strong:#cfd5e2;
+    --err:#a3261e; --err-soft:#fbeeec; --err-border:#efcbc6;
+    --note:#6d5412; --note-bg:#fbf6ea; --note-border:#eadcb6;
+    --ok:#2e9d5b;
+    --serif:"Noto Serif","Noto Serif Kannada",Georgia,"Times New Roman",serif;
+    --sans:"Noto Sans","Noto Sans Kannada","Segoe UI",system-ui,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  button,input{font-family:inherit}
+  html,body{height:100%}
+  body{margin:0;font-family:var(--sans);font-size:16px;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;
+       height:100vh;height:100dvh;overflow:hidden;-webkit-font-smoothing:antialiased}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ---------- Opening splash, once per browser session ---------- */
+  .splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+    background:radial-gradient(circle at 50% 40%,var(--navy-mid) 0%,var(--navy) 50%,var(--navy-deep) 100%);transition:opacity .5s ease,visibility .5s ease}
+  .splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .splash-logos{display:flex;gap:28px}
+  .splash-halo{position:relative;display:inline-flex;border-radius:50%}
+  .splash-halo::before{content:"";position:absolute;inset:-6px;border-radius:50%;
+    background:conic-gradient(from 0deg,rgba(255,255,255,.15),#e9cf8f,rgba(255,255,255,.15),#e9cf8f,rgba(255,255,255,.15));animation:spin 2.4s linear infinite}
+  .splash-halo img{position:relative;z-index:1;width:66px;height:66px;object-fit:contain;border-radius:50%;background:#fff;padding:8px;animation:popIn .7s ease-out both}
+  .splash-halo:nth-child(2) img{animation-delay:.12s}
+  .splash-text{color:#fff;text-align:center;animation:fadeIn .6s ease-out .25s both}
+  .splash-text b{display:block;font-family:var(--serif);font-weight:600;font-size:1.25rem;letter-spacing:.3px}
+  .splash-text small{display:block;margin-top:8px;font-size:.7rem;letter-spacing:2.4px;text-transform:uppercase;color:#e9cf8f}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ---------- Header ---------- */
+  .gov-header{flex:0 0 auto;background:var(--surface);position:relative;z-index:5}
+  .gov-topbar{display:flex;align-items:center;gap:16px;padding:10px 24px}
+  .gov-brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+  .logo-halo{position:relative;display:inline-flex;border-radius:50%;flex:0 0 auto}
+  .logo-halo::before{content:"";position:absolute;inset:-3px;border-radius:50%;opacity:0;
+    background:conic-gradient(from 0deg,var(--navy),var(--gold),var(--navy))}
+  .logo-halo img{position:relative;z-index:1;height:46px;width:46px;object-fit:contain;border-radius:50%;background:#fff;border:1px solid var(--border);padding:3px}
+  #govBrand.thinking .logo-halo::before{opacity:1;animation:spin 1.6s linear infinite}
+  .brand-divider{width:1px;height:36px;background:var(--border);margin:0 4px}
+  .gov-titles{line-height:1.2;min-width:0}
+  .gov-line1{font-size:.66rem;color:var(--gold-deep);font-weight:600;letter-spacing:2px;text-transform:uppercase}
+  .gov-line2{font-family:var(--serif);font-size:1.12rem;color:var(--navy);font-weight:600;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lang-switch{display:inline-flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden;flex:0 0 auto}
+  .lang-switch button{background:var(--surface);border:none;color:var(--muted);font-size:.78rem;font-weight:600;padding:6px 13px;cursor:pointer;transition:background .15s ease,color .15s ease}
+  .lang-switch button + button{border-left:1px solid var(--border-strong)}
+  .lang-switch button:hover{color:var(--navy);background:var(--navy-soft)}
+  .lang-switch button[aria-pressed="true"]{background:var(--navy);color:#fff}
+
+  .app-bar{display:flex;align-items:center;gap:12px;padding:9px 24px;color:#fff;
+    background:linear-gradient(100deg,var(--navy-deep) 0%,var(--navy) 55%,var(--navy-mid) 100%)}
+  .app-bar-text{font-size:.8rem;font-weight:500;letter-spacing:.2px;color:rgba(255,255,255,.9);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .app-bar-text b{font-weight:700;color:#fff}
+  .app-bar-text .sep{color:#e9cf8f;margin:0 8px}
+  .ai-badge{margin-left:auto;flex:0 0 auto;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:6px;
+    padding:4px 12px 4px 10px;border-radius:999px;font-size:.66rem;font-weight:700;letter-spacing:1.2px;color:#fff;
+    background:linear-gradient(135deg,rgba(233,207,143,.28),rgba(233,207,143,.08));border:1px solid rgba(233,207,143,.7);
+    box-shadow:0 0 0 0 rgba(233,207,143,.0);animation:glow 3s ease-in-out infinite}
+  .ai-badge::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shimmer 4s ease-in-out infinite}
+  .ai-badge svg{width:12px;height:12px;color:#e9cf8f}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(233,207,143,0)}50%{box-shadow:0 0 14px 1px rgba(233,207,143,.45)}}
+  @keyframes shimmer{0%,15%{left:-60%}35%,100%{left:130%}}
+  .drawer-toggle{display:none;flex:0 0 auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:.74rem;
+    font-weight:600;padding:5px 11px;border-radius:6px;cursor:pointer}
+  .flag-rule{height:3px;background:linear-gradient(180deg,var(--kn-yellow) 0 50%,var(--kn-red) 50% 100%)}
+
+  /* ---------- Sidebar ---------- */
+  .app-shell{flex:1;display:flex;min-height:0;overflow:hidden}
+  .sidebar{flex:0 0 auto;width:282px;background:var(--paper);border-right:1px solid var(--border);overflow-y:auto;padding:20px 16px 24px;
+    display:flex;flex-direction:column;gap:22px;scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent}
+  #newchat{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--navy);border:1px solid var(--navy);color:#fff;
+    font-size:.84rem;font-weight:600;letter-spacing:.2px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:background .15s ease,box-shadow .15s ease}
+  #newchat svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2}
+  #newchat:hover{background:var(--navy-deep);box-shadow:0 4px 14px rgba(7,37,119,.22)}
+  /* Dashboard button: a deep navy card with a gold glow, a small bar chart that comes alive on hover, and an
+     arrow that slides; clicking plays the same logo transition as the dashboard's "AI mode" link. */
+  .dash-link{flex:0 0 auto;min-height:62px;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;
+    text-decoration:none;color:#fff;isolation:isolate;
+    background:radial-gradient(circle at 100% 0%,rgba(233,185,73,.32),transparent 55%),linear-gradient(135deg,var(--navy-deep),var(--navy) 55%,var(--navy-mid));
+    border:1px solid rgba(233,207,143,.45);box-shadow:0 6px 18px rgba(7,37,119,.22);
+    transition:transform .2s ease,box-shadow .25s ease,border-color .2s ease}
+  .dash-link::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;z-index:-1;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg);transition:left .7s ease}
+  .dash-link:hover{transform:translateY(-2px);border-color:#e9cf8f;box-shadow:0 12px 28px rgba(7,37,119,.32),0 0 0 3px rgba(233,207,143,.18)}
+  .dash-link:hover::after{left:130%}
+  .dash-link:active{transform:translateY(0) scale(.99)}
+  .dash-link:focus-visible{outline:2px solid #e9cf8f;outline-offset:3px}
+  .dash-ico{flex:0 0 auto;width:38px;height:38px;border-radius:10px;display:flex;align-items:flex-end;justify-content:center;gap:3px;
+    padding:0 0 9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(4px)}
+  .dash-ico i{display:block;width:4px;border-radius:2px;background:linear-gradient(180deg,#f3dc9c,#e9b949);
+    transition:height .35s cubic-bezier(.2,.8,.2,1)}
+  .dash-ico i:nth-child(1){height:9px}.dash-ico i:nth-child(2){height:15px}.dash-ico i:nth-child(3){height:11px}.dash-ico i:nth-child(4){height:19px}
+  .dash-link:hover .dash-ico i:nth-child(1){height:14px}.dash-link:hover .dash-ico i:nth-child(2){height:10px}
+  .dash-link:hover .dash-ico i:nth-child(3){height:19px}.dash-link:hover .dash-ico i:nth-child(4){height:13px}
+  .dash-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+  .dash-txt b{font-family:var(--serif);font-size:1.02rem;font-weight:600;letter-spacing:.2px}
+  .dash-txt small{font-size:.66rem;color:rgba(255,255,255,.7);letter-spacing:.4px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dash-go{margin-left:auto;flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#f3dc9c,#e9b949);color:var(--navy-deep);transition:transform .25s ease}
+  .dash-go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .dash-link:hover .dash-go{transform:translateX(3px)}
+  .go-overlay{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    background:radial-gradient(circle at 50% 40%,var(--navy-mid) 0%,var(--navy) 50%,var(--navy-deep) 100%);animation:fadeIn .25s ease both}
+  .go-overlay .splash-text b{font-size:1.15rem}
+  .side-group h3{margin:0 0 8px;display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:.8rem;font-weight:600;color:var(--navy);letter-spacing:.3px}
+  .side-group h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold-line),transparent)}
+  .side-list{display:flex;flex-direction:column}
+  .side-item{position:relative;display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:none;border:none;border-radius:7px;
+    padding:8px 10px 8px 12px;color:var(--ink);font-size:.8rem;line-height:1.4;cursor:pointer;transition:background .15s ease,color .15s ease}
+  .side-item::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:2px;border-radius:2px;background:var(--gold);transform:scaleY(0);transition:transform .18s ease}
+  .side-item:hover{background:var(--surface);color:var(--navy);box-shadow:0 1px 4px rgba(7,37,119,.06)}
+  .side-item:hover::before{transform:scaleY(1)}
+  .side-item svg{flex:0 0 auto;width:15px;height:15px;margin-top:2px;stroke:var(--steel);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+  .center-col{flex:1;display:flex;flex-direction:column;min-width:0}
+  .drawer-backdrop{display:none}
+  @media(max-width:1024px){
+    .drawer-toggle{display:inline-flex;align-items:center}
+    .sidebar{position:fixed;top:0;bottom:0;left:0;width:296px;z-index:40;transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 0 30px rgba(4,22,74,.25)}
+    body.sidebar-open .sidebar{transform:translateX(0)}
+    body.sidebar-open .drawer-backdrop{display:block;position:fixed;inset:0;background:rgba(4,22,74,.4);z-index:30}
+  }
+
+  /* ---------- Conversation (fixed backdrop; .chat-scroll is what scrolls) ---------- */
+  .chat-viewport{position:relative;flex:1;min-height:0;isolation:isolate}
+  .chat-viewport::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+    background:radial-gradient(ellipse at 85% 0%,rgba(184,137,43,.07),transparent 50%),radial-gradient(ellipse at 0% 0%,rgba(127,167,214,.12),transparent 55%),
+      linear-gradient(180deg,#f3f5fa 0%,#f7f7f8 50%,#faf8f3 100%)}
+  .chat-viewport::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+    background:url('/static/kpcl-skyline.svg') no-repeat bottom center/100% auto}
+  .chat-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent}
+  main{min-height:100%;padding:26px 24px 44px;display:flex;flex-direction:column;gap:18px;max-width:880px;width:100%;margin:0 auto}
+
+  .welcome{margin:auto 0;padding:10px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold-deep)}
+  .welcome h2{margin:10px 0 0;font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--navy);line-height:1.2;letter-spacing:-.2px}
+  .ornament{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+  .ornament i{display:block;width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .ornament i:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+  .ornament b{width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
+  .welcome p{margin:0 0 22px;font-size:.9rem;color:var(--muted);max-width:600px;line-height:1.65}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:720px;margin-bottom:24px;background:var(--surface);
+    border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 10px rgba(7,37,119,.04)}
+  .stat{padding:14px 10px}
+  .stat + .stat{border-left:1px solid var(--border)}
+  .stat b{display:block;font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--navy);font-variant-numeric:lining-nums tabular-nums}
+  .stat span{display:block;font-size:.68rem;color:var(--muted);line-height:1.35;margin-top:3px}
+  .cards-label{align-self:stretch;max-width:780px;margin:0 auto 10px;width:100%;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:2px;
+    text-transform:uppercase;color:var(--faint)}
+  .welcome-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:780px}
+  .welcome-card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 14px 13px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer;text-align:left;color:var(--ink);
+    transition:border-color .18s ease,box-shadow .2s ease,transform .2s ease}
+  .welcome-card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+  .welcome-card:hover{border-color:var(--border-strong);box-shadow:0 10px 26px rgba(7,37,119,.10);transform:translateY(-2px)}
+  .welcome-card:hover::before{transform:scaleX(1)}
+  .welcome-card .top{display:flex;align-items:center;gap:9px;width:100%}
+  .welcome-card svg{flex:0 0 auto;width:17px;height:17px;stroke:var(--steel);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .welcome-card .title{font-size:.84rem;font-weight:600;color:var(--navy)}
+  .welcome-card .q{font-size:.76rem;color:var(--muted);line-height:1.45}
+  @media(max-width:880px){ .welcome-cards{grid-template-columns:1fr 1fr} }
+  @media(max-width:560px){ .welcome-cards{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr}
+    .stat:nth-child(3){border-left:none} .stat:nth-child(n+3){border-top:1px solid var(--border)} .welcome h2{font-size:1.5rem} }
+
+  .msg{display:flex;gap:12px;max-width:92%;animation:msgIn .25s ease both}
+  @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .av{width:32px;height:32px;border-radius:50%;flex:0 0 32px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .bot .av{background:#fff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(7,37,119,.1)}
+  .bot .av img{width:24px;height:24px}
+  .user .av{background:var(--navy-soft);border:1px solid var(--border);color:var(--navy)}
+  .user .av svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .msg > .bubble{min-width:0;max-width:100%}
+  .bubble{padding:14px 18px;border-radius:12px;line-height:1.65;font-size:.94rem;overflow-wrap:anywhere}
+  .bot{align-self:flex-start;width:92%}
+  .bot .bubble{flex:1;background:rgba(255,255,255,.96);border:1px solid var(--border);border-top-left-radius:3px;box-shadow:0 4px 18px rgba(7,37,119,.06)}
+  .user{align-self:flex-end;flex-direction:row-reverse}
+  .user .bubble{background:var(--navy);color:#fff;border-top-right-radius:3px;white-space:pre-wrap;box-shadow:0 4px 14px rgba(7,37,119,.2)}
+  .bubble.err{background:var(--err-soft);border-color:var(--err-border);color:var(--err)}
+  .bubble.refused{background:rgba(251,246,234,.97);border-color:var(--note-border)}
+  .answer p{margin:0 0 9px}.answer p:last-child{margin:0}
+  .answer ul{margin:4px 0 10px;padding:0;list-style:none}
+  .answer li{position:relative;padding:3px 0 3px 18px}
+  .answer li::before{content:"";position:absolute;left:3px;top:.85em;width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+  .answer strong{color:var(--navy);font-weight:700}
+  .answer > p:first-child strong:first-child{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+  .answer.streaming > :last-child::after, .answer.streaming > ul:last-child > li:last-child::after{content:"";display:inline-block;width:2px;height:1.05em;
+    margin-left:2px;vertical-align:-3px;background:var(--gold);animation:blink 1s steps(1) infinite}
+  .answer.streaming > ul:last-child::after{content:none}
+  @keyframes blink{50%{opacity:0}}
+
+  /* live pipeline stages, streamed from the server */
+  .progress{display:flex;flex-direction:column;gap:8px}
+  .progress-bar{height:2px;border-radius:2px;background:var(--navy-soft);overflow:hidden;position:relative}
+  .progress-bar::after{content:"";position:absolute;top:0;bottom:0;left:-35%;width:35%;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:sweep 1.3s ease-in-out infinite}
+  @keyframes sweep{to{left:100%}}
+  .stages{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--faint)}
+  .stage{display:inline-flex;align-items:center;gap:6px;animation:fadeIn .25s ease both}
+  .stage i{width:7px;height:7px;border-radius:50%;background:var(--border-strong)}
+  .stage.done{color:var(--muted)}
+  .stage.done i{background:var(--navy)}
+  .stage.now{color:var(--navy);font-weight:600}
+  .stage.now i{background:var(--gold);box-shadow:0 0 0 0 rgba(184,137,43,.6);animation:ping 1.2s ease-out infinite}
+  @keyframes ping{to{box-shadow:0 0 0 7px rgba(184,137,43,0)}}
+  .progress-row{display:flex;align-items:center;gap:12px}
+  .progress-row .stages{flex:1}
+  .elapsed{font-size:.72rem;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .meta{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.72rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .pill{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-weight:600}
+  .pill.nf{color:var(--note);border-color:var(--note-border);background:var(--note-bg)}
+  .pill.trunc{color:var(--note);border-color:var(--note-border);background:var(--note-bg)}  .pill-btn{cursor:pointer;font:inherit;font-weight:600;line-height:inherit;display:inline-flex;align-items:center;gap:5px;color:var(--steel);transition:background .15s ease,border-color .15s ease}
+  .pill-btn:hover{background:var(--navy-soft);border-color:var(--border-strong);color:var(--navy)}
+  .pill-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+  .meta .spacer{flex:1}
+  /* "Download report": the answer as an Excel report (same look as the dashboard's MIS button) */
+  .pill-btn.report-btn{color:var(--gold-deep);border-color:var(--gold-line);background:linear-gradient(180deg,#fffdf8,var(--gold-soft));
+    padding:3px 10px;box-shadow:0 1px 4px rgba(184,137,43,.14)}
+  .pill-btn.report-btn:hover{color:var(--gold-deep);border-color:var(--gold);background:linear-gradient(180deg,#fff,#f3e8c9);box-shadow:0 3px 10px rgba(184,137,43,.24)}
+  .pill-btn.report-btn svg{width:13px;height:13px}
+  .pill-btn.report-btn .xl{font-size:.56rem;font-weight:800;letter-spacing:.6px;padding:1px 5px;border-radius:999px;color:#fff;
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep))}
+  .pill-btn.report-btn.busy{cursor:progress;opacity:.75}
+  .pill-btn.report-btn.busy svg{animation:spin .8s linear infinite}
+  .pill-btn.view-btn{color:var(--navy);border-color:var(--border-strong);padding:3px 10px}
+  .pill-btn.view-btn svg{width:13px;height:13px}
+  .pill-btn.report-btn.fail{color:var(--note);border-color:var(--note-border);background:var(--note-bg)}
+
+  .reveal{animation:rise .45s ease both}
+  .panel{margin-top:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden;max-width:100%;min-width:0}
+  .panel > summary{cursor:pointer;padding:9px 12px;font-size:.78rem;font-weight:600;color:var(--navy);list-style:none;display:flex;align-items:center;gap:8px}
+  .panel > summary::-webkit-details-marker{display:none}
+  .panel > summary::before{content:"";width:6px;height:6px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);transition:transform .15s ease;margin-right:2px}
+  .panel[open] > summary::before{transform:rotate(45deg)}
+  .panel .csv{margin-left:auto;font-size:.7rem;white-space:nowrap}
+  .table-wrap{max-height:340px;overflow:auto;border-top:1px solid var(--border);scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent}
+  .panel table{border-collapse:collapse;min-width:100%;font-size:.8rem;white-space:nowrap}
+  .panel th{position:sticky;top:0;background:#f4f6fb;color:var(--navy);font-weight:600;text-align:left;padding:8px 12px;border-bottom:1px solid var(--border-strong)}
+  .panel td{padding:7px 12px;border-bottom:1px solid var(--border)}
+  .panel tbody tr:hover td{background:var(--gold-soft)}
+  .panel .num{text-align:right;font-variant-numeric:tabular-nums}
+  .panel .note{padding:7px 12px;font-size:.72rem;color:var(--muted)}
+  .panel pre{margin:0 12px 10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:#f6f8fc;
+    font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:.74rem;color:var(--navy-deep);white-space:pre-wrap;word-break:break-word}
+  .panel .timing{margin:0 12px 6px;font-family:ui-monospace,Consolas,monospace;font-size:.72rem;color:var(--muted)}
+
+  .chart-card{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px 14px}
+  .chart-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .chart-title{font-family:var(--serif);font-size:.86rem;font-weight:600;color:var(--navy)}
+  .chart-toggle{margin-left:auto;display:inline-flex;border:1px solid var(--border-strong);border-radius:7px;overflow:hidden}
+  .chart-toggle button{background:var(--surface);border:none;color:var(--muted);font-size:.7rem;font-weight:600;padding:4px 11px;cursor:pointer}
+  .chart-toggle button + button{border-left:1px solid var(--border-strong)}
+  .chart-toggle button:hover{color:var(--navy);background:var(--navy-soft)}
+  .chart-toggle button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  .chart-canvas{height:250px;position:relative}
+  .chart-canvas canvas{width:100%!important;height:100%!important}
+  .chart-canvas svg{width:100%;height:100%}
+  .chart-canvas svg text{fill:var(--muted);font-size:11px}
+  @media(max-width:480px){ .chart-canvas{height:210px} }
+
+  /* ---------- Composer ---------- */
+  footer{border-top:1px solid var(--border);background:var(--surface);padding:12px 18px 8px;flex:0 0 auto}
+  .composer{max-width:880px;margin:0 auto}
+  .composer-box{display:flex;align-items:center;gap:10px;border:1px solid var(--border-strong);border-radius:12px;padding:6px 6px 6px 16px;
+    background:var(--surface);box-shadow:0 2px 10px rgba(7,37,119,.05);transition:border-color .15s ease,box-shadow .15s ease}
+  .composer-box:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(7,37,119,.10)}
+  .composer-icon{flex:0 0 auto;width:17px;height:17px;color:var(--gold)}
+  #box{flex:1;min-width:0;border:none;padding:9px 0;font-size:.95rem;outline:none;background:none;color:var(--ink)}
+  #box::placeholder{color:var(--faint)}
+  #send{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:9px;padding:0 18px;height:40px;color:#fff;font-weight:600;font-size:.88rem;
+    cursor:pointer;background:var(--navy);transition:background .15s ease,box-shadow .15s ease}
+  #send svg{width:15px;height:15px}
+  #send:hover{background:var(--navy-deep);box-shadow:0 4px 14px rgba(7,37,119,.25)}
+  #send:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .footnote{max-width:880px;margin:7px auto 0;display:flex;align-items:center;gap:12px;font-size:.67rem;color:var(--faint)}
+  .footnote .txt{flex:1;text-align:center}
+  .model-status{display:inline-flex;align-items:center;gap:5px;color:var(--faint);white-space:nowrap}
+  .model-status i{width:6px;height:6px;border-radius:50%;background:#c2c8d4}
+  .model-status.ok i{background:var(--ok)}.model-status.off i{background:var(--gold)}.model-status.bad i{background:var(--err)}
+
+  @media(max-width:768px){
+    .gov-topbar{padding:8px 14px;gap:10px}
+    .app-bar{padding:8px 14px}
+    main{padding:16px 12px 28px}
+    .msg,.bot{max-width:100%;width:100%}
+    footer{padding:10px 10px 6px}
+    .brand-divider{display:none}
+  }
+  @media(max-width:560px){
+    .app-bar-text .extra{display:none}
+    .logo-halo img{height:38px;width:38px}
+    .gov-line2{font-size:.9rem;white-space:normal}
+    .gov-line1{letter-spacing:1.2px}
+    #send span{display:none}
+    #send{padding:0;width:40px;justify-content:center}
+    .footnote .txt{display:none}
+    .footnote{justify-content:flex-end}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .ai-badge::after,.progress-bar::after{display:none}
+  }
+</style>
+<link rel="stylesheet" href="/static/report-viewer.css">
+<link rel="stylesheet" href="/static/voice/voice.css">
+</head>
+<body>
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="splash-logos">
+      <span class="splash-halo"><img src="/static/karnataka-emblem.png" alt=""></span>
+      <span class="splash-halo"><img src="/static/kpcl-mark.svg" alt=""></span>
+    </div>
+    <div class="splash-text"><b data-i18n="splashTitle">KPCL Generation Assistant</b><small data-i18n="splashSub">Entering AI mode</small></div>
+  </div>
+
+  <header class="gov-header">
+    <div class="gov-topbar">
+      <div class="gov-brand" id="govBrand">
+        <span class="logo-halo"><img src="/static/karnataka-emblem.png" alt="Emblem of Karnataka"></span>
+        <span class="logo-halo"><img src="/static/kpcl-mark.svg" alt="KPCL mark"></span>
+        <span class="brand-divider"></span>
+        <div class="gov-titles">
+          <div class="gov-line1" data-i18n="govLine1">Government of Karnataka</div>
+          <div class="gov-line2" data-i18n="govLine2">Karnataka Power Corporation Limited</div>
+        </div>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="langEn" aria-pressed="true">English</button>
+        <button type="button" id="langKn" aria-pressed="false">ಕನ್ನಡ</button>
+      </div>
+    </div>
+    <div class="app-bar">
+      <button type="button" class="drawer-toggle" id="sidebarToggle" data-i18n="menu">Menu</button>
+      <div class="app-bar-text" data-i18n-html="appBar"></div>
+      <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg><span data-i18n="aiBadge">AI VOICE MODE</span></span>
+    </div>
+    <div class="flag-rule"></div>
+  </header>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="dash-link" href="/dashboard" id="dashLink"><span class="dash-ico" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="dash-txt"><b data-i18n="dashLink">Dashboard</b><small data-i18n="dashSub">KPIs · stations · alerts</small></span><span class="dash-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span></a>
+      <button type="button" id="newchat"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg><span data-i18n="newChat">New conversation</span></button>
+      <div id="sideGroups" style="display:flex;flex-direction:column;gap:20px"></div>
+    </aside>
+
+    <div class="center-col">
+      <div class="chat-viewport">
+        <div class="chat-scroll" id="chatScroll">
+          <main id="chat" aria-live="polite"></main>
+        </div>
+      </div>
+      <footer>
+        <div class="composer">
+          <div class="composer-box">
+            <svg class="composer-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>
+            <input id="box" maxlength="500" autocomplete="off" data-i18n-placeholder="placeholder" aria-label="Your question"
+                   placeholder="Ask about generation, PLF, outages, coal, reservoirs, targets…">
+            <button id="send" type="button"><span data-i18n="send">Ask</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+        <div class="footnote">
+          <span class="txt" data-i18n="footnote">Every figure comes from a checked, read-only query on the Generation Management System data.</span>
+          <span class="model-status" id="modelStatus" title=""><i></i><span id="modelStatusText"></span></span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.min.js"
+        integrity="sha512-WoViKhKD4qI2WruSZqv9+kvM4WfFhUMQCLN4QlDTt5aU56fLQy2gYoxWIqlEnXqJy/+Ac5q/hk1oWfqnMDhwMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/static/report-viewer.js"></script>
+<script src="/static/chat.js"></script>
+<script type="module" src="/static/voice/voice-ui.js"></script>
+</body>
+</html>
